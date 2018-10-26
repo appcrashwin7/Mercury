@@ -36,14 +36,23 @@
     <ClCompile Include="Mercury.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StartNewGameWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Mercury.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="StartNewGameWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Mercury.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="NewGameWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

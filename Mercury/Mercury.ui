@@ -60,22 +60,5 @@
  <resources>
   <include location="Mercury.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>exitButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MercuryClass</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>330</x>
-     <y>259</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>440</x>
-     <y>251</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

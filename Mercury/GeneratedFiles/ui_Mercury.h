@@ -52,7 +52,6 @@ public:
         MercuryClass->setStatusBar(statusBar);
 
         retranslateUi(MercuryClass);
-        QObject::connect(exitButton, SIGNAL(clicked()), MercuryClass, SLOT(close()));
 
         QMetaObject::connectSlotsByName(MercuryClass);
     } // setupUi
