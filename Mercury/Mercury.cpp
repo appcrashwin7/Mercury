@@ -8,6 +8,7 @@ Mercury::Mercury(QWidget *parent)
 	QObject::connect(ui.newGameButton, &QPushButton::clicked, this, &Mercury::newGameDialog);
 	QPushButton * nGStartButton = newGameWindow.findChild<QPushButton*>("startButton");
 	QObject::connect(nGStartButton, &QPushButton::clicked, this, &Mercury::closeNewGameDialog);
+	QObject::connect(ui.loadGameButton, &QPushButton::clicked, this, &Mercury::loadGameDialog);
 }
 
 void Mercury::showExitAlert()
@@ -30,4 +31,12 @@ void Mercury::closeNewGameDialog()
 {
 	this->setVisible(true);
 	newGameWindow.close();
+}
+
+void Mercury::loadGameDialog()
+{
+	QFileDialog saveLoad(this, Qt::Window);
+	saveLoad.setNameFilter("Mercury Saves (*.msave)");
+	saveLoad.show();
+	saveLoad.exec();
 }

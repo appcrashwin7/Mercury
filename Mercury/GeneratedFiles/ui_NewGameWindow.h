@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -27,6 +28,8 @@ public:
     QPushButton *startButton;
     QLineEdit *newGameName;
     QLabel *label;
+    QLabel *label_2;
+    QCheckBox *maintence;
 
     void setupUi(QWidget *NewGameWindow)
     {
@@ -42,6 +45,12 @@ public:
         label = new QLabel(NewGameWindow);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(30, 20, 81, 21));
+        label_2 = new QLabel(NewGameWindow);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setGeometry(QRect(30, 50, 71, 16));
+        maintence = new QCheckBox(NewGameWindow);
+        maintence->setObjectName(QStringLiteral("maintence"));
+        maintence->setGeometry(QRect(120, 50, 101, 17));
 
         retranslateUi(NewGameWindow);
 
@@ -53,6 +62,8 @@ public:
         NewGameWindow->setWindowTitle(QApplication::translate("NewGameWindow", "Start new game", Q_NULLPTR));
         startButton->setText(QApplication::translate("NewGameWindow", "Start", Q_NULLPTR));
         label->setText(QApplication::translate("NewGameWindow", "Name of game", Q_NULLPTR));
+        label_2->setText(QApplication::translate("NewGameWindow", "Maintence", Q_NULLPTR));
+        maintence->setText(QString());
     } // retranslateUi
 
 };

@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/qmessagebox.h>
+#include <QtWidgets/qfiledialog.h>
 #include <qdebug.h>
 #include "ui_Mercury.h"
 #include "StartNewGameWindow.h"
@@ -16,6 +17,7 @@ private slots:
 	void showExitAlert();
 	void newGameDialog();
 	void closeNewGameDialog();
+	void loadGameDialog();
 
 private:
 	StartNewGameWindow newGameWindow;
