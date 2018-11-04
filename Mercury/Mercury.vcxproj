@@ -113,11 +113,16 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CelestialBody.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mercury.cpp" />
+    <ClCompile Include="Planet.cpp" />
+    <ClCompile Include="PlanetarySystem.cpp" />
+    <ClCompile Include="Star.cpp" />
     <ClCompile Include="StartNewGameWindow.cpp" />
+    <ClCompile Include="Universe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Mercury.h" />
@@ -139,7 +144,13 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Calc.h" />
+    <ClInclude Include="CelestialBody.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Planet.h" />
+    <ClInclude Include="PlanetarySystem.h" />
+    <ClInclude Include="Star.h" />
+    <ClInclude Include="Universe.h" />
     <QtMoc Include="GameWindow.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;E:\cpplibs\sol2</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1079</width>
+    <width>1009</width>
     <height>813</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string notr="true">Mercury</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="1">
+   <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
@@ -32,16 +32,16 @@
       <number>5</number>
      </property>
      <item>
-      <widget class="QPushButton" name="systemButton">
+      <widget class="QPushButton" name="colonyButton">
        <property name="text">
-        <string>System</string>
+        <string>Colonies</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="colonyButton">
+      <widget class="QPushButton" name="systemButton">
        <property name="text">
-        <string>Colonies</string>
+        <string>System</string>
        </property>
       </widget>
      </item>
@@ -74,6 +74,86 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QComboBox" name="systemView"/>
+   </item>
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="iTime1h">
+       <property name="text">
+        <string>+1h</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime6h">
+       <property name="text">
+        <string>+6h</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime12h">
+       <property name="text">
+        <string>+12h</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime24h">
+       <property name="text">
+        <string>+24h</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime7d">
+       <property name="text">
+        <string>+7d</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime30d">
+       <property name="text">
+        <string>+30d</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime6m">
+       <property name="text">
+        <string>+6m</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime12m">
+       <property name="text">
+        <string>+12m</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="iTime24m">
+       <property name="text">
+        <string>+24m</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="date">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <layout class="QGridLayout" name="gridLayout"/>
    </item>
   </layout>
  </widget>
