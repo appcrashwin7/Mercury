@@ -15,10 +15,14 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QFormLayout>
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -34,8 +38,9 @@ public:
     QPushButton *scienceButton;
     QPushButton *fleetButton;
     QPushButton *shipButton;
-    QLabel *date;
     QHBoxLayout *horizontalLayout_2;
+    QComboBox *systemSelect;
+    QLabel *date;
     QPushButton *iTime1h;
     QPushButton *iTime6h;
     QPushButton *iTime12h;
@@ -45,13 +50,23 @@ public:
     QPushButton *iTime6m;
     QPushButton *iTime12m;
     QPushButton *iTime24m;
-    QComboBox *systemView;
+    QGridLayout *gridLayout;
+    QTreeWidget *systemObjTree;
+    QListWidget *eventList;
+    QTreeWidget *objectValues;
+    QFrame *systemView;
 
     void setupUi(QWidget *GameWindow)
     {
         if (GameWindow->objectName().isEmpty())
             GameWindow->setObjectName(QStringLiteral("GameWindow"));
-        GameWindow->resize(1009, 813);
+        GameWindow->setWindowModality(Qt::NonModal);
+        GameWindow->resize(929, 688);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(GameWindow->sizePolicy().hasHeightForWidth());
+        GameWindow->setSizePolicy(sizePolicy);
         GameWindow->setWindowTitle(QStringLiteral("Mercury"));
         formLayout = new QFormLayout(GameWindow);
         formLayout->setObjectName(QStringLiteral("formLayout"));
@@ -92,13 +107,18 @@ public:
 
         formLayout->setLayout(0, QFormLayout::SpanningRole, horizontalLayout);
 
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        systemSelect = new QComboBox(GameWindow);
+        systemSelect->setObjectName(QStringLiteral("systemSelect"));
+
+        horizontalLayout_2->addWidget(systemSelect);
+
         date = new QLabel(GameWindow);
         date->setObjectName(QStringLiteral("date"));
 
-        formLayout->setWidget(2, QFormLayout::LabelRole, date);
+        horizontalLayout_2->addWidget(date);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         iTime1h = new QPushButton(GameWindow);
         iTime1h->setObjectName(QStringLiteral("iTime1h"));
 
@@ -145,12 +165,54 @@ public:
         horizontalLayout_2->addWidget(iTime24m);
 
 
-        formLayout->setLayout(2, QFormLayout::FieldRole, horizontalLayout_2);
+        formLayout->setLayout(1, QFormLayout::SpanningRole, horizontalLayout_2);
 
-        systemView = new QComboBox(GameWindow);
+        gridLayout = new QGridLayout();
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        gridLayout->setContentsMargins(5, 5, 5, 5);
+        systemObjTree = new QTreeWidget(GameWindow);
+        systemObjTree->setObjectName(QStringLiteral("systemObjTree"));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(systemObjTree->sizePolicy().hasHeightForWidth());
+        systemObjTree->setSizePolicy(sizePolicy1);
+
+        gridLayout->addWidget(systemObjTree, 0, 0, 1, 1);
+
+        eventList = new QListWidget(GameWindow);
+        eventList->setObjectName(QStringLiteral("eventList"));
+
+        gridLayout->addWidget(eventList, 2, 0, 1, 1);
+
+        objectValues = new QTreeWidget(GameWindow);
+        new QTreeWidgetItem(objectValues);
+        new QTreeWidgetItem(objectValues);
+        new QTreeWidgetItem(objectValues);
+        new QTreeWidgetItem(objectValues);
+        new QTreeWidgetItem(objectValues);
+        objectValues->setObjectName(QStringLiteral("objectValues"));
+
+        gridLayout->addWidget(objectValues, 1, 0, 1, 1);
+
+
+        formLayout->setLayout(2, QFormLayout::LabelRole, gridLayout);
+
+        systemView = new QFrame(GameWindow);
         systemView->setObjectName(QStringLiteral("systemView"));
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(systemView->sizePolicy().hasHeightForWidth());
+        systemView->setSizePolicy(sizePolicy2);
+        systemView->setMinimumSize(QSize(600, 600));
+        systemView->setBaseSize(QSize(0, 0));
+        systemView->setContextMenuPolicy(Qt::NoContextMenu);
+        systemView->setFrameShape(QFrame::StyledPanel);
+        systemView->setFrameShadow(QFrame::Raised);
 
-        formLayout->setWidget(3, QFormLayout::LabelRole, systemView);
+        formLayout->setWidget(2, QFormLayout::FieldRole, systemView);
 
 
         retranslateUi(GameWindow);
@@ -174,8 +236,26 @@ public:
         iTime7d->setText(QApplication::translate("GameWindow", "+7d", Q_NULLPTR));
         iTime30d->setText(QApplication::translate("GameWindow", "+30d", Q_NULLPTR));
         iTime6m->setText(QApplication::translate("GameWindow", "+6m", Q_NULLPTR));
-        iTime12m->setText(QApplication::translate("GameWindow", "+12m", Q_NULLPTR));
-        iTime24m->setText(QApplication::translate("GameWindow", "+24m", Q_NULLPTR));
+        iTime12m->setText(QApplication::translate("GameWindow", "+1y", Q_NULLPTR));
+        iTime24m->setText(QApplication::translate("GameWindow", "+2y", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem = objectValues->headerItem();
+        ___qtreewidgetitem->setText(1, QApplication::translate("GameWindow", "Value", Q_NULLPTR));
+        ___qtreewidgetitem->setText(0, QApplication::translate("GameWindow", "Object", Q_NULLPTR));
+
+        const bool __sortingEnabled = objectValues->isSortingEnabled();
+        objectValues->setSortingEnabled(false);
+        QTreeWidgetItem *___qtreewidgetitem1 = objectValues->topLevelItem(0);
+        ___qtreewidgetitem1->setText(0, QApplication::translate("GameWindow", "Mass", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem2 = objectValues->topLevelItem(1);
+        ___qtreewidgetitem2->setText(0, QApplication::translate("GameWindow", "Radius", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem3 = objectValues->topLevelItem(2);
+        ___qtreewidgetitem3->setText(0, QApplication::translate("GameWindow", "Escape velocity", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem4 = objectValues->topLevelItem(3);
+        ___qtreewidgetitem4->setText(0, QApplication::translate("GameWindow", "Surface gravity", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem5 = objectValues->topLevelItem(4);
+        ___qtreewidgetitem5->setText(0, QApplication::translate("GameWindow", "Orbit", Q_NULLPTR));
+        objectValues->setSortingEnabled(__sortingEnabled);
+
         Q_UNUSED(GameWindow);
     } // retranslateUi
 

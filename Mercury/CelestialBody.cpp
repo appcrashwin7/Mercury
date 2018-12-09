@@ -1,6 +1,6 @@
 #include "CelestialBody.h"
 
-CelestialBody::CelestialBody(int orbit, int radius, int mass)
+CelestialBody::CelestialBody(int orbit, int radius, uint64_t mass)
 	:orbitDistance(orbit), radius(radius), mass(mass),
 	escapeVelocity(Calc::getEscapeVelocity(mass, radius)),
 	surfaceGravity(Calc::getGravity(mass, radius)),

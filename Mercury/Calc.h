@@ -1,13 +1,14 @@
 #pragma once
 
-#include<cmath>
+#include <cmath>
+#include <cstdint>
 
 namespace Calc
 {
 	static const float gravityConstant = 6.67f * pow(10, -11);
 	static const float earthGravity = 9.78033;
 
-	static float getEscapeVelocity(int mass, int radius)
+	static float getEscapeVelocity(uint64_t mass, int radius)
 	{
 		mass *= 1000;
 		float v = gravityConstant * mass;
@@ -15,12 +16,12 @@ namespace Calc
 		return sqrt(v);
 	}
 
-	static float getGravity(int mass, int radius)
+	static float getGravity(uint64_t mass, int radius)
 	{
 		mass *= 1000;
 		float g = gravityConstant * mass;
-		g /= (pow(radius, 2));
-
+		uint32_t rad = pow(radius, 2);
+		g /= rad;
 		return g /= (earthGravity);
 	}
 };

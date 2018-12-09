@@ -17,9 +17,17 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	//generate first system
 	this->gameUniverse.addSystem(PlanetarySystem(Star(0, 695700, 1.9885f * pow(10, 27), 3.75 * pow(10, 28), 0.0122f)));
 	this->gameUniverse.getSystem(0).name = "Sol System";
-	QComboBox * systemView = this->window.findChild<QComboBox*>("systemView");
-	systemView->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
+	this->gameUniverse.getSystem(0).mainObject.name = "Sol";
+	this->gameUniverse.getSystem(0).mainObject.Satellites.push_back(new Planet(50000000, 3.3f * pow(10, 20), 2400));
+	this->gameUniverse.getSystem(0).mainObject.Satellites[0]->name = "Mercury";
 
+	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
+	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
+	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
+	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).mainObject.name));
+	systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString("Mercury")), 0));
+
+	this->showBodyInfo(std::string("Sol"));
 }
 
 Engine::~Engine()
@@ -72,4 +80,42 @@ void Engine::changeTime(TimeChange change)
 	}
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
 	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));
+}
+
+void Engine::showBodyInfo(const std::string & bodyName)
+{
+	QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
+	CelestialBody * actualBody = &this->gameUniverse.getSystem(0).mainObject;
+
+	/*
+	for (auto t : actualBody->Satellites)
+	{
+		if (t->name == bodyName)
+		{
+			QList<QTreeWidgetItem*> Items = objectValues->findItems("*", Qt::MatchFlag::MatchRegExp);
+
+			break;
+		}
+	}
+	*/
+	if (actualBody != nullptr)
+	{
+		if (actualBody->name == bodyName)
+		{
+			objectValues->findItems(QString("Mass"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->mass) + " tons");
+			objectValues->findItems(QString("Radius"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->radius) + " km");
+			objectValues->findItems(QString("Escape velocity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->escapeVelocity) + " km/s");
+			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " G");
+
+		}
+	}
+}
+
+void Engine::showBodyInfo(CelestialBody * body)
+{
+	if (body == nullptr)
+	{
+		return;
+	}
+
 }
