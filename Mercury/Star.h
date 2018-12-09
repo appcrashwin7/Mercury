@@ -5,7 +5,7 @@
 class Star : public CelestialBody
 {
 public:
-	Star(int orbit, int radius, int mass, float luminosity, float metallicity);
+	Star(int orbit, int radius, uint64_t mass, float luminosity, float metallicity);
 	~Star();
 
 	const float luminosity;

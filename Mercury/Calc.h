@@ -10,18 +10,16 @@ namespace Calc
 
 	static float getEscapeVelocity(uint64_t mass, int radius)
 	{
-		mass *= 1000;
-		float v = gravityConstant * mass;
+		double v = gravityConstant * mass;
 		v /= radius;
 		return sqrt(v);
 	}
 
 	static float getGravity(uint64_t mass, int radius)
 	{
-		mass *= 1000;
-		float g = gravityConstant * mass;
-		uint32_t rad = pow(radius, 2);
-		g /= rad;
-		return g /= (earthGravity);
+		double up = gravityConstant * mass;
+		radius *= 1000;
+		uint64_t rad = radius * radius;
+		return up / rad;
 	}
 };

@@ -5,7 +5,7 @@
 class Planet : public CelestialBody
 {
 public:
-	Planet(int orbit, int mass, int radius);
+	Planet(int orbit, uint64_t mass, int radius);
 	~Planet();
 
 private:
