@@ -15,7 +15,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 
 	//QObject::connect(this->gameTime, &QDateTime::ad)
 	//generate first system
-	this->gameUniverse.addSystem(PlanetarySystem(Star(0, 695700, 1.9885f * pow(10, 30), 3.75 * pow(10, 28), 0.0122f)));
+	this->gameUniverse.addSystem(PlanetarySystem(Star(0, 695700000, 1.9885f * pow(10, 30), 3.75 * pow(10, 28), 0.0122f)));
 	this->gameUniverse.getSystem(0).name = "Sol System";
 	this->gameUniverse.getSystem(0).mainObject.name = "Sol";
 	this->gameUniverse.getSystem(0).mainObject.Satellites.push_back(new Planet(50000000, 3.3f * pow(10, 20), 2400));
@@ -105,7 +105,7 @@ void Engine::showBodyInfo(const std::string & bodyName)
 			objectValues->findItems(QString("Mass"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(double(actualBody->mass)) + " kg");
 			objectValues->findItems(QString("Radius"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->radius) + " km");
 			objectValues->findItems(QString("Escape velocity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->escapeVelocity) + " km/s");
-			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " G's");
+			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
 
 		}
 	}

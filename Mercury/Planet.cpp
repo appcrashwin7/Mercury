@@ -1,6 +1,6 @@
 #include "Planet.h"
 
-Planet::Planet(int orbit, uint64_t mass, int radius)
+Planet::Planet(double orbit, double radius, double mass)
 	:CelestialBody(orbit, radius, mass)
 {
 	type = CelestialBodyType::Planet;

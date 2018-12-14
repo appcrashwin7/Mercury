@@ -18,7 +18,7 @@ protected:
 
 
 public:
-	CelestialBody(int orbit, int radius, uint64_t mass);
+	CelestialBody(double orbit, double radius, double mass);
 	~CelestialBody();
 
 	std::string name;
@@ -26,9 +26,9 @@ public:
 	CelestialBody * Parent;
 	CelestialBodyType getType() const;
 
-	const int orbitDistance;//measured in km
-	const int radius;// measured in km
-	const uint64_t mass;//measured in kg
+	const double orbitDistance;//measured in km
+	const double radius;// measured in km
+	const double mass;//measured in kg
 
 	const float escapeVelocity; //measured in km/s
 	const float surfaceGravity; //in g's
