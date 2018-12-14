@@ -1,10 +1,11 @@
 #include "CelestialBody.h"
 
-CelestialBody::CelestialBody(double orbit, double radius, double mass)
+CelestialBody::CelestialBody(double orbit, double radius, double mass, CelestialBodyType type, CelestialBody * parent = nullptr)
 	:orbitDistance(orbit), radius(radius), mass(mass),
 	escapeVelocity(Calc::getEscapeVelocity(mass, radius)),
 	surfaceGravity(Calc::getGravity(mass, radius)),
-	type(CelestialBodyType::Undefided)
+	type(CelestialBodyType::Undefided),
+	Parent(parent)
 {}
 
 CelestialBody::~CelestialBody()
@@ -15,7 +16,14 @@ CelestialBody::~CelestialBody()
 	}
 }
 
-CelestialBodyType CelestialBody::getType() const
+const std::vector<CelestialBody*>& CelestialBody::getSatellites() const
 {
-	return type;
+	return Satellites;
 }
+
+std::vector<CelestialBody*>& CelestialBody::getSatellites()
+{
+	return Satellites;
+}
+
+

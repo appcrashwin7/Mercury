@@ -13,25 +13,26 @@ enum class CelestialBodyType
 
 class CelestialBody
 {
-protected:
-	CelestialBodyType type;
-
-
 public:
-	CelestialBody(double orbit, double radius, double mass);
+	CelestialBody(double orbit, double radius, double mass, CelestialBodyType type, CelestialBody * parent);
 	~CelestialBody();
 
 	std::string name;
-	std::vector<CelestialBody*> Satellites;
-	CelestialBody * Parent;
-	CelestialBodyType getType() const;
+	
+	const CelestialBodyType type;
+	const CelestialBody * const Parent;
 
 	const double orbitDistance;//measured in km
-	const double radius;// measured in km
+	const double radius;// measured in m
 	const double mass;//measured in kg
 
 	const float escapeVelocity; //measured in km/s
-	const float surfaceGravity; //in g's
+	const float surfaceGravity; //in m/s^2
+
+	const std::vector<CelestialBody*> & getSatellites() const;
+	std::vector<CelestialBody*> & getSatellites();
 
 private:
+	std::vector<CelestialBody*> Satellites;
+
 };
