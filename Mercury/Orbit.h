@@ -23,9 +23,13 @@ public:
 	{
 
 	}
+	Orbit(double radius)
+		:apoapsis(radius), periapsis(radius),
+		eccentricity(0), isZero(false)
+	{}
 	Orbit(const Orbit & other)
 		:apoapsis(other.apoapsis), periapsis(other.periapsis),
 		eccentricity(other.eccentricity), isZero(other.isZero)
 	{}
-	~Orbit(){}
+	~Orbit() = default;
 };
