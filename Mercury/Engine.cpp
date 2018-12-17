@@ -15,7 +15,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 
 	//QObject::connect(this->gameTime, &QDateTime::ad)
 	//generate first system
-	this->gameUniverse.addSystem(PlanetarySystem(Star(0, 695700000, 2.0f * pow(10, 30), 3.75 * pow(10, 28), 0.0122f)));
+	this->gameUniverse.addSystem(PlanetarySystem(Star(695700000, 2.0f * pow(10, 30), 3.75 * pow(10, 28), 0.0122f)));
 	this->gameUniverse.getSystem(0).name = "Sol System";
 	this->gameUniverse.getSystem(0).mainObject.name = "Sol";
 

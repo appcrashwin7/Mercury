@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Calc.h"
+#include "Orbit.h"
 #include <vector>
 
 enum class CelestialBodyType
@@ -14,15 +14,16 @@ enum class CelestialBodyType
 class CelestialBody
 {
 public:
-	CelestialBody(double orbit, double radius, double mass, CelestialBodyType type, CelestialBody * parent);
+	CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * parent, Orbit orb);
+	CelestialBody(CelestialBody & other, CelestialBodyType newType);
 	~CelestialBody();
 
 	std::string name;
 	
 	const CelestialBodyType type;
-	const CelestialBody * const Parent;
+	const CelestialBody * const parent;
 
-	const double orbitDistance;//measured in km
+	const Orbit bodyOrbit;//measured in km
 	const double radius;// measured in m
 	const double mass;//measured in kg
 

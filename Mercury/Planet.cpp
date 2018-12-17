@@ -1,10 +1,12 @@
 #include "Planet.h"
 
-Planet::Planet(double orbit, double radius, double mass)
-	:CelestialBody(orbit, radius, mass, CelestialBodyType::Planet, nullptr)
-{
+Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit)
+	:CelestialBody(radius, mass, CelestialBodyType::Planet, parent, orbit)
+{}
 
-}
+Planet::Planet(CelestialBody & body)
+	:CelestialBody(body, CelestialBodyType::Planet)
+{}
 
 Planet::~Planet()
 {

@@ -5,7 +5,8 @@
 class Star : public CelestialBody
 {
 public:
-	Star(double orbit, double radius, double mass, float luminosity, float metallicity);
+	Star(double radius, double mass, float luminosity, float metallicity);
+	Star(CelestialBody &body, float luminosity, float metallicity);
 	~Star();
 
 	const float luminosity;
