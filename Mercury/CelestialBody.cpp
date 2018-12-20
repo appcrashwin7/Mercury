@@ -1,11 +1,12 @@
 #include "CelestialBody.h"
 
-CelestialBody::CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * prt = nullptr, Orbit orb = Orbit())
+CelestialBody::CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * prt = nullptr, Orbit orb = Orbit(), const std::string name = "")
 	:radius(radius), mass(mass),
 	escapeVelocity(Calc::getEscapeVelocity(mass, radius)),
 	surfaceGravity(Calc::getGravity(mass, radius)),
 	type(type),
-	parent(parent), bodyOrbit(orb)
+	parent(parent), bodyOrbit(orb),
+	name(name)
 {
 
 }
@@ -15,7 +16,8 @@ CelestialBody::CelestialBody(CelestialBody & other, CelestialBodyType newType)
 	escapeVelocity(other.escapeVelocity),
 	surfaceGravity(other.surfaceGravity),
 	type(newType), parent(other.parent),
-	bodyOrbit(other.bodyOrbit)
+	bodyOrbit(other.bodyOrbit),
+	name(other.name)
 {
 	for (size_t i = 0; i < Satellites.size(); i++)
 	{

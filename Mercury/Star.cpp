@@ -1,7 +1,7 @@
 #include "Star.h"
 
-Star::Star(double radius, double mass, float luminosity, float metallicity)
-	:CelestialBody(radius, mass, CelestialBodyType::Star, nullptr, Orbit()),
+Star::Star(double radius, double mass, float luminosity, float metallicity, const std::string name)
+	:CelestialBody(radius, mass, CelestialBodyType::Star, nullptr, Orbit(), name),
 	luminosity(luminosity), metallicity(metallicity)
 {
 

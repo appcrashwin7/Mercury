@@ -97,17 +97,13 @@ void Engine::showBodyInfo(const std::string & bodyName)
 
 void Engine::generateFirstSystem()
 {
-	this->gameUniverse.addSystem(PlanetarySystem(Star(6.9 * pow(10, 8), 2.0 * pow(10, 30), 3.75 * pow(10, 28), 0.0122f)));
+	this->gameUniverse.addSystem(PlanetarySystem(Star(6.9 * pow(10, 8), 2.0 * pow(10, 30), 3.75 * pow(10, 28), 0.0122f, "Sol")));
 	this->gameUniverse.getSystem(0).name = "Sol System";
-	this->gameUniverse.getSystem(0).mainObject.name = "Sol";
 
 	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
-		CelestialBody(2.4 * pow(10, 6), 3.3 * pow(10, 23), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(6.9 * pow(10, 10), 4.9 * pow(10, 10)))));
-	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->name = "Mercury";
+		CelestialBody(2.4 * pow(10, 6), 3.3 * pow(10, 23), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(6.9 * pow(10, 10), 4.9 * pow(10, 10)), "Mercury")));
 	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
-		CelestialBody(6.0 * pow(10, 6), 4.8 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.08 * pow(10, 11), 1.07 * pow(10, 11)))));
-	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->name = "Venus";
+		CelestialBody(6.0 * pow(10, 6), 4.8 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.08 * pow(10, 11), 1.07 * pow(10, 11)), "Venus")));
 	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
-		CelestialBody(6.3 * pow(10, 6), 5.9 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.52 * pow(10, 11), 1.47 * pow(10, 11)))));
-	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->name = "Earth";
+		CelestialBody(6.3 * pow(10, 6), 5.9 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.52 * pow(10, 11), 1.47 * pow(10, 11)), "Earth")));
 }

@@ -1,7 +1,7 @@
 #include "Planet.h"
 
-Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit)
-	:CelestialBody(radius, mass, CelestialBodyType::Planet, parent, orbit)
+Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, const std::string name)
+	:CelestialBody(radius, mass, CelestialBodyType::Planet, parent, orbit, name)
 {}
 
 Planet::Planet(CelestialBody & body)
