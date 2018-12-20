@@ -12,8 +12,6 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	QObject::connect(iTime1h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_1); });
 	QObject::connect(iTime6h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_6); });
 
-
-	//QObject::connect(this->gameTime, &QDateTime::ad)
 	generateFirstSystem();
 
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
@@ -85,17 +83,6 @@ void Engine::showBodyInfo(const std::string & bodyName)
 	QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
 	CelestialBody * actualBody = &this->gameUniverse.getSystem(0).mainObject;
 
-	/*
-	for (auto t : actualBody->Satellites)
-	{
-		if (t->name == bodyName)
-		{
-			QList<QTreeWidgetItem*> Items = objectValues->findItems("*", Qt::MatchFlag::MatchRegExp);
-
-			break;
-		}
-	}
-	*/
 	if (actualBody != nullptr)
 	{
 		if (actualBody->name == bodyName)
@@ -106,15 +93,6 @@ void Engine::showBodyInfo(const std::string & bodyName)
 			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
 		}
 	}
-}
-
-void Engine::showBodyInfo(CelestialBody * body)
-{
-	if (body == nullptr)
-	{
-		return;
-	}
-
 }
 
 void Engine::generateFirstSystem()

@@ -18,7 +18,6 @@ private:
 
 	void changeTime(TimeChange change = TimeChange::hour_1);
 	void showBodyInfo(const std::string &bodyName);
-	void showBodyInfo(CelestialBody * body);
 
 	void generateFirstSystem();
 };
