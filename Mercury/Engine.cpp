@@ -14,15 +14,16 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 
 
 	//QObject::connect(this->gameTime, &QDateTime::ad)
-	//generate first system
-	this->gameUniverse.addSystem(PlanetarySystem(Star(695700000, 2.0f * pow(10, 30), 3.75 * pow(10, 28), 0.0122f)));
-	this->gameUniverse.getSystem(0).name = "Sol System";
-	this->gameUniverse.getSystem(0).mainObject.name = "Sol";
+	generateFirstSystem();
 
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
 	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
 	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
 	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).mainObject.name));
+	for (auto mainSatellites : this->gameUniverse.getSystem(0).mainObject.getSatellites())
+	{
+		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(mainSatellites->name))));
+	}
 
 	this->showBodyInfo(std::string("Sol"));
 }
@@ -114,4 +115,21 @@ void Engine::showBodyInfo(CelestialBody * body)
 		return;
 	}
 
+}
+
+void Engine::generateFirstSystem()
+{
+	this->gameUniverse.addSystem(PlanetarySystem(Star(6.9 * pow(10, 8), 2.0 * pow(10, 30), 3.75 * pow(10, 28), 0.0122f)));
+	this->gameUniverse.getSystem(0).name = "Sol System";
+	this->gameUniverse.getSystem(0).mainObject.name = "Sol";
+
+	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
+		CelestialBody(2.4 * pow(10, 6), 3.3 * pow(10, 23), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(6.9 * pow(10, 10), 4.9 * pow(10, 10)))));
+	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->name = "Mercury";
+	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
+		CelestialBody(6.0 * pow(10, 6), 4.8 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.08 * pow(10, 11), 1.07 * pow(10, 11)))));
+	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->name = "Venus";
+	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
+		CelestialBody(6.3 * pow(10, 6), 5.9 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.52 * pow(10, 11), 1.47 * pow(10, 11)))));
+	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->name = "Earth";
 }

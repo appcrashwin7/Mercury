@@ -5,6 +5,7 @@
 class Orbit 
 {
 public:
+	// in meters
 	const double apoapsis;
 	const double periapsis;
 
