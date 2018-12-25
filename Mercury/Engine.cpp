@@ -23,7 +23,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(mainSatellites->name))));
 	}
 
-	this->showBodyInfo(std::string("Sol"));
+	this->showBodyInfo(std::string("Earth"));
 }
 
 Engine::~Engine()
@@ -81,7 +81,7 @@ void Engine::changeTime(TimeChange change)
 void Engine::showBodyInfo(const std::string & bodyName)
 {
 	QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
-	CelestialBody * actualBody = &this->gameUniverse.getSystem(0).mainObject;
+	CelestialBody * actualBody = searchBodyByName(&gameUniverse.getSystem(0).mainObject, bodyName);
 
 	if (actualBody != nullptr)
 	{
@@ -93,6 +93,29 @@ void Engine::showBodyInfo(const std::string & bodyName)
 			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
 		}
 	}
+}
+
+CelestialBody * Engine::searchBodyByName(CelestialBody * body, const std::string & name)
+{
+	if (body != nullptr)
+	{
+		if (body->name == name)
+		{
+			return body;
+		}
+		else
+		{
+			for (auto i : body->getSatellites())
+			{
+				if (searchBodyByName(i, name) != nullptr)
+				{
+					return i;
+				}
+			}
+			return nullptr;
+		}
+	}
+	return nullptr;
 }
 
 void Engine::generateFirstSystem()
