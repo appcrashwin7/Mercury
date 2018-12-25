@@ -23,7 +23,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(mainSatellites->name))));
 	}
 
-	this->showBodyInfo(std::string("Earth"));
+	this->showBodyInfo(std::string("Luna"));
 }
 
 Engine::~Engine()
@@ -107,9 +107,10 @@ CelestialBody * Engine::searchBodyByName(CelestialBody * body, const std::string
 		{
 			for (auto i : body->getSatellites())
 			{
-				if (searchBodyByName(i, name) != nullptr)
+				auto a = searchBodyByName(i, name);
+				if (a != nullptr)
 				{
-					return i;
+					return a;
 				}
 			}
 			return nullptr;
@@ -129,4 +130,6 @@ void Engine::generateFirstSystem()
 		CelestialBody(6.0 * pow(10, 6), 4.8 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.08 * pow(10, 11), 1.07 * pow(10, 11)), "Venus")));
 	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
 		CelestialBody(6.3 * pow(10, 6), 5.9 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.52 * pow(10, 11), 1.47 * pow(10, 11)), "Earth")));
+	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->getSatellites().push_back(new Planet(CelestialBody(1.7 * pow(10, 6), 7.3 * pow(10, 22), CelestialBodyType::Planet,
+		this->gameUniverse.getSystem(0).mainObject.getSatellites().back(), Orbit(4 * pow(10, 8), 3.6 * pow(10, 8)), "Luna")));
 }
