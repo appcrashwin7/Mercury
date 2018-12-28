@@ -90,10 +90,16 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 
 		if (actualBody != nullptr)
 		{
-				objectValues->findItems(QString("Mass"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(double(actualBody->mass)) + " kg");
-				objectValues->findItems(QString("Radius"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->radius) + " m");
-				objectValues->findItems(QString("Escape velocity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->escapeVelocity) + " m/s");
-				objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
+			objectValues->findItems(QString("Mass"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->mass) + " kg");
+			objectValues->findItems(QString("Radius"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->radius) + " m");
+			objectValues->findItems(QString("Escape velocity"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->escapeVelocity) + " m/s");
+			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
+
+			if (!actualBody->bodyOrbit.isZero)
+			{
+				objectValues->findItems(QString("Apoapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->bodyOrbit.apoapsis) + " m");
+				objectValues->findItems(QString("Periapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->bodyOrbit.periapsis) + " m");
+			}
 		}
 	}
 }
