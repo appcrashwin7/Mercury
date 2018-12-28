@@ -4,8 +4,9 @@
 #include "GameWindow.h"
 #include "Universe.h"
 
-class Engine
+class Engine : public QObject
 {
+	Q_OBJECT
 public:
 	Engine(QWidget * mainWindow, QString gameName);
 	~Engine();
@@ -17,8 +18,10 @@ private:
 	Universe gameUniverse;
 
 	void changeTime(TimeChange change = TimeChange::hour_1);
-	void showBodyInfo(const std::string &bodyName);
 	CelestialBody * searchBodyByName(CelestialBody * body, const std::string &name);
 
 	void generateFirstSystem();
+
+public slots:
+	void showBodyInfo(QTreeWidgetItem * item, int column);
 };

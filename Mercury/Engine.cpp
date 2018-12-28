@@ -17,13 +17,14 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
 	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
 	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
+
+	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
+
 	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).mainObject.name));
 	for (auto mainSatellites : this->gameUniverse.getSystem(0).mainObject.getSatellites())
 	{
 		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(mainSatellites->name))));
 	}
-
-	this->showBodyInfo(std::string("Luna"));
 }
 
 Engine::~Engine()
@@ -78,19 +79,21 @@ void Engine::changeTime(TimeChange change)
 	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));
 }
 
-void Engine::showBodyInfo(const std::string & bodyName)
+void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 {
-	QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
-	CelestialBody * actualBody = searchBodyByName(&gameUniverse.getSystem(0).mainObject, bodyName);
-
-	if (actualBody != nullptr)
+	if (item != nullptr)
 	{
-		if (actualBody->name == bodyName)
+		QString bodyName = item->text(column);
+
+		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
+		CelestialBody * actualBody = searchBodyByName(&gameUniverse.getSystem(0).mainObject, bodyName.toStdString());
+
+		if (actualBody != nullptr)
 		{
-			objectValues->findItems(QString("Mass"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(double(actualBody->mass)) + " kg");
-			objectValues->findItems(QString("Radius"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->radius) + " m");
-			objectValues->findItems(QString("Escape velocity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->escapeVelocity) + " m/s");
-			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
+				objectValues->findItems(QString("Mass"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(double(actualBody->mass)) + " kg");
+				objectValues->findItems(QString("Radius"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->radius) + " m");
+				objectValues->findItems(QString("Escape velocity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->escapeVelocity) + " m/s");
+				objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly).operator[](0)->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
 		}
 	}
 }
