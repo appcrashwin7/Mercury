@@ -10,6 +10,10 @@ public:
 
 	PlanetarySystem & getSystem(size_t index);
 	void addSystem(PlanetarySystem & newSystem);
+
+
+	const std::vector<PlanetarySystem> & getSystems() const;
+	std::vector<PlanetarySystem> & getSystems();
 private:
 	std::vector<PlanetarySystem> Systems;
 };
