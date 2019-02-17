@@ -5,7 +5,7 @@ CelestialBody::CelestialBody(double radius, double mass, CelestialBodyType type,
 	escapeVelocity(Calc::getEscapeVelocity(mass, radius)),
 	surfaceGravity(Calc::getGravity(mass, radius)),
 	type(type),
-	parent(parent), bodyOrbit(orb),
+	parent(prt), bodyOrbit(orb),
 	name(name)
 {
 

@@ -172,6 +172,9 @@ public:
         gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
         gridLayout->setContentsMargins(5, 5, 5, 5);
         systemObjTree = new QTreeWidget(GameWindow);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
+        __qtreewidgetitem->setText(0, QStringLiteral("1"));
+        systemObjTree->setHeaderItem(__qtreewidgetitem);
         systemObjTree->setObjectName(QStringLiteral("systemObjTree"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
@@ -187,6 +190,7 @@ public:
         gridLayout->addWidget(eventList, 2, 0, 1, 1);
 
         objectValues = new QTreeWidget(GameWindow);
+        new QTreeWidgetItem(objectValues);
         new QTreeWidgetItem(objectValues);
         new QTreeWidgetItem(objectValues);
         new QTreeWidgetItem(objectValues);
@@ -246,17 +250,19 @@ public:
         const bool __sortingEnabled = objectValues->isSortingEnabled();
         objectValues->setSortingEnabled(false);
         QTreeWidgetItem *___qtreewidgetitem1 = objectValues->topLevelItem(0);
-        ___qtreewidgetitem1->setText(0, QApplication::translate("GameWindow", "Mass", Q_NULLPTR));
+        ___qtreewidgetitem1->setText(0, QApplication::translate("GameWindow", "Parent body", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem2 = objectValues->topLevelItem(1);
-        ___qtreewidgetitem2->setText(0, QApplication::translate("GameWindow", "Radius", Q_NULLPTR));
+        ___qtreewidgetitem2->setText(0, QApplication::translate("GameWindow", "Mass", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem3 = objectValues->topLevelItem(2);
-        ___qtreewidgetitem3->setText(0, QApplication::translate("GameWindow", "Escape velocity", Q_NULLPTR));
+        ___qtreewidgetitem3->setText(0, QApplication::translate("GameWindow", "Radius", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem4 = objectValues->topLevelItem(3);
-        ___qtreewidgetitem4->setText(0, QApplication::translate("GameWindow", "Surface gravity", Q_NULLPTR));
+        ___qtreewidgetitem4->setText(0, QApplication::translate("GameWindow", "Escape velocity", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem5 = objectValues->topLevelItem(4);
-        ___qtreewidgetitem5->setText(0, QApplication::translate("GameWindow", "Periapsis", Q_NULLPTR));
+        ___qtreewidgetitem5->setText(0, QApplication::translate("GameWindow", "Surface gravity", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem6 = objectValues->topLevelItem(5);
-        ___qtreewidgetitem6->setText(0, QApplication::translate("GameWindow", "Apoapsis", Q_NULLPTR));
+        ___qtreewidgetitem6->setText(0, QApplication::translate("GameWindow", "Periapsis", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem7 = objectValues->topLevelItem(6);
+        ___qtreewidgetitem7->setText(0, QApplication::translate("GameWindow", "Apoapsis", Q_NULLPTR));
         objectValues->setSortingEnabled(__sortingEnabled);
 
         Q_UNUSED(GameWindow);

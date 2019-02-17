@@ -186,6 +186,11 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
       </widget>
      </item>
      <item row="2" column="0">
@@ -203,6 +208,11 @@
          <string>Value</string>
         </property>
        </column>
+       <item>
+        <property name="text">
+         <string>Parent body</string>
+        </property>
+       </item>
        <item>
         <property name="text">
          <string>Mass</string>

@@ -20,7 +20,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 
 	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
 
-	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).Bodies.front()->name));
+	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).name));
 	for (const auto body : this->gameUniverse.getSystem(0).Bodies)
 	{
 		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body->name))));
@@ -99,6 +99,20 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 			{
 				objectValues->findItems(QString("Apoapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->bodyOrbit.apoapsis) + " m");
 				objectValues->findItems(QString("Periapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->bodyOrbit.periapsis) + " m");
+			}
+			else
+			{
+				objectValues->findItems(QString("Apoapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString("---"));
+				objectValues->findItems(QString("Periapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString("---"));
+			}
+
+			if (actualBody->parent != nullptr)
+			{
+				objectValues->findItems(QString("Parent body"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::fromStdString(actualBody->parent->name));
+			}
+			else
+			{
+				objectValues->findItems(QString("Parent body"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString("---"));
 			}
 		}
 	}
