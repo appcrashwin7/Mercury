@@ -20,10 +20,10 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 
 	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
 
-	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).mainObject.name));
-	for (auto mainSatellites : this->gameUniverse.getSystem(0).mainObject.getSatellites())
+	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).Bodies.front()->name));
+	for (const auto body : this->gameUniverse.getSystem(0).Bodies)
 	{
-		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(mainSatellites->name))));
+		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body->name))));
 	}
 }
 
@@ -86,7 +86,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 		QString bodyName = item->text(column);
 
 		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
-		CelestialBody * actualBody = searchBodyByName(&gameUniverse.getSystem(0).mainObject, bodyName.toStdString());
+		CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName.toStdString());
 
 		if (actualBody != nullptr)
 		{
@@ -104,25 +104,16 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 	}
 }
 
-CelestialBody * Engine::searchBodyByName(CelestialBody * body, const std::string & name)
+CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const std::string & name)
 {
-	if (body != nullptr)
+	if (!system.Bodies.empty())
 	{
-		if (body->name == name)
+		for (auto t : system.Bodies)
 		{
-			return body;
-		}
-		else
-		{
-			for (auto i : body->getSatellites())
+			if (t->name == name)
 			{
-				auto a = searchBodyByName(i, name);
-				if (a != nullptr)
-				{
-					return a;
-				}
+				return t;
 			}
-			return nullptr;
 		}
 	}
 	return nullptr;
@@ -130,15 +121,14 @@ CelestialBody * Engine::searchBodyByName(CelestialBody * body, const std::string
 
 void Engine::generateFirstSystem()
 {
-	this->gameUniverse.addSystem(PlanetarySystem(Star(6.9 * pow(10, 8), 2.0 * pow(10, 30), 3.75 * pow(10, 28), 0.0122f, "Sol")));
-	this->gameUniverse.getSystem(0).name = "Sol System";
-
-	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
-		CelestialBody(2.4 * pow(10, 6), 3.3 * pow(10, 23), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(6.9 * pow(10, 10), 4.9 * pow(10, 10)), "Mercury")));
-	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
-		CelestialBody(6.0 * pow(10, 6), 4.8 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.08 * pow(10, 11), 1.07 * pow(10, 11)), "Venus")));
-	this->gameUniverse.getSystem(0).mainObject.getSatellites().push_back(new Planet(
-		CelestialBody(6.3 * pow(10, 6), 5.9 * pow(10, 24), CelestialBodyType::Planet, &(this->gameUniverse.getSystem(0).mainObject), Orbit(1.52 * pow(10, 11), 1.47 * pow(10, 11)), "Earth")));
-	this->gameUniverse.getSystem(0).mainObject.getSatellites().back()->getSatellites().push_back(new Planet(CelestialBody(1.7 * pow(10, 6), 7.3 * pow(10, 22), CelestialBodyType::Planet,
-		this->gameUniverse.getSystem(0).mainObject.getSatellites().back(), Orbit(4 * pow(10, 8), 3.6 * pow(10, 8)), "Luna")));
+	this->gameUniverse.addSystem(PlanetarySystem("Sol System"));
+	this->gameUniverse.getSystem(0).Bodies.push_back(new Star(6.9 * pow(10, 8), 2.0 * pow(10, 30), 3.75 * pow(10, 28), 0.0122f, "Sol"));
+	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(
+		CelestialBody(2.4 * pow(10, 6), 3.3 * pow(10, 23), CelestialBodyType::Planet, this->gameUniverse.getSystem(0).Bodies.front(), Orbit(6.9 * pow(10, 10), 4.9 * pow(10, 10)), "Mercury")));
+	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(
+		CelestialBody(6.0 * pow(10, 6), 4.8 * pow(10, 24), CelestialBodyType::Planet, this->gameUniverse.getSystem(0).Bodies.front(), Orbit(1.08 * pow(10, 11), 1.07 * pow(10, 11)), "Venus")));
+	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(
+		CelestialBody(6.3 * pow(10, 6), 5.9 * pow(10, 24), CelestialBodyType::Planet, this->gameUniverse.getSystem(0).Bodies.front(), Orbit(1.52 * pow(10, 11), 1.47 * pow(10, 11)), "Earth")));
+	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(CelestialBody(1.7 * pow(10, 6), 7.3 * pow(10, 22), CelestialBodyType::Planet,
+		this->gameUniverse.getSystem(0).Bodies.back(), Orbit(4 * pow(10, 8), 3.6 * pow(10, 8)), "Luna")));
 }

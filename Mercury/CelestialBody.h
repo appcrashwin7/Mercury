@@ -29,11 +29,4 @@ public:
 
 	const float escapeVelocity; //measured in km/s
 	const float surfaceGravity; //in m/s^2
-
-	const std::vector<CelestialBody*> & getSatellites() const;
-	std::vector<CelestialBody*> & getSatellites();
-
-private:
-	std::vector<CelestialBody*> Satellites;
-
 };

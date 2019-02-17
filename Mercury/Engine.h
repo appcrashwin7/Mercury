@@ -18,7 +18,7 @@ private:
 	Universe gameUniverse;
 
 	void changeTime(TimeChange change = TimeChange::hour_1);
-	CelestialBody * searchBodyByName(CelestialBody * body, const std::string &name);
+	CelestialBody * searchBodyByName(const PlanetarySystem & system, const std::string & name);
 
 	void generateFirstSystem();
 

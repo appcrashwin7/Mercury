@@ -6,12 +6,12 @@
 class PlanetarySystem
 {
 public:
-	PlanetarySystem(Star & systemStar);
+	PlanetarySystem(std::string sysName);
 	~PlanetarySystem();
 
 
-	Star mainObject;
 	std::string name;
+	std::vector<CelestialBody*> Bodies;
 private:
 	
 };

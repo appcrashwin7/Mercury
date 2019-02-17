@@ -19,28 +19,8 @@ CelestialBody::CelestialBody(CelestialBody & other, CelestialBodyType newType)
 	bodyOrbit(other.bodyOrbit),
 	name(other.name)
 {
-	for (size_t i = 0; i < Satellites.size(); i++)
-	{
-		Satellites.push_back(other.Satellites[i]);
-		other.Satellites[i] = nullptr;
-	}
-	other.Satellites.clear();
 }
 
 CelestialBody::~CelestialBody()
 {
-	for (size_t i = 0; i < Satellites.size(); i++)
-	{
-		delete Satellites[i];
-	}
-}
-
-const std::vector<CelestialBody*>& CelestialBody::getSatellites() const
-{
-	return Satellites;
-}
-
-std::vector<CelestialBody*>& CelestialBody::getSatellites()
-{
-	return Satellites;
 }
