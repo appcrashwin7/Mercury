@@ -88,32 +88,33 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
 		CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName.toStdString());
 
+		auto setItemValue = [objectValues](QString item, QString value)->void
+		{
+			objectValues->findItems(item, Qt::MatchFlag::MatchExactly)[0]->setText(1, value);
+		};
+
 		if (actualBody != nullptr)
 		{
-			objectValues->findItems(QString("Mass"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->mass) + " kg");
-			objectValues->findItems(QString("Radius"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->radius) + " m");
-			objectValues->findItems(QString("Escape velocity"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->escapeVelocity) + " m/s");
-			objectValues->findItems(QString("Surface gravity"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->surfaceGravity) + " m/s^2");
+			setItemValue("Mass", QString::number(actualBody->mass) + " kg");
+			setItemValue("Radius", QString::number(actualBody->radius) + " m");
+			setItemValue("Escape velocity", QString::number(actualBody->escapeVelocity) + " m/s");
+			setItemValue("Surface gravity", QString::number(actualBody->surfaceGravity) + " m/s^2");
 
 			if (!actualBody->bodyOrbit.isZero)
 			{
-				objectValues->findItems(QString("Apoapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->bodyOrbit.apoapsis) + " m");
-				objectValues->findItems(QString("Periapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::number(actualBody->bodyOrbit.periapsis) + " m");
+				setItemValue("Apoapsis", QString::number(actualBody->bodyOrbit.apoapsis) + " m");
+				setItemValue("Periapsis", QString::number(actualBody->bodyOrbit.periapsis) + " m");
 			}
 			else
 			{
-				objectValues->findItems(QString("Apoapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString("---"));
-				objectValues->findItems(QString("Periapsis"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString("---"));
+				setItemValue("Apoapsis", "---");
+				setItemValue("Periapsis", "---");
 			}
 
 			if (actualBody->parent != nullptr)
-			{
-				objectValues->findItems(QString("Parent body"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString::fromStdString(actualBody->parent->name));
-			}
+				setItemValue("Parent body", QString::fromStdString(actualBody->parent->name));
 			else
-			{
-				objectValues->findItems(QString("Parent body"), Qt::MatchFlag::MatchExactly)[0]->setText(1, QString("---"));
-			}
+				setItemValue("Parent body", "---");
 		}
 	}
 }
