@@ -11,3 +11,13 @@ Planet::Planet(CelestialBody & body)
 Planet::~Planet()
 {
 }
+
+const ResourceDeposit & Planet::accessResources() const
+{
+	return Resources;
+}
+
+ResourceDeposit & Planet::accessRessources()
+{
+	return Resources;
+}
