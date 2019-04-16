@@ -113,5 +113,8 @@
     <ClInclude Include="Orbit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceDeposit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

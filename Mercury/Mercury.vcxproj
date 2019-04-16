@@ -155,6 +155,7 @@
     <ClInclude Include="Orbit.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="PlanetarySystem.h" />
+    <ClInclude Include="ResourceDeposit.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="Universe.h" />
     <QtMoc Include="GameWindow.h">
