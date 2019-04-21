@@ -7,13 +7,14 @@ class Planet : public CelestialBody
 {
 	ResourceDeposit Resources;
 public:
-	Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, const std::string name);
-	Planet(CelestialBody & body);
+	Planet() = delete;
+	Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, const std::string name, ResourceDeposit res = ResourceDeposit());
+	Planet(CelestialBody & body, ResourceDeposit res = ResourceDeposit());
 	~Planet();
 
 
 	const ResourceDeposit & accessResources() const;
-	ResourceDeposit & accessRessources();
+	ResourceDeposit & getRessources();
 private:
-
+	ResourceDeposit generateResources(ResourceDeposit & custom);
 };

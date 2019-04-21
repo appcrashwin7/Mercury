@@ -25,17 +25,22 @@ Resources
 16.Sulfur
 17.Silicon
 18.Nitrogen
+//In tons
 */
 class ResourceDeposit
 {
-	std::vector <Deposit> Res;
+	std::vector<Deposit> Res;
 
 public:
 	ResourceDeposit()
 	{
 		Res.resize(18);
 	}
+	ResourceDeposit(const ResourceDeposit & other)
+		:Res(other.Res)
+	{}
 	~ResourceDeposit() = default;
+
 
 	std::vector<uint64_t> SubstrAll(uint64_t amount)
 	{
@@ -67,5 +72,38 @@ public:
 	const Deposit & accessDeposit(size_t id) const
 	{
 		return Res[id];
+	}
+
+	bool isEmpty() const
+	{
+		for (auto i : Res)
+		{
+			if (i.first > 0)
+			{
+				return false;
+			}
+		}
+		return  true;
+	}
+	bool isNotGenerated() const
+	{
+		for (auto i : Res)
+		{
+			if (i.first > 0 || i.second > 0)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	static const std::vector<unsigned int> getLightElementsIds()
+	{
+		return std::vector<unsigned int>({ 1, 2, 11, 14, 15, 16, 17, 18 });
+	}
+
+	const std::vector<Deposit> & getRes() const
+	{
+		return Res;
 	}
 };

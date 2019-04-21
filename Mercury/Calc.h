@@ -6,6 +6,7 @@
 namespace Calc
 {
 	static const float gravityConstant = 6.67f * pow(10, -11);
+	static const float piF = atan(1) * 4;
 
 	static float getEscapeVelocity(double mass, double radius)
 	{
