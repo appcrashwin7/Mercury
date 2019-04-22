@@ -34,7 +34,6 @@ public:
     QHBoxLayout *horizontalLayout;
     QPushButton *colonyButton;
     QPushButton *systemButton;
-    QPushButton *industryButton;
     QPushButton *scienceButton;
     QPushButton *fleetButton;
     QPushButton *shipButton;
@@ -83,11 +82,6 @@ public:
         systemButton->setObjectName(QStringLiteral("systemButton"));
 
         horizontalLayout->addWidget(systemButton);
-
-        industryButton = new QPushButton(GameWindow);
-        industryButton->setObjectName(QStringLiteral("industryButton"));
-
-        horizontalLayout->addWidget(industryButton);
 
         scienceButton = new QPushButton(GameWindow);
         scienceButton->setObjectName(QStringLiteral("scienceButton"));
@@ -172,9 +166,6 @@ public:
         gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
         gridLayout->setContentsMargins(5, 5, 5, 5);
         systemObjTree = new QTreeWidget(GameWindow);
-        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
-        __qtreewidgetitem->setText(0, QStringLiteral("1"));
-        systemObjTree->setHeaderItem(__qtreewidgetitem);
         systemObjTree->setObjectName(QStringLiteral("systemObjTree"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
@@ -229,10 +220,9 @@ public:
     {
         colonyButton->setText(QApplication::translate("GameWindow", "Colonies", Q_NULLPTR));
         systemButton->setText(QApplication::translate("GameWindow", "System", Q_NULLPTR));
-        industryButton->setText(QApplication::translate("GameWindow", "Industry", Q_NULLPTR));
         scienceButton->setText(QApplication::translate("GameWindow", "Science", Q_NULLPTR));
         fleetButton->setText(QApplication::translate("GameWindow", "Fleet", Q_NULLPTR));
-        shipButton->setText(QApplication::translate("GameWindow", "Ship", Q_NULLPTR));
+        shipButton->setText(QApplication::translate("GameWindow", "Ship Designer", Q_NULLPTR));
         date->setText(QString());
         iTime1h->setText(QApplication::translate("GameWindow", "+1h", Q_NULLPTR));
         iTime6h->setText(QApplication::translate("GameWindow", "+6h", Q_NULLPTR));

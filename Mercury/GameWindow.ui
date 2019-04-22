@@ -55,13 +55,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="industryButton">
-       <property name="text">
-        <string>Industry</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="scienceButton">
        <property name="text">
         <string>Science</string>
@@ -78,7 +71,7 @@
      <item>
       <widget class="QPushButton" name="shipButton">
        <property name="text">
-        <string>Ship</string>
+        <string>Ship Designer</string>
        </property>
       </widget>
      </item>
@@ -186,11 +179,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <column>
-        <property name="text">
-         <string notr="true">1</string>
-        </property>
-       </column>
       </widget>
      </item>
      <item row="2" column="0">
