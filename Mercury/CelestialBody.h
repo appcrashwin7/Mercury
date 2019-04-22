@@ -15,7 +15,7 @@ class CelestialBody
 {
 public:
 	CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * parent, Orbit orb, const std::string name);
-	CelestialBody(CelestialBody & other, CelestialBodyType newType);
+	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
 	virtual ~CelestialBody();
 
 	std::string name;

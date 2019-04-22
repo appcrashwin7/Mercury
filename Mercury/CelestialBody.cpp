@@ -11,7 +11,7 @@ CelestialBody::CelestialBody(double radius, double mass, CelestialBodyType type,
 
 }
 
-CelestialBody::CelestialBody(CelestialBody & other, CelestialBodyType newType)
+CelestialBody::CelestialBody(const CelestialBody & other, CelestialBodyType newType)
 	:radius(other.radius), mass(other.mass),
 	escapeVelocity(other.escapeVelocity),
 	surfaceGravity(other.surfaceGravity),

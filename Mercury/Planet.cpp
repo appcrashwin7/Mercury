@@ -6,7 +6,7 @@ Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, 
 {
 }
 
-Planet::Planet(CelestialBody & body, ResourceDeposit res)
+Planet::Planet(const CelestialBody & body, ResourceDeposit res)
 	:CelestialBody(body, CelestialBodyType::Planet),
 	Resources(generateResources(res))
 {
