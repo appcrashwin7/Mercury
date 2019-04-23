@@ -1,7 +1,8 @@
 #include "Engine.h"
 
 Engine::Engine(QWidget * mainWindow, QString gameName)
-	:window(mainWindow), gameTime(QDate(2030,10,10))
+	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[4]))) }),
+	window(Colonies, mainWindow)
 {
 	window.show();
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
@@ -12,7 +13,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	QObject::connect(iTime1h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_1); });
 	QObject::connect(iTime6h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_6); });
 
-	generateFirstSystem();
+	
 
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
 	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
@@ -132,18 +133,4 @@ CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const s
 		}
 	}
 	return nullptr;
-}
-
-void Engine::generateFirstSystem()
-{
-	this->gameUniverse.addSystem(PlanetarySystem("Sol System"));
-	this->gameUniverse.getSystem(0).Bodies.push_back(new Star(6.9 * pow(10, 8), 2.0 * pow(10, 30), 3.75 * pow(10, 28), 0.0122f, "Sol"));
-	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(
-		CelestialBody(2.4 * pow(10, 6), 3.3 * pow(10, 23), CelestialBodyType::Planet, this->gameUniverse.getSystem(0).Bodies.front(), Orbit(6.9 * pow(10, 10), 4.9 * pow(10, 10)), "Mercury")));
-	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(
-		CelestialBody(6.0 * pow(10, 6), 4.8 * pow(10, 24), CelestialBodyType::Planet, this->gameUniverse.getSystem(0).Bodies.front(), Orbit(1.08 * pow(10, 11), 1.07 * pow(10, 11)), "Venus")));
-	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(
-		CelestialBody(6.3 * pow(10, 6), 5.9 * pow(10, 24), CelestialBodyType::Planet, this->gameUniverse.getSystem(0).Bodies.front(), Orbit(1.52 * pow(10, 11), 1.47 * pow(10, 11)), "Earth")));
-	this->gameUniverse.getSystem(0).Bodies.push_back(new Planet(CelestialBody(1.7 * pow(10, 6), 7.3 * pow(10, 22), CelestialBodyType::Planet,
-		this->gameUniverse.getSystem(0).Bodies.back(), Orbit(4 * pow(10, 8), 3.6 * pow(10, 8)), "Luna")));
 }

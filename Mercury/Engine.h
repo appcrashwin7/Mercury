@@ -23,8 +23,6 @@ private:
 	void changeTime(TimeChange change = TimeChange::hour_1);
 	CelestialBody * searchBodyByName(const PlanetarySystem & system, const std::string & name);
 
-	void generateFirstSystem();
-
 public slots:
 	void showBodyInfo(QTreeWidgetItem * item, int column);
 };

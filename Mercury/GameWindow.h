@@ -3,8 +3,9 @@
 #include <QtWidgets/qwidget.h>
 #include <QtWidgets/qmessagebox.h>
 #include <qevent.h>
-#include "ui_GameWindow.h"
 
+#include "ui_GameWindow.h"
+#include "ColoniesWindow.h"
 
 enum class TimeChange
 {
@@ -25,7 +26,8 @@ class GameWindow : public QWidget
 	Q_OBJECT
 
 public:
-	GameWindow(QWidget * main);
+	GameWindow() = delete;
+	GameWindow(std::vector<Colony> & cls, QWidget * main);
 	~GameWindow();
 	void closeEvent(QCloseEvent * event);
 
@@ -34,4 +36,5 @@ public slots:
 
 private:
 	Ui::GameWindow ui;
+	ColoniesWindow colsWindow;
 };

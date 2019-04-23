@@ -7,7 +7,7 @@ class Colony
 	const Planet & planet;
 public:
 	Colony() = delete;
-	Colony(Colony & other) = delete;
+	Colony(const Colony & other);
 	Colony(Planet & onPlanet);
 	~Colony() = default;
 

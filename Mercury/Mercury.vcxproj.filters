@@ -63,6 +63,9 @@
     <ClCompile Include="Colony.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ColoniesWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Mercury.h">
@@ -77,6 +80,9 @@
     <QtMoc Include="Engine.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="ColoniesWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Mercury.ui">
@@ -86,6 +92,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="GameWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ColoniesWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

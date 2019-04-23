@@ -1,9 +1,13 @@
 #include "GameWindow.h"
 
-GameWindow::GameWindow(QWidget * main = nullptr)
-	:QWidget(main)
+GameWindow::GameWindow(std::vector<Colony> & cls, QWidget * main = nullptr)
+	:QWidget(main), colsWindow(cls)
 {
 	ui.setupUi(this);
+
+	QPushButton * clsButton = this->findChild<QPushButton*>("colonyButton");
+
+	QObject::connect(clsButton, &QPushButton::clicked, &colsWindow, &ColoniesWindow::show);
 }
 
 GameWindow::~GameWindow()
