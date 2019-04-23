@@ -5,6 +5,7 @@
 #include <QtWidgets/qfiledialog.h>
 #include <memory>
 #include <qdebug.h>
+
 #include "Engine.h"
 #include "ui_Mercury.h"
 #include "StartNewGameWindow.h"
@@ -27,5 +28,4 @@ private:
 	StartNewGameWindow newGameWindow;
 	Ui::MercuryClass ui;
 	std::unique_ptr<Engine> game;
-
 };

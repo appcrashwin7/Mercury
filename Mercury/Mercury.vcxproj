@@ -114,6 +114,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CelestialBody.cpp" />
+    <ClCompile Include="Colony.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
@@ -152,6 +153,7 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;E:\cpplibs\sol2</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
     </QtMoc>
+    <ClInclude Include="Colony.h" />
     <ClInclude Include="Orbit.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="PlanetarySystem.h" />
