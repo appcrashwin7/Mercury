@@ -24,7 +24,8 @@ public:
 		Commd.push_back(Product("Jewerly", 4.5f, ProductType::Material));
 		Commd.push_back(Product("Low-enriched uranium", 18.0f, ProductType::Radioactive));
 		Commd.push_back(Product("Kerosine-LOX", 1.0f, ProductType::Material));
-
+		Commd.push_back(Product("Food", 1.5f, ProductType::Organic));
+		Commd.push_back(Product("Medicine", 1.5f, ProductType::Resource));
 	}
 	Commodities(const Commodities & other) = delete;
 	~Commodities() = default;
