@@ -6,12 +6,20 @@
 
 #include "Colony.h"
 
+enum class TabT
+{
+	Summary,
+	Industry,
+	Mining,
+	Stockpile
+};
 
 class ColoniesWindow : public QWidget
 {
 	Q_OBJECT
 
 
+	TabT selectedTab;
 	int selectedColony;
 public:
 	ColoniesWindow() = delete;
@@ -20,8 +28,11 @@ public:
 
 public slots:
 	void resetData();
+	void setSelectedColony(QTreeWidgetItem * item, int column);
 
 private:
 	Ui::ColonyWidget ui;
 	std::vector<Colony> & colonies;
+
+	QTreeWidget * getColoniesTree();
 };
