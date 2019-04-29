@@ -2,7 +2,9 @@
 
 #include <vector>
 #include <QtWidgets/qwidget.h>
+
 #include "ui_ColoniesWindow.h"
+#include "ui_StockpileWindow.h"
 
 #include "Colony.h"
 
@@ -11,7 +13,8 @@ enum class TabT
 	Summary,
 	Industry,
 	Mining,
-	Stockpile
+	Stockpile,
+	Economy
 };
 
 class ColoniesWindow : public QWidget
@@ -32,7 +35,10 @@ public slots:
 
 private:
 	Ui::ColonyWidget ui;
+	Ui::StockWindow uiStock;
 	std::vector<Colony> & colonies;
 
 	QTreeWidget * getColoniesTree();
+	QPushButton * getButton(const std::string & name);
+	QWidget * getContent();
 };
