@@ -8,6 +8,7 @@ GameWindow::GameWindow(std::vector<Colony> & cls, QWidget * main = nullptr)
 	QPushButton * clsButton = this->findChild<QPushButton*>("colonyButton");
 
 	QObject::connect(clsButton, &QPushButton::clicked, &colsWindow, &ColoniesWindow::show);
+	QObject::connect(clsButton, &QPushButton::clicked, &colsWindow, &ColoniesWindow::resetData);
 }
 
 GameWindow::~GameWindow()

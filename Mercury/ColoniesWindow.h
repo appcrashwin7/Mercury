@@ -12,11 +12,14 @@ class ColoniesWindow : public QWidget
 	Q_OBJECT
 
 
-	
+	int selectedColony;
 public:
 	ColoniesWindow() = delete;
 	ColoniesWindow(std::vector<Colony> & cl);
 	~ColoniesWindow() = default;
+
+public slots:
+	void resetData();
 
 private:
 	Ui::ColonyWidget ui;

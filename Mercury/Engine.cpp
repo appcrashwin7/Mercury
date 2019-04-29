@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 Engine::Engine(QWidget * mainWindow, QString gameName)
-	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[4]))) }),
+	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[3]))) }),
 	window(Colonies, mainWindow)
 {
 	window.show();

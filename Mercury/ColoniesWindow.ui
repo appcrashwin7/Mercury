@@ -76,7 +76,7 @@
      </property>
      <column>
       <property name="text">
-       <string>Colonized Systems</string>
+       <string>Colonies</string>
       </property>
      </column>
     </widget>

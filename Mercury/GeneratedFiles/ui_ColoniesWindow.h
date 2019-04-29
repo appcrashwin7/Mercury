@@ -111,7 +111,7 @@ public:
         economy->setText(QApplication::translate("ColonyWidget", "Economy", Q_NULLPTR));
         stock->setText(QApplication::translate("ColonyWidget", "Stockpiles", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem = coloniesTree->headerItem();
-        ___qtreewidgetitem->setText(0, QApplication::translate("ColonyWidget", "Colonized Systems", Q_NULLPTR));
+        ___qtreewidgetitem->setText(0, QApplication::translate("ColonyWidget", "Colonies", Q_NULLPTR));
     } // retranslateUi
 
 };

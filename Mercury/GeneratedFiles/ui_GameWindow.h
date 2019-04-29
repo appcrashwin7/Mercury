@@ -166,6 +166,7 @@ public:
         gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
         gridLayout->setContentsMargins(5, 5, 5, 5);
         systemObjTree = new QTreeWidget(GameWindow);
+        systemObjTree->headerItem()->setText(0, QString());
         systemObjTree->setObjectName(QStringLiteral("systemObjTree"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
