@@ -134,6 +134,7 @@
     <QtUic Include="GameWindow.ui" />
     <QtUic Include="Mercury.ui" />
     <QtUic Include="NewGameWindow.ui" />
+    <QtUic Include="StockpileWindow.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Mercury.qrc" />

@@ -31,9 +31,9 @@ public:
     QPushButton *industry;
     QPushButton *mining;
     QPushButton *economy;
-    QPushButton *pushButton;
+    QPushButton *stock;
     QWidget *content;
-    QTreeWidget *treeWidget;
+    QTreeWidget *coloniesTree;
 
     void setupUi(QWidget *ColonyWidget)
     {
@@ -68,10 +68,10 @@ public:
 
         horizontalLayout->addWidget(economy);
 
-        pushButton = new QPushButton(ColonyWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        stock = new QPushButton(ColonyWidget);
+        stock->setObjectName(QStringLiteral("stock"));
 
-        horizontalLayout->addWidget(pushButton);
+        horizontalLayout->addWidget(stock);
 
 
         gridLayout->addLayout(horizontalLayout, 0, 1, 1, 1);
@@ -86,15 +86,15 @@ public:
 
         gridLayout->addWidget(content, 1, 1, 1, 1);
 
-        treeWidget = new QTreeWidget(ColonyWidget);
-        treeWidget->setObjectName(QStringLiteral("treeWidget"));
+        coloniesTree = new QTreeWidget(ColonyWidget);
+        coloniesTree->setObjectName(QStringLiteral("coloniesTree"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(treeWidget->sizePolicy().hasHeightForWidth());
-        treeWidget->setSizePolicy(sizePolicy1);
+        sizePolicy1.setHeightForWidth(coloniesTree->sizePolicy().hasHeightForWidth());
+        coloniesTree->setSizePolicy(sizePolicy1);
 
-        gridLayout->addWidget(treeWidget, 0, 0, 2, 1);
+        gridLayout->addWidget(coloniesTree, 0, 0, 2, 1);
 
 
         retranslateUi(ColonyWidget);
@@ -109,8 +109,8 @@ public:
         industry->setText(QApplication::translate("ColonyWidget", "Industry", Q_NULLPTR));
         mining->setText(QApplication::translate("ColonyWidget", "Mining", Q_NULLPTR));
         economy->setText(QApplication::translate("ColonyWidget", "Economy", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("ColonyWidget", "PushButton", Q_NULLPTR));
-        QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
+        stock->setText(QApplication::translate("ColonyWidget", "Stockpiles", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem = coloniesTree->headerItem();
         ___qtreewidgetitem->setText(0, QApplication::translate("ColonyWidget", "Colonized Systems", Q_NULLPTR));
     } // retranslateUi
 

@@ -4,6 +4,9 @@
 
 #include "Product.h"
 
+typedef std::pair<Product, uint64_t> StockUnit;
+typedef std::vector<StockUnit> StockT;
+
 class Commodities
 {
 	std::vector<Product> Commd;
