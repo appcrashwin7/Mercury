@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 
 //Amount, accessibly
 typedef std::pair<uint64_t, float> Deposit;
@@ -100,6 +101,11 @@ public:
 	static const std::vector<unsigned int> getLightElementsIds()
 	{
 		return std::vector<unsigned int>({ 1, 2, 11, 14, 15, 16, 17, 18 });
+	}
+	static const std::vector<std::string> getResourcesNames()
+	{
+		return std::vector<std::string>({ "Water", "Frozen water","Aluminium","Copper","Gold","Iron","Titanium"
+			,"Lead","Silver","Zinc","Carbon","Thorium","Uranium","Lithium","Helium","Sulfur","Silicon","Nitrogen" });
 	}
 
 	const std::vector<Deposit> & getRes() const

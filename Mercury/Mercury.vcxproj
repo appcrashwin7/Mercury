@@ -133,6 +133,7 @@
     <QtUic Include="ColoniesWindow.ui" />
     <QtUic Include="GameWindow.ui" />
     <QtUic Include="Mercury.ui" />
+    <QtUic Include="MiningWindow.ui" />
     <QtUic Include="NewGameWindow.ui" />
     <QtUic Include="StockpileWindow.ui" />
   </ItemGroup>

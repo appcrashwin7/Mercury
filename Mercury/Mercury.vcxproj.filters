@@ -100,6 +100,9 @@
     <QtUic Include="StockpileWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="MiningWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Mercury.qrc">

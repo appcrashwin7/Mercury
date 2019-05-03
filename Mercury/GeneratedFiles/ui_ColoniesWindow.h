@@ -18,6 +18,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTreeWidget>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -32,8 +33,8 @@ public:
     QPushButton *mining;
     QPushButton *economy;
     QPushButton *stock;
-    QWidget *content;
     QTreeWidget *coloniesTree;
+    QVBoxLayout *contentLayout;
 
     void setupUi(QWidget *ColonyWidget)
     {
@@ -76,25 +77,21 @@ public:
 
         gridLayout->addLayout(horizontalLayout, 0, 1, 1, 1);
 
-        content = new QWidget(ColonyWidget);
-        content->setObjectName(QStringLiteral("content"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(content->sizePolicy().hasHeightForWidth());
-        content->setSizePolicy(sizePolicy);
-
-        gridLayout->addWidget(content, 1, 1, 1, 1);
-
         coloniesTree = new QTreeWidget(ColonyWidget);
         coloniesTree->setObjectName(QStringLiteral("coloniesTree"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Minimum);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(coloniesTree->sizePolicy().hasHeightForWidth());
-        coloniesTree->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(coloniesTree->sizePolicy().hasHeightForWidth());
+        coloniesTree->setSizePolicy(sizePolicy);
 
         gridLayout->addWidget(coloniesTree, 0, 0, 2, 1);
+
+        contentLayout = new QVBoxLayout();
+        contentLayout->setSpacing(6);
+        contentLayout->setObjectName(QStringLiteral("contentLayout"));
+
+        gridLayout->addLayout(contentLayout, 1, 1, 1, 1);
 
 
         retranslateUi(ColonyWidget);

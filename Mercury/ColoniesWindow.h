@@ -5,11 +5,13 @@
 
 #include "ui_ColoniesWindow.h"
 #include "ui_StockpileWindow.h"
+#include "ui_MiningWindow.h"
 
 #include "Colony.h"
 
 enum class TabT
 {
+	Undefined,
 	Summary,
 	Industry,
 	Mining,
@@ -23,7 +25,12 @@ class ColoniesWindow : public QWidget
 
 
 	TabT selectedTab;
+	TabT previousTab;
+
 	int selectedColony;
+
+	QWidget stock;
+	QWidget mining;
 public:
 	ColoniesWindow() = delete;
 	ColoniesWindow(std::vector<Colony> & cl);
@@ -36,9 +43,8 @@ public slots:
 private:
 	Ui::ColonyWidget ui;
 	Ui::StockWindow uiStock;
+	Ui::MiningWindow uiMining;
+
 	std::vector<Colony> & colonies;
 
-	QTreeWidget * getColoniesTree();
-	QPushButton * getButton(const std::string & name);
-	QWidget * getContent();
 };

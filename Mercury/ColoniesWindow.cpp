@@ -1,16 +1,19 @@
 #include "ColoniesWindow.h"
 
 ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
-	:QWidget(nullptr), colonies(cl), selectedColony(-1)
+	:QWidget(nullptr), colonies(cl), selectedColony(-1), previousTab(TabT::Undefined), selectedTab(TabT::Undefined)
 {
 	ui.setupUi(this);
 
-	QObject::connect(getColoniesTree(), &QTreeWidget::itemClicked, this, &ColoniesWindow::setSelectedColony);
-	QObject::connect(getButton("summary"), &QPushButton::clicked, [=] {this->selectedTab = TabT::Summary; resetData(); });
-	QObject::connect(getButton("industry"), &QPushButton::clicked, [=] {this->selectedTab = TabT::Industry; resetData(); });
-	QObject::connect(getButton("mining"), &QPushButton::clicked, [=] {this->selectedTab = TabT::Mining; resetData(); });
-	QObject::connect(getButton("stock"), &QPushButton::clicked, [=] {this->selectedTab = TabT::Stockpile; resetData(); });
-	QObject::connect(getButton("economy"), &QPushButton::clicked, [=] {this->selectedTab = TabT::Economy; resetData(); });
+	QObject::connect(ui.coloniesTree, &QTreeWidget::itemClicked, this, &ColoniesWindow::setSelectedColony);
+	QObject::connect(ui.summary, &QPushButton::clicked, [=] {this->selectedTab = TabT::Summary; resetData(); });
+	QObject::connect(ui.industry, &QPushButton::clicked, [=] {this->selectedTab = TabT::Industry; resetData(); });
+	QObject::connect(ui.mining, &QPushButton::clicked, [=] {this->selectedTab = TabT::Mining; resetData(); });
+	QObject::connect(ui.stock, &QPushButton::clicked, [=] {this->selectedTab = TabT::Stockpile; resetData(); });
+	QObject::connect(ui.economy, &QPushButton::clicked, [=] {this->selectedTab = TabT::Economy; resetData(); });
+
+	uiMining.setupUi(&mining);
+	uiStock.setupUi(&stock);
 }
 
 void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
@@ -24,34 +27,43 @@ void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
 	}
 }
 
-QTreeWidget * ColoniesWindow::getColoniesTree()
-{
-	return this->findChild<QTreeWidget*>("coloniesTree");
-}
-
-QPushButton * ColoniesWindow::getButton(const std::string & name)
-{
-	return this->findChild<QPushButton*>(QString::fromStdString(name));
-}
-
-QWidget * ColoniesWindow::getContent()
-{
-	return this->findChild<QWidget*>("content");
-}
-
 void ColoniesWindow::resetData()
 {
-	if (getColoniesTree() != nullptr)
+	auto tabManagment = [&]
 	{
-		getColoniesTree()->clear();
+		switch (previousTab)
+		{
+		case TabT::Summary:
+			break;
+		case TabT::Industry:
+			break;
+		case TabT::Mining:
+			ui.contentLayout->removeWidget(&mining);
+			mining.close();
+			break;
+		case TabT::Stockpile:
+			ui.contentLayout->removeWidget(&stock);
+			stock.close();
+			break;
+		case TabT::Economy:
+			break;
+		}
+		previousTab = selectedTab;
+	};
+
+	if (ui.coloniesTree != nullptr)
+	{
+		ui.coloniesTree->clear();
 		for (const auto & col : colonies)
 		{
-			getColoniesTree()->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(col.getPlanet().name))));
+			ui.coloniesTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(col.getPlanet().name))));
 		}
 		if (selectedTab == TabT::Stockpile && selectedColony != -1)
 		{
-			uiStock.setupUi(getContent());
-			QTableWidget * stockTable = getContent()->findChild<QTableWidget*>("StockTable");
+			tabManagment();
+			ui.contentLayout->addWidget(&stock);
+			stock.show();
+			QTableWidget * stockTable = stock.findChild<QTableWidget*>("StockTable");
 			stockTable->clearContents();
 			stockTable->setRowCount(0);
 
@@ -60,6 +72,26 @@ void ColoniesWindow::resetData()
 				stockTable->insertRow(stockTable->rowCount());
 				stockTable->setItem(stockTable->rowCount() - 1, stockTable->columnCount() - 2, new QTableWidgetItem(QString::fromStdString(stock.first.getName())));
 				stockTable->setItem(stockTable->rowCount() - 1, stockTable->columnCount() - 1, new QTableWidgetItem(QString::number(stock.second)));
+			}
+		}
+		if (selectedTab == TabT::Mining && selectedColony != -1)
+		{
+			tabManagment();
+			ui.contentLayout->addWidget(&mining);
+			mining.show();
+			QTableWidget * miningTable = mining.findChild<QTableWidget*>("miningInfo");
+			miningTable->clearContents();
+			miningTable->setRowCount(0);
+
+			auto resNames = ResourceDeposit::getResourcesNames();
+			auto & depo = colonies[selectedColony].getPlanet().accessResources();
+
+			for (size_t i = 0; i < depo.getRes().size(); i++)
+			{
+				miningTable->insertRow(miningTable->rowCount());
+				miningTable->setItem(miningTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(resNames[i])));
+				miningTable->setItem(miningTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(depo.accessDeposit(i).first)));
+				miningTable->setItem(miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(depo.accessDeposit(i).second)));
 			}
 		}
 	}
