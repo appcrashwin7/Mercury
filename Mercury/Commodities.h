@@ -6,6 +6,7 @@
 
 typedef std::pair<Product, uint64_t> StockUnit;
 typedef std::vector<StockUnit> StockT;
+typedef std::vector<uint64_t> QuantityT;
 
 class Commodities
 {
