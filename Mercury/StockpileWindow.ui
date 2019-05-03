@@ -104,6 +104,22 @@
        <set>AlignCenter</set>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Weekly Production</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Weekly Usage</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignCenter</set>
+      </property>
+     </column>
     </widget>
    </item>
   </layout>

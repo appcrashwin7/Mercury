@@ -34,8 +34,8 @@ public:
         verticalLayout = new QVBoxLayout(StockWindow);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         StockTable = new QTableWidget(StockWindow);
-        if (StockTable->columnCount() < 2)
-            StockTable->setColumnCount(2);
+        if (StockTable->columnCount() < 4)
+            StockTable->setColumnCount(4);
         QBrush brush(QColor(0, 0, 0, 255));
         brush.setStyle(Qt::SolidPattern);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
@@ -45,6 +45,12 @@ public:
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         __qtablewidgetitem1->setTextAlignment(Qt::AlignCenter);
         StockTable->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        __qtablewidgetitem2->setTextAlignment(Qt::AlignCenter);
+        StockTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        __qtablewidgetitem3->setTextAlignment(Qt::AlignCenter);
+        StockTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         StockTable->setObjectName(QStringLiteral("StockTable"));
         StockTable->setMaximumSize(QSize(16777215, 16777215));
         StockTable->setLayoutDirection(Qt::LeftToRight);
@@ -82,6 +88,10 @@ public:
         ___qtablewidgetitem->setText(QApplication::translate("StockWindow", "Name", Q_NULLPTR));
         QTableWidgetItem *___qtablewidgetitem1 = StockTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("StockWindow", "Quanity", Q_NULLPTR));
+        QTableWidgetItem *___qtablewidgetitem2 = StockTable->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QApplication::translate("StockWindow", "Weekly Production", Q_NULLPTR));
+        QTableWidgetItem *___qtablewidgetitem3 = StockTable->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QApplication::translate("StockWindow", "Weekly Usage", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -24,7 +24,7 @@ class Ui_MiningWindow
 {
 public:
     QVBoxLayout *verticalLayout;
-    QTableWidget *miningInfo;
+    QTableWidget *miningTable;
 
     void setupUi(QWidget *MiningWindow)
     {
@@ -33,30 +33,30 @@ public:
         MiningWindow->resize(621, 527);
         verticalLayout = new QVBoxLayout(MiningWindow);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        miningInfo = new QTableWidget(MiningWindow);
-        if (miningInfo->columnCount() < 6)
-            miningInfo->setColumnCount(6);
+        miningTable = new QTableWidget(MiningWindow);
+        if (miningTable->columnCount() < 6)
+            miningTable->setColumnCount(6);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        miningInfo->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        miningTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        miningInfo->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        miningTable->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        miningInfo->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        miningTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        miningInfo->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        miningTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
-        miningInfo->setHorizontalHeaderItem(4, __qtablewidgetitem4);
+        miningTable->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
-        miningInfo->setHorizontalHeaderItem(5, __qtablewidgetitem5);
-        miningInfo->setObjectName(QStringLiteral("miningInfo"));
-        miningInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        miningInfo->horizontalHeader()->setVisible(true);
-        miningInfo->horizontalHeader()->setHighlightSections(true);
-        miningInfo->horizontalHeader()->setStretchLastSection(true);
-        miningInfo->verticalHeader()->setVisible(false);
-        miningInfo->verticalHeader()->setStretchLastSection(false);
+        miningTable->setHorizontalHeaderItem(5, __qtablewidgetitem5);
+        miningTable->setObjectName(QStringLiteral("miningTable"));
+        miningTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        miningTable->horizontalHeader()->setVisible(true);
+        miningTable->horizontalHeader()->setHighlightSections(false);
+        miningTable->horizontalHeader()->setStretchLastSection(true);
+        miningTable->verticalHeader()->setVisible(false);
+        miningTable->verticalHeader()->setStretchLastSection(false);
 
-        verticalLayout->addWidget(miningInfo);
+        verticalLayout->addWidget(miningTable);
 
 
         retranslateUi(MiningWindow);
@@ -67,17 +67,17 @@ public:
     void retranslateUi(QWidget *MiningWindow)
     {
         MiningWindow->setWindowTitle(QApplication::translate("MiningWindow", "Form", Q_NULLPTR));
-        QTableWidgetItem *___qtablewidgetitem = miningInfo->horizontalHeaderItem(0);
+        QTableWidgetItem *___qtablewidgetitem = miningTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MiningWindow", "Resource", Q_NULLPTR));
-        QTableWidgetItem *___qtablewidgetitem1 = miningInfo->horizontalHeaderItem(1);
+        QTableWidgetItem *___qtablewidgetitem1 = miningTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("MiningWindow", "Deposit Size", Q_NULLPTR));
-        QTableWidgetItem *___qtablewidgetitem2 = miningInfo->horizontalHeaderItem(2);
+        QTableWidgetItem *___qtablewidgetitem2 = miningTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("MiningWindow", "Accessibility", Q_NULLPTR));
-        QTableWidgetItem *___qtablewidgetitem3 = miningInfo->horizontalHeaderItem(3);
+        QTableWidgetItem *___qtablewidgetitem3 = miningTable->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("MiningWindow", "Stock", Q_NULLPTR));
-        QTableWidgetItem *___qtablewidgetitem4 = miningInfo->horizontalHeaderItem(4);
+        QTableWidgetItem *___qtablewidgetitem4 = miningTable->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QApplication::translate("MiningWindow", "Weekly Yield", Q_NULLPTR));
-        QTableWidgetItem *___qtablewidgetitem5 = miningInfo->horizontalHeaderItem(5);
+        QTableWidgetItem *___qtablewidgetitem5 = miningTable->horizontalHeaderItem(5);
         ___qtablewidgetitem5->setText(QApplication::translate("MiningWindow", "Weekly Usage", Q_NULLPTR));
     } // retranslateUi
 
