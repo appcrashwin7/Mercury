@@ -11,8 +11,8 @@ class Colony
 
 public:
 	Colony() = delete;
-	Colony(const Colony & other, const QuantityT & commQuantity = QuantityT(), const QuantityT & resQuantity = QuantityT());
-	Colony(Planet & onPlanet, const QuantityT & commQuantity = QuantityT(), const QuantityT & resQuantity = QuantityT());
+	Colony(const Colony & other, const QuantityT & commQuantity = QuantityT(), const QuantityT & resQuantity = QuantityT(18));
+	Colony(Planet & onPlanet, const QuantityT & commQuantity = QuantityT(), const QuantityT & resQuantity = QuantityT(18));
 	~Colony() = default;
 
 	const Planet & getPlanet() const;

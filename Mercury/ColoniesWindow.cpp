@@ -84,14 +84,17 @@ void ColoniesWindow::resetData()
 			uiMining.miningTable->setRowCount(0);
 
 			auto resNames = ResourceDeposit::getResourcesNames();
-			auto & depo = colonies[selectedColony].getPlanet().accessResources();
+			auto & res = colonies[selectedColony].getPlanet().accessResources();
+			const auto & stockRes = colonies[selectedColony].getResourcesStockpile();
 
-			for (size_t i = 0; i < depo.getRes().size(); i++)
+			for (size_t i = 0; i < res.getRes().size(); i++)
 			{
 				uiMining.miningTable->insertRow(uiMining.miningTable->rowCount());
 				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(resNames[i])));
-				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(depo.accessDeposit(i).first)));
-				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(depo.accessDeposit(i).second)));
+				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(res.accessDeposit(i).first)));
+				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(res.accessDeposit(i).second)));
+
+				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(stockRes[i])));
 			}
 		}
 	}
