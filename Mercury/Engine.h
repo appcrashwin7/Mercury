@@ -13,7 +13,6 @@ public:
 	Engine(QWidget * mainWindow, QString gameName);
 	~Engine();
 
-	int engineLoop();
 private:
 	GameWindow window;
 	QDateTime gameTime;

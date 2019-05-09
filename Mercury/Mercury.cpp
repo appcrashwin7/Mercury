@@ -37,7 +37,6 @@ void Mercury::playGame()
 	this->setVisible(false);
 	std::unique_ptr<Engine> ptr(new Engine(nullptr, ""));
 	game.swap(ptr);
-	game->engineLoop();
 }
 
 void Mercury::closeEvent(QCloseEvent * event)

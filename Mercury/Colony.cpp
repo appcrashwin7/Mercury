@@ -53,7 +53,7 @@ void Colony::constructStockpile(const std::vector<uint64_t>& units)
 void Colony::defaultStockpile()
 {
 	Commodities comms;
-	for (auto prd : comms.get())
+	for (const auto & prd : comms.get())
 	{
 		Stock.push_back(StockUnit(prd, 0));
 	}

@@ -15,7 +15,7 @@ class Mercury : public QMainWindow
 	Q_OBJECT
 
 public:
-	Mercury(QWidget *parent = Q_NULLPTR);
+	Mercury(QWidget * parent = nullptr);
 
 	void closeEvent(QCloseEvent * event);
 private slots:

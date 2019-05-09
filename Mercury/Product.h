@@ -25,7 +25,7 @@ public:
 	Product(const Product & other)
 		:name(other.name), massPerUnit(other.massPerUnit), type(other.type)
 	{}
-	Product(std::string pname, float mass, ProductType t)
+	Product(const std::string & pname, float mass, ProductType t)
 		:name(pname), massPerUnit(mass), type(t)
 	{}
 	~Product() = default;

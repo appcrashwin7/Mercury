@@ -10,11 +10,12 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 
 	QPushButton * iTime1h = this->window.findChild<QPushButton*>("iTime1h");
 	QPushButton * iTime6h = this->window.findChild<QPushButton*>("iTime6h");
+
+
 	QObject::connect(iTime1h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_1); });
 	QObject::connect(iTime6h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_6); });
 
 	
-
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
 	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
 	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
@@ -33,27 +34,20 @@ Engine::~Engine()
 
 }
 
-int Engine::engineLoop()
-{
-	while (false)
-	{
-
-	}
-	return 0;
-}
-
 void Engine::changeTime(TimeChange change)
 {
+	const qint64 hour = 3600;
+
 	switch (change)
 	{
 	case TimeChange::hour_1:
-		this->gameTime = this->gameTime.addSecs(3600);
+		this->gameTime = this->gameTime.addSecs(hour);
 		break;
 	case TimeChange::hour_6:
-		this->gameTime = this->gameTime.addSecs(3600 * 6);
+		this->gameTime = this->gameTime.addSecs(hour * 6);
 		break;
 	case TimeChange::hour_12:
-		this->gameTime = this->gameTime.addSecs(3600 * 12);
+		this->gameTime = this->gameTime.addSecs(hour * 12);
 		break;
 	case TimeChange::hour_24:
 		this->gameTime = this->gameTime.addDays(1);
