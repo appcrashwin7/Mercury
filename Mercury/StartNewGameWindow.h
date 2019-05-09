@@ -9,8 +9,12 @@ class StartNewGameWindow : public QWidget
 
 
 public:
-	StartNewGameWindow(QWidget * parent);
-	~StartNewGameWindow();
+	StartNewGameWindow()
+		:QWidget(nullptr)
+	{
+		ui.setupUi(this);
+	}
+	~StartNewGameWindow() = default;
 
 private:
 	Ui::NewGameWindow ui;

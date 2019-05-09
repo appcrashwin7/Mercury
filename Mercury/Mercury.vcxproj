@@ -125,7 +125,6 @@
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="PlanetarySystem.cpp" />
     <ClCompile Include="Star.cpp" />
-    <ClCompile Include="StartNewGameWindow.cpp" />
     <ClCompile Include="Universe.cpp" />
   </ItemGroup>
   <ItemGroup>

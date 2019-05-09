@@ -1,7 +1,7 @@
 #include "Mercury.h"
 
 Mercury::Mercury(QWidget *parent)
-	: QMainWindow(parent), newGameWindow(nullptr)
+	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 	QObject::connect(ui.exitButton, &QPushButton::clicked, this, &Mercury::close);
