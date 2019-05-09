@@ -7,28 +7,10 @@
 typedef std::pair<uint64_t, float> Deposit;
 typedef std::pair<uint64_t, uint64_t> ResQuantity;
 
-/*
-Resources
-1.Water
-2.Frozen water
-3.Aluminium
-4.Copper
-5.Gold
-6.Iron
-7.Titanium
-8.Lead
-9.Silver
-10.Zinc
-11.Carbon
-12.Thorium
-13.Uranium
-14.Lithium
-15.Helium
-16.Sulfur
-17.Silicon
-18.Nitrogen
-//In tons
-*/
+
+static constexpr size_t RESOURCES_LIST_SIZE = 18;
+
+
 class ResourceDeposit
 {
 	std::vector<Deposit> Res;
@@ -36,7 +18,7 @@ class ResourceDeposit
 public:
 	ResourceDeposit()
 	{
-		Res.resize(18);
+		Res.resize(RESOURCES_LIST_SIZE);
 	}
 	ResourceDeposit(const ResourceDeposit & other)
 		:Res(other.Res)
@@ -47,7 +29,7 @@ public:
 	std::vector<uint64_t> SubstrAll(uint64_t amount)
 	{
 		std::vector<uint64_t> ret;
-		ret.resize(18);
+		ret.resize(RESOURCES_LIST_SIZE);
 		for (size_t i = 0; i < Res.size(); i++)
 		{
 			if (Res[i].first > 0)
@@ -107,6 +89,11 @@ public:
 	{
 		return std::vector<std::string>({ "Water", "Frozen water","Aluminium","Copper","Gold","Iron","Titanium"
 			,"Lead","Silver","Zinc","Carbon","Thorium","Uranium","Lithium","Helium","Sulfur","Silicon","Nitrogen" });
+	}
+	static constexpr std::array<float, RESOURCES_LIST_SIZE> getResourcesDensity()
+	{
+		return std::array<float, RESOURCES_LIST_SIZE>({ 1.0f, 1.0f, 3.0f, 9.0f, 19.0f, 8.0f, 4.5f,
+			11.0f, 7.0f, 2.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f });
 	}
 
 	const std::vector<Deposit> & getRes() const
