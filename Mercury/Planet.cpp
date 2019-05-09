@@ -33,12 +33,12 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 		const double maxRes = this->mass * 0.001 * 0.001;
 
 		const double radiusPow = pow(radius, 3);
-		const double vol = 1.333 * Calc::piF * radiusPow;
+		const double vol = 1.333 * PI_F * radiusPow;
 		const double density = mass / vol;
 		
 		for (size_t i = 0; i < custom.getRes().size(); i++)
 		{
-			custom.editDeposit(i).first = maxRes;
+			custom.editDeposit(i).first = static_cast<uint64_t>(maxRes);
 			custom.editDeposit(i).second = 1.0f;
 		}
 	}

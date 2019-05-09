@@ -28,6 +28,11 @@ void Universe::addSystem(PlanetarySystem & newSystem)
 	Systems.push_back(newSystem);
 }
 
+void Universe::addSystem(PlanetarySystem && newSystem)
+{
+	Systems.push_back(newSystem);
+}
+
 const std::vector<PlanetarySystem>& Universe::getSystems() const
 {
 	return Systems;

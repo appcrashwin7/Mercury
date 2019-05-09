@@ -3,29 +3,33 @@
 #include <cmath>
 #include <cstdint>
 
-namespace Calc
+static const float GRAVITY_CONSTANT = 6.67f * static_cast<float>(pow(10, -11));
+static const float PI_F = static_cast<float>(atan(1)) * 4.0f;
+
+class Calc
 {
-	static const float gravityConstant = 6.67f * pow(10, -11);
-	static const float piF = atan(1) * 4;
+public:
+	Calc() = default;
+	~Calc() = default;
 
 	static float getEscapeVelocity(double mass, double radius)
 	{
-		double v = gravityConstant * mass;
+		double v = GRAVITY_CONSTANT * mass;
 		v /= radius;
-		return std::round(sqrt(v));
+		return static_cast<float>(std::round(sqrt(v)));
 	}
 
 	static float getGravity(double mass, double radius)
 	{
-		double up = mass * gravityConstant;
+		double up = mass * GRAVITY_CONSTANT;
 		double down = radius * radius;
 
-		return std::round(up / down);
+		return static_cast<float>(std::round(up / down));
 	}
 	static float getEccentric(double apoapsis, double periapsis)
 	{
 		double minor_axis = (apoapsis + periapsis) / 2.0;
 		double rel = (minor_axis * minor_axis) / (apoapsis * apoapsis);
-		return sqrt(1.0 - rel);
+		return static_cast<float>(sqrt(1.0 - rel));
 	}
 };

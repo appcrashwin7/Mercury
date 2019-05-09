@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma warning(disable: 4146)
+
 #include <vector>
 #include <array>
 
@@ -28,8 +30,7 @@ public:
 
 	std::vector<uint64_t> SubstrAll(uint64_t amount)
 	{
-		std::vector<uint64_t> ret;
-		ret.resize(RESOURCES_LIST_SIZE);
+		std::vector<uint64_t> ret(RESOURCES_LIST_SIZE, {});
 		for (size_t i = 0; i < Res.size(); i++)
 		{
 			if (Res[i].first > 0)
@@ -37,12 +38,12 @@ public:
 				if (amount > Res[i].first)
 				{
 					Res[i].first = 0;
-					ret[i] = (Res[i].first + (Res[i].first * Res[i].second));
+					ret[i] = (Res[i].first);
 				}
 				else
 				{
 					Res[i].first =- amount;
-					ret[i] = (amount + (amount * Res[i].second));
+					ret[i] = amount;
 				}
 			}
 		}

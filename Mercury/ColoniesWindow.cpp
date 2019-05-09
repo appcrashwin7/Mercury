@@ -67,11 +67,11 @@ void ColoniesWindow::resetData()
 			uiStock.StockTable->clearContents();
 			uiStock.StockTable->setRowCount(0);
 
-			for (const auto stock : colonies[selectedColony].getStockpile())
+			for (const auto stockUnit : colonies[selectedColony].getStockpile())
 			{
 				uiStock.StockTable->insertRow(uiStock.StockTable->rowCount());
-				uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(stock.first.getName())));
-				uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stock.second)));
+				uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(stockUnit.first.getName())));
+				uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockUnit.second)));
 			}
 		}
 		if (selectedTab == TabT::Mining && selectedColony != -1)

@@ -5,11 +5,11 @@
 class Star : public CelestialBody
 {
 public:
-	Star(double radius, double mass, float luminosity, float metallicity, const std::string name);
-	Star(CelestialBody &body, float luminosity, float metallicity);
+	Star(double radius, double mass, double luminosity, float metallicity, const std::string & name);
+	Star(CelestialBody &body, double luminosity, float metallicity);
 	~Star();
 
-	const float luminosity;
+	const double luminosity;
 	const float metallicity;
 private:
 
