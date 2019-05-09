@@ -5,6 +5,7 @@
 
 //Amount, accessibly
 typedef std::pair<uint64_t, float> Deposit;
+typedef std::pair<uint64_t, uint64_t> ResQuantity;
 
 /*
 Resources

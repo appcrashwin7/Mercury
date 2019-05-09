@@ -163,6 +163,7 @@
     </QtMoc>
     <ClInclude Include="Colony.h" />
     <ClInclude Include="Commodities.h" />
+    <ClInclude Include="IndustryBuilding.h" />
     <ClInclude Include="Orbit.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="PlanetarySystem.h" />

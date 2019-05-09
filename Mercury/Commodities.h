@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Product.h"
+#include "ResourceDeposit.h"
 
 typedef std::pair<Product, uint64_t> StockUnit;
 typedef std::vector<StockUnit> StockT;
@@ -15,12 +16,19 @@ class Commodities
 public:
 	Commodities()
 	{
-		Commd.push_back(Product("Water", 1.0f, ProductType::Resource));
-		Commd.push_back(Product("Heavy water", 1.1f, ProductType::Resource));
+		auto resNames = ResourceDeposit::getResourcesNames();
+		const std::array<float, 18> massPerUnit = { 1.0f, 1.0f, 3.0f, 9.0f, 19.0f, 8.0f, 4.5f, 
+			11.0f, 7.0f, 2.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f };
+
+		for (size_t i = 0; i < resNames.size(); i++)
+		{
+			Commd.push_back(Product(resNames[i], massPerUnit[i], ProductType::Resource));
+		}
+
 		Commd.push_back(Product("Waste", 1.5f, ProductType::Dangerous));
-		Commd.push_back(Product("Steel", 7.8f, ProductType::Material));
+		Commd.push_back(Product("Steel", 8.0f, ProductType::Material));
 		Commd.push_back(Product("Stainless steel", 7.5f, ProductType::Material));
-		Commd.push_back(Product("Duraluminium", 2.7f, ProductType::Material));
+		Commd.push_back(Product("Duraluminium", 3.0f, ProductType::Material));
 		Commd.push_back(Product("Electronics", 2.0f, ProductType::Parts));
 		Commd.push_back(Product("Industrial parts", 4.0f, ProductType::Parts));
 		Commd.push_back(Product("Rocket parts", 3.5f, ProductType::Parts));
@@ -37,5 +45,18 @@ public:
 	const std::vector<Product> & get() const
 	{
 		return Commd;
+	}
+	
+	const Product & operator[](const std::string & name)
+	{
+		auto ret = std::find_if(Commd.begin(), Commd.end(), [&](Product& p)->bool
+		{
+			if (p.getName() == name)
+			{
+				return true;
+			}
+		});
+
+		return ret.operator*();
 	}
 };
