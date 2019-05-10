@@ -34,7 +34,7 @@ public:
 		Commd.emplace_back(Product("High-tech rocket parts", 3.0f, ProductType::Parts));
 		Commd.emplace_back(Product("Jewelry", 4.5f, ProductType::Material));
 		Commd.emplace_back(Product("Low-enriched uranium", 18.0f, ProductType::Radioactive));
-		Commd.emplace_back(Product("Kerosine-LOX", 1.0f, ProductType::Material));
+		Commd.emplace_back(Product("Kerosene-LOX", 1.0f, ProductType::Material));
 		Commd.emplace_back(Product("Food", 1.5f, ProductType::Organic));
 		Commd.emplace_back(Product("Medicine", 1.5f, ProductType::Resource));
 	}
