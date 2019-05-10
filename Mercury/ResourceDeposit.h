@@ -6,8 +6,8 @@
 #include <array>
 
 //Amount, accessibly
-typedef std::pair<uint64_t, float> Deposit;
-typedef std::pair<uint64_t, uint64_t> ResQuantity;
+using Deposit = std::pair<uint64_t, float>;
+using ResQuantity = std::pair<uint64_t, uint64_t>;
 
 
 static constexpr size_t RESOURCES_LIST_SIZE = 18;
@@ -82,16 +82,16 @@ public:
 		return true;
 	}
 
-	static const std::vector<unsigned int> getLightElementsIds()
+	static std::vector<unsigned int> getLightElementsIds()
 	{
 		return std::vector<unsigned int>({ 1, 2, 11, 14, 15, 16, 17, 18 });
 	}
-	static const std::vector<std::string> getResourcesNames()
+	static std::vector<std::string> getResourcesNames()
 	{
 		return std::vector<std::string>({ "Water", "Frozen water","Aluminium","Copper","Gold","Iron","Titanium"
 			,"Lead","Silver","Zinc","Carbon","Thorium","Uranium","Lithium","Helium","Sulfur","Silicon","Nitrogen" });
 	}
-	static constexpr std::array<float, RESOURCES_LIST_SIZE> getResourcesDensity()
+	static std::array<float, RESOURCES_LIST_SIZE> getResourcesDensity()
 	{
 		return std::array<float, RESOURCES_LIST_SIZE>({ 1.0f, 1.0f, 3.0f, 9.0f, 19.0f, 8.0f, 4.5f,
 			11.0f, 7.0f, 2.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f });

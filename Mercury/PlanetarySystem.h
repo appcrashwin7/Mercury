@@ -6,7 +6,7 @@
 class PlanetarySystem
 {
 public:
-	PlanetarySystem(std::string sysName);
+	PlanetarySystem(const std::string & sysName);
 	~PlanetarySystem();
 
 

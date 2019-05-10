@@ -29,11 +29,6 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	}
 }
 
-Engine::~Engine()
-{
-
-}
-
 void Engine::changeTime(TimeChange change)
 {
 	const qint64 hour = 3600;

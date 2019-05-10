@@ -28,7 +28,7 @@ class GameWindow : public QWidget
 public:
 	GameWindow() = delete;
 	GameWindow(std::vector<Colony> & cls, QWidget * main);
-	~GameWindow();
+	~GameWindow() = default;
 	void closeEvent(QCloseEvent * event);
 
 public slots:

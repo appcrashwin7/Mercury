@@ -11,10 +11,6 @@ GameWindow::GameWindow(std::vector<Colony> & cls, QWidget * main = nullptr)
 	QObject::connect(clsButton, &QPushButton::clicked, &colsWindow, &ColoniesWindow::resetData);
 }
 
-GameWindow::~GameWindow()
-{}
-
-
 void GameWindow::closeEvent(QCloseEvent * event)
 {
 	QMessageBox::StandardButton resBtn = QMessageBox::question(this, "Mercury",

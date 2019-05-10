@@ -40,11 +40,11 @@ void Colony::constructStockpile(const std::vector<uint64_t>& units)
 		{
 			if (i < units.size())
 			{
-				Stock.push_back(StockUnit(commd.get()[i], units[i]));
+				Stock.emplace_back(StockUnit(commd.get()[i], units[i]));
 			}
 			else
 			{
-				Stock.push_back(StockUnit(commd.get()[i], 0));
+				Stock.emplace_back(StockUnit(commd.get()[i], 0));
 			}
 		}
 	}

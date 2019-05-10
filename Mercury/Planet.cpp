@@ -1,6 +1,6 @@
 #include "Planet.h"
 
-Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, const std::string name, ResourceDeposit res)
+Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, const std::string & name, ResourceDeposit res)
 	:CelestialBody(radius, mass, CelestialBodyType::Planet, parent, orbit, name),
 	Resources(generateResources(res))
 {
@@ -9,10 +9,6 @@ Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, 
 Planet::Planet(const CelestialBody & body, ResourceDeposit res)
 	:CelestialBody(body, CelestialBodyType::Planet),
 	Resources(generateResources(res))
-{
-}
-
-Planet::~Planet()
 {
 }
 

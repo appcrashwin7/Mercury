@@ -1,6 +1,6 @@
 #include "PlanetarySystem.h"
 
-PlanetarySystem::PlanetarySystem(std::string sysName)
+PlanetarySystem::PlanetarySystem(const std::string & sysName)
 	:name(sysName)
 {
 }

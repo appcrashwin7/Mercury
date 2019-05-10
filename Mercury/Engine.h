@@ -11,7 +11,7 @@ class Engine : public QObject
 	Q_OBJECT
 public:
 	Engine(QWidget * mainWindow, QString gameName);
-	~Engine();
+	~Engine() = default;
 
 private:
 	GameWindow window;

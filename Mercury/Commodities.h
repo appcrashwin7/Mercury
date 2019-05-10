@@ -5,9 +5,9 @@
 #include "Product.h"
 #include "ResourceDeposit.h"
 
-typedef std::pair<Product, uint64_t> StockUnit;
-typedef std::vector<StockUnit> StockT;
-typedef std::vector<uint64_t> QuantityT;
+using StockUnit = std::pair<Product, uint64_t>;
+using QuantityT = std::vector<uint64_t>;
+using StockT = std::vector<StockUnit>;
 
 class Commodities
 {
@@ -21,22 +21,22 @@ public:
 
 		for (size_t i = 0; i < RESOURCES_LIST_SIZE; i++)
 		{
-			Commd.push_back(Product(resNames[i], massPerUnit[i], ProductType::Resource));
+			Commd.emplace_back(Product(resNames[i], massPerUnit[i], ProductType::Resource));
 		}
 
-		Commd.push_back(Product("Waste", 1.5f, ProductType::Dangerous));
-		Commd.push_back(Product("Steel", 8.0f, ProductType::Material));
-		Commd.push_back(Product("Stainless steel", 7.5f, ProductType::Material));
-		Commd.push_back(Product("Duraluminium", 3.0f, ProductType::Material));
-		Commd.push_back(Product("Electronics", 2.0f, ProductType::Parts));
-		Commd.push_back(Product("Industrial parts", 4.0f, ProductType::Parts));
-		Commd.push_back(Product("Rocket parts", 3.5f, ProductType::Parts));
-		Commd.push_back(Product("High-tech rocket parts", 3.0f, ProductType::Parts));
-		Commd.push_back(Product("Jewerly", 4.5f, ProductType::Material));
-		Commd.push_back(Product("Low-enriched uranium", 18.0f, ProductType::Radioactive));
-		Commd.push_back(Product("Kerosine-LOX", 1.0f, ProductType::Material));
-		Commd.push_back(Product("Food", 1.5f, ProductType::Organic));
-		Commd.push_back(Product("Medicine", 1.5f, ProductType::Resource));
+		Commd.emplace_back(Product("Waste", 1.5f, ProductType::Dangerous));
+		Commd.emplace_back(Product("Steel", 8.0f, ProductType::Material));
+		Commd.emplace_back(Product("Stainless steel", 7.5f, ProductType::Material));
+		Commd.emplace_back(Product("Duraluminium", 3.0f, ProductType::Material));
+		Commd.emplace_back(Product("Electronics", 2.0f, ProductType::Parts));
+		Commd.emplace_back(Product("Industrial parts", 4.0f, ProductType::Parts));
+		Commd.emplace_back(Product("Rocket parts", 3.5f, ProductType::Parts));
+		Commd.emplace_back(Product("High-tech rocket parts", 3.0f, ProductType::Parts));
+		Commd.emplace_back(Product("Jewelry", 4.5f, ProductType::Material));
+		Commd.emplace_back(Product("Low-enriched uranium", 18.0f, ProductType::Radioactive));
+		Commd.emplace_back(Product("Kerosine-LOX", 1.0f, ProductType::Material));
+		Commd.emplace_back(Product("Food", 1.5f, ProductType::Organic));
+		Commd.emplace_back(Product("Medicine", 1.5f, ProductType::Resource));
 	}
 	Commodities(const Commodities & other) = delete;
 	~Commodities() = default;
