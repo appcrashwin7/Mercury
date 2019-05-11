@@ -14,6 +14,7 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 
 	uiMining.setupUi(&mining);
 	uiStock.setupUi(&stock);
+	uiSummary.setupUi(&summary);
 }
 
 void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
@@ -34,6 +35,8 @@ void ColoniesWindow::resetData()
 		switch (previousTab)
 		{
 		case TabT::Summary:
+			ui.contentLayout->removeWidget(&summary);
+			summary.close();
 			break;
 		case TabT::Industry:
 			break;
@@ -58,43 +61,52 @@ void ColoniesWindow::resetData()
 		{
 			ui.coloniesTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(col.getPlanet().name))));
 		}
-		if (selectedTab == TabT::Stockpile && selectedColony != -1)
+		if (selectedColony != -1)
 		{
-			tabManagment();
-			ui.contentLayout->addWidget(&stock);
-			stock.show();
-
-			uiStock.StockTable->clearContents();
-			uiStock.StockTable->setRowCount(0);
-
-			for (const auto stockUnit : colonies[selectedColony].getStockpile())
+			if (selectedTab == TabT::Stockpile)
 			{
-				uiStock.StockTable->insertRow(uiStock.StockTable->rowCount());
-				uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(stockUnit.first.getName())));
-				uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockUnit.second)));
+				tabManagment();
+				ui.contentLayout->addWidget(&stock);
+				stock.show();
+
+				uiStock.StockTable->clearContents();
+				uiStock.StockTable->setRowCount(0);
+
+				for (const auto stockUnit : colonies[selectedColony].getStockpile())
+				{
+					uiStock.StockTable->insertRow(uiStock.StockTable->rowCount());
+					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(stockUnit.first.getName())));
+					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockUnit.second)));
+				}
 			}
-		}
-		if (selectedTab == TabT::Mining && selectedColony != -1)
-		{
-			tabManagment();
-			ui.contentLayout->addWidget(&mining);
-			mining.show();
-
-			uiMining.miningTable->clearContents();
-			uiMining.miningTable->setRowCount(0);
-
-			auto resNames = ResourceDeposit::getResourcesNames();
-			auto & res = colonies[selectedColony].getPlanet().accessResources();
-			const auto & stockRes = colonies[selectedColony].getResourcesStockpile();
-
-			for (size_t i = 0; i < res.getRes().size(); i++)
+			if (selectedTab == TabT::Mining)
 			{
-				uiMining.miningTable->insertRow(uiMining.miningTable->rowCount());
-				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(resNames[i])));
-				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(res.accessDeposit(i).first)));
-				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(res.accessDeposit(i).second)));
+				tabManagment();
+				ui.contentLayout->addWidget(&mining);
+				mining.show();
 
-				uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(stockRes[i])));
+				uiMining.miningTable->clearContents();
+				uiMining.miningTable->setRowCount(0);
+
+				auto resNames = ResourceDeposit::getResourcesNames();
+				auto & res = colonies[selectedColony].getPlanet().accessResources();
+				const auto & stockRes = colonies[selectedColony].getResourcesStockpile();
+
+				for (size_t i = 0; i < res.getRes().size(); i++)
+				{
+					uiMining.miningTable->insertRow(uiMining.miningTable->rowCount());
+					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(resNames[i])));
+					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(res.accessDeposit(i).first)));
+					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(res.accessDeposit(i).second)));
+
+					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(stockRes[i])));
+				}
+			}
+			if (selectedTab == TabT::Summary)
+			{
+				tabManagment();
+				ui.contentLayout->addWidget(&summary);
+				summary.show();
 			}
 		}
 	}

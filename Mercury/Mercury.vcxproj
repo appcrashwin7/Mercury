@@ -137,6 +137,7 @@
     <QtUic Include="MiningWindow.ui" />
     <QtUic Include="NewGameWindow.ui" />
     <QtUic Include="StockpileWindow.ui" />
+    <QtUic Include="SummaryWindow.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Mercury.qrc" />
