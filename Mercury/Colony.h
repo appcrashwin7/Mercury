@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Planet.h"
-#include "Commodities.h"
+#include "Industry.h"
 
 class Colony
 {
 	const Planet & planet;
-	StockT Stock;
-	QuantityT ResourcesStock;
+	StockT stock;
+	QuantityT resourcesStock;
+	Industry colonyIndustry;
 
 public:
 	Colony() = delete;

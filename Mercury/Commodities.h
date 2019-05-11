@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-
+#include <qglobal.h>
 #include "Product.h"
 #include "ResourceDeposit.h"
 
@@ -54,8 +54,13 @@ public:
 			{
 				return true;
 			}
+			return false;
 		});
-
+		if (ret == Commd.end())
+		{
+			std::string error = "Cannot find Product with name: " + name;
+			qFatal(error.c_str());
+		}
 		return ret.operator*();
 	}
 };

@@ -1,13 +1,13 @@
 #include "Colony.h"
 
 Colony::Colony(const Colony & other, const QuantityT & commQuantity, const QuantityT & resQuantity)
-	:planet(other.planet), ResourcesStock(resQuantity)
+	:planet(other.planet), resourcesStock(resQuantity)
 {
 	constructStockpile(commQuantity);
 }
 
 Colony::Colony(Planet & onPlanet, const QuantityT & commQuantity, const QuantityT & resQuantity)
-	:planet(onPlanet), ResourcesStock(resQuantity)
+	:planet(onPlanet), resourcesStock(resQuantity)
 {
 	constructStockpile(commQuantity);
 }
@@ -19,12 +19,12 @@ const Planet & Colony::getPlanet() const
 
 StockT & Colony::getStockpile()
 {
-	return Stock;
+	return stock;
 }
 
 QuantityT Colony::getResourcesStockpile()
 {
-	return ResourcesStock;
+	return resourcesStock;
 }
 
 void Colony::constructStockpile(const std::vector<uint64_t>& units)
@@ -40,11 +40,11 @@ void Colony::constructStockpile(const std::vector<uint64_t>& units)
 		{
 			if (i < units.size())
 			{
-				Stock.emplace_back(StockUnit(commd.get()[i], units[i]));
+				stock.emplace_back(StockUnit(commd.get()[i], units[i]));
 			}
 			else
 			{
-				Stock.emplace_back(StockUnit(commd.get()[i], 0));
+				stock.emplace_back(StockUnit(commd.get()[i], 0));
 			}
 		}
 	}
@@ -55,6 +55,6 @@ void Colony::defaultStockpile()
 	Commodities comms;
 	for (const auto & prd : comms.get())
 	{
-		Stock.push_back(StockUnit(prd, 0));
+		stock.push_back(StockUnit(prd, 0));
 	}
 }

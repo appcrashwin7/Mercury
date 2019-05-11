@@ -143,5 +143,8 @@
     <ClInclude Include="IndustryBuilding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Industry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@
 static const float GRAVITY_CONSTANT = 6.67f * static_cast<float>(pow(10, -11));
 static const float PI_F = static_cast<float>(atan(1)) * 4.0f;
 
+
 class Calc
 {
 public:
@@ -26,6 +27,7 @@ public:
 
 		return static_cast<float>(std::round(up / down));
 	}
+
 	static float getEccentric(double apoapsis, double periapsis)
 	{
 		double minor_axis = (apoapsis + periapsis) / 2.0;
