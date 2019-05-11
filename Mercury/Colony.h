@@ -19,6 +19,7 @@ public:
 	const Planet & getPlanet() const;
 	StockT & getStockpile();
 	QuantityT getResourcesStockpile();
+	Industry & getIndustry();
 
 private:
 	void constructStockpile(const std::vector<uint64_t>& units);

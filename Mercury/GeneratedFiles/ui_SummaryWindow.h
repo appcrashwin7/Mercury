@@ -61,6 +61,9 @@ public:
         buildingsTable->setObjectName(QStringLiteral("buildingsTable"));
         buildingsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
         buildingsTable->setSelectionMode(QAbstractItemView::NoSelection);
+        buildingsTable->horizontalHeader()->setVisible(true);
+        buildingsTable->verticalHeader()->setVisible(false);
+        buildingsTable->verticalHeader()->setHighlightSections(true);
 
         horizontalLayout->addWidget(buildingsTable);
 

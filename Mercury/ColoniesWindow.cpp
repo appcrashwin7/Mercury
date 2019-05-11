@@ -56,6 +56,12 @@ void ColoniesWindow::resetData()
 
 	if (ui.coloniesTree != nullptr)
 	{
+		auto clearTable = [](QTableWidget * table)
+		{
+			table->clearContents();
+			table->setRowCount(0);
+		};
+
 		ui.coloniesTree->clear();
 		for (const auto & col : colonies)
 		{
@@ -69,13 +75,14 @@ void ColoniesWindow::resetData()
 				ui.contentLayout->addWidget(&stock);
 				stock.show();
 
-				uiStock.StockTable->clearContents();
-				uiStock.StockTable->setRowCount(0);
+				clearTable(uiStock.StockTable);
 
-				for (const auto stockUnit : colonies[selectedColony].getStockpile())
+				for (const auto & stockUnit : colonies[selectedColony].getStockpile())
 				{
 					uiStock.StockTable->insertRow(uiStock.StockTable->rowCount());
-					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(stockUnit.first.getName())));
+
+					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, 
+						new QTableWidgetItem(QString::fromStdString(stockUnit.first.getName())));
 					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockUnit.second)));
 				}
 			}
@@ -85,8 +92,7 @@ void ColoniesWindow::resetData()
 				ui.contentLayout->addWidget(&mining);
 				mining.show();
 
-				uiMining.miningTable->clearContents();
-				uiMining.miningTable->setRowCount(0);
+				clearTable(uiMining.miningTable);
 
 				auto resNames = ResourceDeposit::getResourcesNames();
 				auto & res = colonies[selectedColony].getPlanet().accessResources();
@@ -95,10 +101,10 @@ void ColoniesWindow::resetData()
 				for (size_t i = 0; i < res.getRes().size(); i++)
 				{
 					uiMining.miningTable->insertRow(uiMining.miningTable->rowCount());
+
 					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(resNames[i])));
 					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(res.accessDeposit(i).first)));
 					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(res.accessDeposit(i).second)));
-
 					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(stockRes[i])));
 				}
 			}
@@ -107,6 +113,36 @@ void ColoniesWindow::resetData()
 				tabManagment();
 				ui.contentLayout->addWidget(&summary);
 				summary.show();
+
+				clearTable(uiSummary.valuesTable);
+				clearTable(uiSummary.buildingsTable);
+
+				auto & industry = colonies[selectedColony].getIndustry();
+				using name_value = std::pair<QString, QString>;
+				auto values = std::array<name_value, 2>({ name_value("Energy Demand", QString::number(industry.getEnergyDemand())),
+					name_value("Energy Production", QString::number(industry.getEnergyProduction())) });
+				auto ranges = { values.size(), industry.getBuildings().size() };
+				auto minmax = std::minmax_element(ranges.begin(), ranges.end());
+
+				for (size_t i = 0; i < *minmax.second; i++)
+				{
+					if (i < values.size())
+					{
+						uiSummary.valuesTable->insertRow(uiSummary.valuesTable->rowCount());
+
+						uiSummary.valuesTable->setItem(uiSummary.valuesTable->rowCount() - 1, 0, new QTableWidgetItem(values[i].first));
+						uiSummary.valuesTable->setItem(uiSummary.valuesTable->rowCount() - 1, 1, new QTableWidgetItem(values[i].second));
+					}
+					if(i < industry.getBuildings().size())
+					{
+						uiSummary.buildingsTable->insertRow(uiSummary.buildingsTable->rowCount());
+
+						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 0, 
+							new QTableWidgetItem(QString::fromStdString(industry.getBuildings()[i].first.name)));
+						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 1,
+							new QTableWidgetItem(QString::number(industry.getBuildings()[i].second)));
+					}
+				}
 			}
 		}
 	}

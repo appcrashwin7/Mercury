@@ -27,6 +27,11 @@ QuantityT Colony::getResourcesStockpile()
 	return resourcesStock;
 }
 
+Industry & Colony::getIndustry()
+{
+	return colonyIndustry;
+}
+
 void Colony::constructStockpile(const std::vector<uint64_t>& units)
 {
 	if (units.empty())

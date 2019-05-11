@@ -28,7 +28,7 @@ public:
 		{
 			if (b.first.energyDrain != 0 && b.first.energyDrain < 0)
 			{
-				ret += b.first.energyDrain;
+				ret += (b.first.energyDrain * b.second);
 			}
 		}
 		ret *= -1;
@@ -41,12 +41,16 @@ public:
 		{
 			if (b.first.energyDrain != 0 && b.first.energyDrain > 0)
 			{
-				ret += b.first.energyDrain;
+				ret += (b.first.energyDrain * b.second);
 			}
 		}
 		return ret;
 	}
 
+	const std::vector<BuildingQuantityT> & getBuildings() const
+	{
+		return Buildings;
+	}
 	//std::vector<uint64_t> getWeeklyUsageOfCommodities() const
 	//{}
 	//std::vector<uint64_t> getWeeklyProductionOfCommodities() const
