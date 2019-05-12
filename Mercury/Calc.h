@@ -34,4 +34,5 @@ public:
 		double rel = (minor_axis * minor_axis) / (apoapsis * apoapsis);
 		return static_cast<float>(sqrt(1.0 - rel));
 	}
+
 };

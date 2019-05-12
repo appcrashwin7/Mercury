@@ -12,6 +12,8 @@ enum class CelestialBodyType
 	Asteroid
 };
 
+static constexpr double MEAN_DENSITY = 3000.0;
+
 class CelestialBody
 {
 protected:

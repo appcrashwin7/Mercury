@@ -84,9 +84,9 @@ public:
 		return true;
 	}
 
-	static std::vector<unsigned int> getLightElementsIds()
+	static std::vector<size_t> getLightElementsIds()
 	{
-		return std::vector<unsigned int>({ 1, 2, 11, 14, 15, 16, 17, 18 });
+		return std::vector<size_t>({ 0, 1, 10, 13, 14, 15, 16, 17 });
 	}
 	static std::vector<std::string> getResourcesNames()
 	{
