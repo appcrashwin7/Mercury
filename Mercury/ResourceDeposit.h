@@ -15,16 +15,11 @@ static constexpr size_t RESOURCES_LIST_SIZE = 18;
 
 class ResourceDeposit
 {
-	std::vector<Deposit> Res;
+	std::vector<Deposit> Res = std::vector<Deposit>(RESOURCES_LIST_SIZE, std::allocator<Deposit>());
 
 public:
-	ResourceDeposit()
-	{
-		Res.resize(RESOURCES_LIST_SIZE);
-	}
-	ResourceDeposit(const ResourceDeposit & other)
-		:Res(other.Res)
-	{}
+	ResourceDeposit() = default;
+	ResourceDeposit(const ResourceDeposit & other) = default;
 	~ResourceDeposit() = default;
 
 

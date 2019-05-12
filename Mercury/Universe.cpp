@@ -14,10 +14,6 @@ Universe::Universe()
 	getSystem(0).Bodies.back(), Orbit(4 * pow(10, 8), 3.6 * pow(10, 8)), "Luna")));
 }
 
-Universe::~Universe()
-{
-}
-
 PlanetarySystem & Universe::getSystem(size_t index)
 {
 	return Systems[index];

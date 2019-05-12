@@ -24,3 +24,10 @@ CelestialBody::CelestialBody(const CelestialBody & other, CelestialBodyType newT
 CelestialBody::~CelestialBody()
 {
 }
+
+double CelestialBody::getDensity() const
+{
+	double radiusPow = pow(radius, 3);
+	double vol = 1.333 * PI_F * radiusPow;
+	return (mass / vol);
+}

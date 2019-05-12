@@ -22,9 +22,7 @@ class Product
 
 public:
 	Product() = delete;
-	Product(const Product & other)
-		:name(other.name), massPerUnit(other.massPerUnit), type(other.type)
-	{}
+	Product(const Product & other) = default;
 	Product(const std::string & pname, float mass, ProductType t)
 		:name(pname), massPerUnit(mass), type(t)
 	{}

@@ -10,7 +10,3 @@ Star::Star(double radius, double mass, double luminosity, float metallicity, con
 Star::Star(CelestialBody & body, double luminosity, float metallicity)
 	:CelestialBody(body, CelestialBodyType::Star), luminosity(luminosity), metallicity(metallicity)
 {}
-
-Star::~Star()
-{
-}

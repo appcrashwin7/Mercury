@@ -7,4 +7,8 @@ PlanetarySystem::PlanetarySystem(const std::string & sysName)
 
 PlanetarySystem::~PlanetarySystem()
 {
+	for (auto body : Bodies)
+	{
+		delete body;
+	}
 }

@@ -8,7 +8,8 @@ enum class CelestialBodyType
 	Undefided,
 	Star,
 	Planet,
-	GasGiant
+	GasGiant,
+	Asteroid
 };
 
 class CelestialBody
@@ -29,4 +30,6 @@ public:
 
 	const float escapeVelocity; //measured in km/s
 	const float surfaceGravity; //in m/s^2
+
+	double getDensity() const;
 };

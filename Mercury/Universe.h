@@ -6,7 +6,7 @@ class Universe
 {
 public:
 	Universe();
-	~Universe();
+	~Universe() = default;
 
 	PlanetarySystem & getSystem(size_t index);
 	void addSystem(PlanetarySystem & newSystem);
