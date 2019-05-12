@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Orbit.h"
-#include <vector>
+#include "ResourceDeposit.h"
 
 enum class CelestialBodyType
 {
@@ -14,10 +14,13 @@ enum class CelestialBodyType
 
 class CelestialBody
 {
+protected:
+	ResourceDeposit Resources = ResourceDeposit();
 public:
-	CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * parent, Orbit orb, const std::string & name);
+	CelestialBody() = delete;
+	CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * parent = nullptr, Orbit orb = Orbit(), const std::string & name = "");
 	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
-	virtual ~CelestialBody();
+	virtual ~CelestialBody() = default;
 
 	std::string name;
 	
@@ -32,4 +35,9 @@ public:
 	const float surfaceGravity; //in m/s^2
 
 	double getDensity() const;
+
+	virtual ResourceDeposit generateResources(ResourceDeposit & custom);
+
+	const ResourceDeposit & accessResources() const;
+	ResourceDeposit & getResources();
 };

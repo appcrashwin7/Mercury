@@ -1,25 +1,15 @@
 #include "Planet.h"
 
 Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, const std::string & name, ResourceDeposit res)
-	:CelestialBody(radius, mass, CelestialBodyType::Planet, parent, orbit, name),
-	Resources(generateResources(res))
+	:CelestialBody(radius, mass, CelestialBodyType::Planet, parent, orbit, name)
 {
+	Resources.replace(generateResources(res));
 }
 
 Planet::Planet(const CelestialBody & body, ResourceDeposit res)
-	:CelestialBody(body, CelestialBodyType::Planet),
-	Resources(generateResources(res))
+	:CelestialBody(body, CelestialBodyType::Planet)
 {
-}
-
-const ResourceDeposit & Planet::accessResources() const
-{
-	return Resources;
-}
-
-ResourceDeposit & Planet::getRessources()
-{
-	return Resources;
+	Resources.replace(generateResources(res));
 }
 
 ResourceDeposit Planet::generateResources(ResourceDeposit & custom)

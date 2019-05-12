@@ -22,6 +22,13 @@ public:
 	ResourceDeposit(const ResourceDeposit & other) = default;
 	~ResourceDeposit() = default;
 
+	void replace(const ResourceDeposit & other)
+	{
+		for (size_t i = 0; i < RESOURCES_LIST_SIZE; i++)
+		{
+			Res[i] = other.getRes()[i];
+		}
+	}
 
 	std::vector<uint64_t> SubstrAll(uint64_t amount)
 	{
