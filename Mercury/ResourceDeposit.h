@@ -88,7 +88,7 @@ public:
 	}
 	static std::vector<std::string> getResourcesNames()
 	{
-		return std::vector<std::string>({ "Water", "Frozen water","Aluminum", "Copper", "Gold", "Iron", "Titanium",
+		return std::vector<std::string>({ "Water", "Frozen water", "Aluminum", "Copper", "Gold", "Iron", "Titanium",
 			"Lead", "Silver", "Zinc", "Carbon", "Thorium", "Uranium", "Lithium", "Helium", "Sulfur", "Silicon", "Nitrogen" });
 	}
 	static std::array<float, RESOURCES_LIST_SIZE> getResourcesDensity()
