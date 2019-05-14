@@ -30,6 +30,7 @@ double CelestialBody::getDensity() const
 
 ResourceDeposit CelestialBody::generateResources(ResourceDeposit & custom)
 {
+	custom;
 	return ResourceDeposit();
 }
 

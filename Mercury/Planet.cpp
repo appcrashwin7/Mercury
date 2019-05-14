@@ -23,14 +23,6 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 		}
 		return false;
 	};
-	auto roundFloatToDecimalPlace = [](float value, uint64_t place)->float
-	{
-		float mult = pow(10, place);
-
-		value *= mult;
-		value = round(value);
-		return (value / mult);
-	};
 
 	if (custom.isNotGenerated())
 	{
@@ -55,7 +47,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 				if (isLightElem(i, lightElements))
 				{
 					custom.editDeposit(i).first = static_cast<uint64_t>(normal);
-					custom.editDeposit(i).second = roundFloatToDecimalPlace((1.0f - static_cast<float>(lightElementsAccessPen)), 2);
+					custom.editDeposit(i).second = Calc::roundToDecimalPlace<float>((1.0f - static_cast<float>(lightElementsAccessPen)), 2);
 				}
 				else
 				{
@@ -82,7 +74,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 				else
 				{
 					custom.editDeposit(i).first = static_cast<uint64_t>(normal);
-					custom.editDeposit(i).second = roundFloatToDecimalPlace((1.0f - static_cast<float>(heavyElementsAccessPen)), 2);
+					custom.editDeposit(i).second = Calc::roundToDecimalPlace<float>((1.0f - static_cast<float>(heavyElementsAccessPen)), 2);
 				}
 			}
 		}
