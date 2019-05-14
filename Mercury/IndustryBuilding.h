@@ -36,14 +36,32 @@ public:
 			IndustryBuilding("Infrastructure", StockT(), StockT(), 0, StockT({StockUnit(commd["Steel"], 2)})),
 			IndustryBuilding("Mine", StockT(), StockT(), 1, StockT({StockUnit(commd["Industrial parts"], 5), StockUnit(commd["Steel"], 1)})),
 			IndustryBuilding("Housing", StockT(), StockT(), 1, StockT({StockUnit(commd["Steel"], 10)})),
-			IndustryBuilding("Steel Forge", StockT({StockUnit(commd["Steel"], 10)}), StockT({StockUnit(commd["Iron"], 9), StockUnit(commd["Carbon"], 1)}), 
+			IndustryBuilding("Steel Forge", StockT({StockUnit(commd["Steel"], 10)}), StockT({StockUnit(commd["Iron"], 9), StockUnit(commd["Carbon"], 1)}),
 			10, StockT({StockUnit(commd["Industrial parts"], 40), StockUnit(commd["Steel"], 10)})),
-			IndustryBuilding("Stainless steel Forge", StockT({StockUnit(commd["Stainless steel"], 10)}), 
+
+			IndustryBuilding("Stainless steel Forge", StockT({StockUnit(commd["Stainless steel"], 10)}),
 			StockT({StockUnit(commd["Iron"], 10), StockUnit(commd["Carbon"], 1)}), 45, StockT({StockUnit(commd["Steel"], 10), StockUnit(commd["Industrial parts"], 50)})),
+
 			IndustryBuilding("Duraluminium Forge", StockT({StockUnit(commd["Duraluminium"], 10)}), StockT({StockUnit(commd["Aluminum"], 9), StockUnit(commd["Copper"], 1)}),
 			50, StockT({StockUnit(commd["Industrial parts"], 40), StockUnit(commd["Steel"], 10)})),
+
+			IndustryBuilding("Industrial Parts Factory", StockT({StockUnit(commd["Industrial parts"], 100)}),
+			StockT({StockUnit(commd["Steel"], 20), StockUnit(commd["Copper"], 5), StockUnit(commd["Stainless steel"], 10), StockUnit(commd["Aluminum"], 5), StockUnit(commd["Lead"], 10)}), 50,
+			StockT({StockUnit(commd["Steel"], 50), StockUnit(commd["Lead"], 5)})),
+
+			IndustryBuilding("Rocket Parts Factory", StockT({StockUnit(commd["Rocket parts"], 50)}),
+			StockT({StockUnit(commd["Titanium"], 10), StockUnit(commd["Duraluminium"], 5), StockUnit(commd["Aluminum"], 10)}), 100,
+			StockT({StockUnit(commd["Steel"], 50), StockUnit(commd["Electronics"], 5), StockUnit(commd["Industrial parts"], 50)})),
+
+			IndustryBuilding("High-Tech Rocket Parts Factory", StockT({StockUnit(commd["High-tech rocket parts"], 10)}), 
+			StockT({StockUnit(commd["Electronics"], 1), StockUnit(commd["Titanium"], 5), StockUnit(commd["Duraluminium"], 3), StockUnit(commd["Carbon"], 1)}),
+			100, StockT({StockUnit(commd["Steel"], 10), StockUnit(commd["Electronics"], 20), StockUnit(commd["Industrial parts"], 100)})),
+
+			IndustryBuilding("Electronics Factory", StockT({StockUnit(commd["Electronics"], 50)}), StockT({StockUnit(commd["Gold"], 2), StockUnit(commd["Silicon"], 10)}),
+			10, StockT({StockUnit(commd["Industrial parts"], 20), StockUnit(commd["Steel"], 2),})),
+
 			IndustryBuilding("Power Plant", StockT({StockUnit(commd["Waste"], 5)}), StockT({StockUnit(commd["Carbon"], 20)}),
 			-100, StockT({StockUnit(commd["Industrial parts"], 10), StockUnit(commd["Steel"], 20), StockUnit(commd["Electronics"], 5)}))
 			});
-	};
+	}
 };
