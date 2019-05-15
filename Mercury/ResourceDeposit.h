@@ -27,7 +27,7 @@ public:
 	{
 		for (size_t i = 0; i < RESOURCES_LIST_SIZE; i++)
 		{
-			Res[i] = other.getRes()[i];
+			Res[i] = other.get()[i];
 		}
 	}
 
@@ -97,11 +97,15 @@ public:
 	static std::array<float, RESOURCES_LIST_SIZE> getResourcesDensity()
 	{
 		return std::array<float, RESOURCES_LIST_SIZE>({ 1.0f, 1.0f, 3.0f, 9.0f, 19.0f, 8.0f, 4.5f,
-			11.0f, 7.0f, 2.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f });
+			11.0f, 7.0f, 2.0f, 3.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f });
 	}
 
-	const std::vector<Deposit> & getRes() const
+	const std::vector<Deposit> & get() const
 	{
 		return Res;
+	}
+	const Deposit & operator[](size_t i) const
+	{
+		return Res[i];
 	}
 };

@@ -26,7 +26,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 
 	if (custom.isNotGenerated())
 	{
-		const double maxRes = this->mass * 0.001 * 0.001;
+		const double maxRes = this->mass * BODY_MASS_TO_DEPOSIT_SIZE_MULT;
 
 		auto densities = ResourceDeposit::getResourcesDensity();
 		auto planetDensityInt = static_cast<uint64_t>(getDensity());
@@ -39,7 +39,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 			double heavyElementsBonus = (planetDensity - MEAN_DENSITY) / 1000.0;
 			double lightElementsAccessPen = heavyElementsBonus / 10.0;
 
-			for (size_t i = 0; i < custom.getRes().size(); i++)
+			for (size_t i = 0; i < custom.get().size(); i++)
 			{
 				double normal = maxRes / densities[i];
 				double bonus = normal * heavyElementsBonus;
@@ -66,7 +66,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 			double lightElementsBonus = (MEAN_DENSITY - planetDensity) / 1000.0;
 			double heavyElementsAccessPen = lightElementsBonus / 10.0;
 
-			for (size_t i = 0; i < custom.getRes().size(); i++)
+			for (size_t i = 0; i < custom.get().size(); i++)
 			{
 				double normal = maxRes / densities[i];
 				double bonus = normal * lightElementsBonus;

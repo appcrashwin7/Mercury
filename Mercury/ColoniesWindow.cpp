@@ -98,7 +98,7 @@ void ColoniesWindow::resetData()
 				auto & res = colonies[selectedColony].getPlanet().accessResources();
 				const auto & stockRes = colonies[selectedColony].getResourcesStockpile();
 
-				for (size_t i = 0; i < res.getRes().size(); i++)
+				for (size_t i = 0; i < res.get().size(); i++)
 				{
 					uiMining.miningTable->insertRow(uiMining.miningTable->rowCount());
 
