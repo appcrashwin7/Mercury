@@ -51,6 +51,11 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 				}
 				else
 				{
+					if (i == 12)
+					{
+						custom.accessDeposit(i);
+					}
+
 					custom.editDeposit(i).first = static_cast<uint64_t>(bonus);
 					custom.editDeposit(i).second = 1.0f;
 				}

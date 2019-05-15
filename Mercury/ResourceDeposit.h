@@ -5,6 +5,7 @@
 #include <vector>
 #include <array>
 
+
 //Amount, accessibly
 using Deposit = std::pair<uint64_t, float>;
 using ResQuantity = std::pair<uint64_t, uint64_t>;

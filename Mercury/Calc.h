@@ -3,10 +3,19 @@
 #include <cmath>
 #include <cstdint>
 #include <cassert>
+#include <qstring.h>
 
 static const float GRAVITY_CONSTANT = 6.67f * static_cast<float>(pow(10, -11));
 static const float PI_F = static_cast<float>(atan(1)) * 4.0f;
 
+//represent
+
+enum class valueRepresentation
+{
+	THOUSAND = 1000,
+	MILLION = 1000000,
+	BILLION = 1000000000
+};
 
 class Calc
 {
@@ -45,5 +54,26 @@ public:
 		value *= mult;
 		value = round(value);
 		return (value / mult);
+	}
+
+	template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+	static QString representValue(T value, valueRepresentation rep = valueRepresentation::MILLION)
+	{
+		auto ret = QString::number(value / static_cast<T>(rep));
+		switch (rep)
+		{
+		case valueRepresentation::THOUSAND:
+			ret += " k";
+				break;
+		case valueRepresentation::MILLION:
+			ret += " mln";
+				break;
+		case valueRepresentation::BILLION:
+			ret += " bln";
+				break;
+		default:
+			break;
+		}
+		return ret;
 	}
 };
