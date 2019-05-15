@@ -29,7 +29,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 		const double maxRes = this->mass * 0.001 * 0.001;
 
 		auto densities = ResourceDeposit::getResourcesDensity();
-		uint64_t planetDensityInt = static_cast<uint64_t>(getDensity());
+		auto planetDensityInt = static_cast<uint64_t>(getDensity());
 		auto planetDensity = getDensity();
 
 		auto lightElements = ResourceDeposit::getLightElementsIds();

@@ -1,11 +1,11 @@
 #include "CelestialBody.h"
 
-CelestialBody::CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * prt, Orbit orb, const std::string & name)
+CelestialBody::CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * parent, Orbit orb, const std::string & name)
 	:radius(radius), mass(mass),
 	escapeVelocity(Calc::getEscapeVelocity(mass, radius)),
 	surfaceGravity(Calc::getGravity(mass, radius)),
 	type(type),
-	parent(prt), bodyOrbit(orb),
+	parent(parent), bodyOrbit(orb),
 	name(name)
 {
 

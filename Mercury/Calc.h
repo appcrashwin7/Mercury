@@ -40,7 +40,7 @@ public:
 	static T roundToDecimalPlace(T value, uint64_t place)
 	{
 		assert((place != static_cast<uint64_t>(-1)));
-		T mult = static_cast<T>(pow(10, place));
+		auto mult = static_cast<T>(pow(10, place));
 
 		value *= mult;
 		value = round(value);
