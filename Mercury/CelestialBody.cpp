@@ -8,7 +8,6 @@ CelestialBody::CelestialBody(double radius, double mass, CelestialBodyType type,
 	parent(parent), bodyOrbit(orb),
 	name(name)
 {
-
 }
 
 CelestialBody::CelestialBody(const CelestialBody & other, CelestialBodyType newType)
