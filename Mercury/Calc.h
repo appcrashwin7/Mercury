@@ -13,11 +13,11 @@ namespace units = boost::units;
 using Length = units::quantity<units::si::length, double>;
 using Mass = units::quantity<units::si::mass, double>;
 using Acceleration = units::quantity<units::si::acceleration, float>;
+using Velocity = units::quantity<units::si::velocity, float>;
 
 static const float GRAVITY_CONSTANT = 6.67f * static_cast<float>(pow(10, -11));
 static const float PI_F = static_cast<float>(atan(1)) * 4.0f;
 
-//represent
 
 enum class valueRepresentation
 {
@@ -32,20 +32,18 @@ public:
 	Calc() = default;
 	~Calc() = default;
 
-	static float getEscapeVelocity(Mass mass, Length radius)
+	static Velocity getEscapeVelocity(Mass mass, Length radius)
 	{
-		double v = GRAVITY_CONSTANT * mass.value();
+		double v = 2.0 * GRAVITY_CONSTANT * mass.value();
 		v /= radius.value();
-		return static_cast<float>(std::round(sqrt(v)));
+		return static_cast<Velocity>(std::round(sqrt(v)) * units::si::meters_per_second);
 	}
 
 	static Acceleration getGravity(Mass mass, Length radius)
 	{
 		double up = mass.value() * GRAVITY_CONSTANT;
 		auto down = radius * radius;
-		auto ret = std::round(up / down.value());
-
-		return static_cast<Acceleration>(ret * units::si::meters_per_second_squared);
+		return static_cast<Acceleration>(std::round(up / down.value()) * units::si::meters_per_second_squared);
 	}
 
 	static float getEccentric(Length apoapsis, Length periapsis)

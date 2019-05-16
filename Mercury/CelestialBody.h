@@ -35,7 +35,7 @@ public:
 	const Mass mass;
 
 
-	const float escapeVelocity; //measured in km/s
+	const Velocity escapeVelocity;
 	const Acceleration surfaceGravity;
 
 	double getDensity() const;
