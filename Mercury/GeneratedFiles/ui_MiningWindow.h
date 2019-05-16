@@ -50,6 +50,7 @@ public:
         miningTable->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         miningTable->setObjectName(QStringLiteral("miningTable"));
         miningTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        miningTable->setSelectionMode(QAbstractItemView::NoSelection);
         miningTable->horizontalHeader()->setVisible(true);
         miningTable->horizontalHeader()->setHighlightSections(false);
         miningTable->horizontalHeader()->setStretchLastSection(true);

@@ -111,15 +111,13 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 
 CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const std::string & name)
 {
-	if (!system.Bodies.empty())
+	auto result = std::find_if(system.Bodies.begin(), system.Bodies.end(), [name](CelestialBody * body)->bool 
 	{
-		for (auto t : system.Bodies)
+		if (body->name == name)
 		{
-			if (t->name == name)
-			{
-				return t;
-			}
+			return true;
 		}
-	}
-	return nullptr;
+		return false;
+	});
+	return result.operator*();
 }
