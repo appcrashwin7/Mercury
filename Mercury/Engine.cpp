@@ -85,15 +85,15 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 
 		if (actualBody != nullptr)
 		{
-			setItemValue("Mass", QString::number(actualBody->mass) + " kg");
-			setItemValue("Radius", QString::number(actualBody->radius) + " m");
+			setItemValue("Mass", QString::number(actualBody->mass.value()) + " kg");
+			setItemValue("Radius", QString::number(actualBody->radius.value()) + " m");
 			setItemValue("Escape velocity", QString::number(actualBody->escapeVelocity) + " m/s");
 			setItemValue("Surface gravity", QString::number(actualBody->surfaceGravity) + " m/s^2");
 
 			if (!actualBody->bodyOrbit.isZero)
 			{
-				setItemValue("Apoapsis", QString::number(actualBody->bodyOrbit.apoapsis) + " m");
-				setItemValue("Periapsis", QString::number(actualBody->bodyOrbit.periapsis) + " m");
+				setItemValue("Apoapsis", QString::number(actualBody->bodyOrbit.apoapsis.value()) + " m");
+				setItemValue("Periapsis", QString::number(actualBody->bodyOrbit.periapsis.value()) + " m");
 			}
 			else
 			{

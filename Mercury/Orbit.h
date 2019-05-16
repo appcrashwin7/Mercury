@@ -5,20 +5,19 @@
 class Orbit 
 {
 public:
-	// in meters
-	const double apoapsis = 0.0;
-	const double periapsis = 0.0;
+	const Length apoapsis = Length(units::si::meter * 0);
+	const Length periapsis = Length(units::si::meter * 0);
 
 	const float eccentricity = 0.0f;
 
 	const bool isZero = true;
 
 	Orbit() = default;
-	Orbit(double apo, double per)
+	Orbit(Length apo, Length per)
 		:apoapsis(apo), periapsis(per),
 		eccentricity(Calc::getEccentric(apo, per)), isZero(false)
 	{}
-	Orbit(double radius)
+	Orbit(Length radius)
 		:apoapsis(radius), periapsis(radius), isZero(false)
 	{}
 	Orbit(const Orbit & other) = default;

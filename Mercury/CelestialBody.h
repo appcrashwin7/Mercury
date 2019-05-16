@@ -21,7 +21,7 @@ protected:
 	ResourceDeposit Resources = ResourceDeposit();
 public:
 	CelestialBody() = delete;
-	CelestialBody(double radius, double mass, CelestialBodyType type, CelestialBody * parent = nullptr, Orbit orb = Orbit(), const std::string & name = "");
+	CelestialBody(Length radius, Mass mass, CelestialBodyType type, CelestialBody * parent = nullptr, Orbit orb = Orbit(), const std::string & name = "");
 	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
 	virtual ~CelestialBody() = default;
 
@@ -30,9 +30,9 @@ public:
 	const CelestialBodyType type;
 	const CelestialBody * const parent;
 
-	const Orbit bodyOrbit;//measured in km
-	const double radius;// measured in m
-	const double mass;//measured in kg
+	const Orbit bodyOrbit;
+	const Length radius;
+	const Mass mass;
 
 	const float escapeVelocity; //measured in km/s
 	const float surfaceGravity; //in m/s^2

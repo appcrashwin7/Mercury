@@ -1,11 +1,5 @@
 #include "Planet.h"
 
-Planet::Planet(double radius, double mass, CelestialBody * parent, Orbit orbit, const std::string & name, ResourceDeposit res)
-	:CelestialBody(radius, mass, CelestialBodyType::Planet, parent, orbit, name)
-{
-	Resources.replace(generateResources(res));
-}
-
 Planet::Planet(const CelestialBody & body, ResourceDeposit res)
 	:CelestialBody(body, CelestialBodyType::Planet)
 {
@@ -26,7 +20,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 
 	if (custom.isNotGenerated())
 	{
-		const double maxRes = this->mass * BODY_MASS_TO_DEPOSIT_SIZE_MULT;
+		const double maxRes = this->mass.value() * BODY_MASS_TO_DEPOSIT_SIZE_MULT;
 
 		auto densities = ResourceDeposit::getResourcesDensity();
 		auto planetDensityInt = static_cast<uint64_t>(getDensity());
