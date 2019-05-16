@@ -34,8 +34,9 @@ public:
 	const Length radius;
 	const Mass mass;
 
+
 	const float escapeVelocity; //measured in km/s
-	const float surfaceGravity; //in m/s^2
+	const Acceleration surfaceGravity;
 
 	double getDensity() const;
 

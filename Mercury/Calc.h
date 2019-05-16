@@ -12,6 +12,7 @@
 namespace units = boost::units;
 using Length = units::quantity<units::si::length, double>;
 using Mass = units::quantity<units::si::mass, double>;
+using Acceleration = units::quantity<units::si::acceleration, float>;
 
 static const float GRAVITY_CONSTANT = 6.67f * static_cast<float>(pow(10, -11));
 static const float PI_F = static_cast<float>(atan(1)) * 4.0f;
@@ -38,12 +39,13 @@ public:
 		return static_cast<float>(std::round(sqrt(v)));
 	}
 
-	static float getGravity(Mass mass, Length radius)
+	static Acceleration getGravity(Mass mass, Length radius)
 	{
 		double up = mass.value() * GRAVITY_CONSTANT;
-		double down = radius.value() * radius.value();
+		auto down = radius * radius;
+		auto ret = std::round(up / down.value());
 
-		return static_cast<float>(std::round(up / down));
+		return static_cast<Acceleration>(ret * units::si::meters_per_second_squared);
 	}
 
 	static float getEccentric(Length apoapsis, Length periapsis)
