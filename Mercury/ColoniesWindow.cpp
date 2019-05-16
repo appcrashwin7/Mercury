@@ -76,14 +76,19 @@ void ColoniesWindow::resetData()
 				stock.show();
 
 				clearTable(uiStock.StockTable);
+				const auto & stockPile = colonies[selectedColony].getStockpile();
+				auto usage = colonies[selectedColony].getIndustry().getWeeklyUsageOfCommodities();
+				auto prod = colonies[selectedColony].getIndustry().getWeeklyProductionOfCommodities();
 
-				for (const auto & stockUnit : colonies[selectedColony].getStockpile())
+				for (size_t i = 0; i < stockPile.size(); i++)
 				{
 					uiStock.StockTable->insertRow(uiStock.StockTable->rowCount());
 
 					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, 
-						new QTableWidgetItem(QString::fromStdString(stockUnit.first.getName())));
-					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockUnit.second)));
+						new QTableWidgetItem(QString::fromStdString(stockPile[i].first.getName())));
+					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockPile[i].second)));
+					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(prod[i])));
+					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(usage[i])));
 				}
 			}
 			if (selectedTab == TabT::Mining)

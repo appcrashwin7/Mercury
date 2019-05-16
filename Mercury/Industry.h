@@ -15,7 +15,7 @@ public:
 		auto buildingList = IndustryBuilding::getDefaultBuildings();
 		for (auto & b : buildingList)
 		{
-			Buildings.emplace_back(BuildingQuantityT(b, 0));
+			Buildings.emplace_back(BuildingQuantityT(b, 2));
 		}
 	}
 	Industry(const Industry & other) = default;
@@ -26,7 +26,7 @@ public:
 		float ret = 0.0f;
 		for (const auto & b : Buildings)
 		{
-			if (b.first.energyDrain != 0 && b.first.energyDrain < 0)
+			if (b.first.energyDrain < 0)
 			{
 				ret += (b.first.energyDrain * b.second);
 			}
@@ -51,8 +51,48 @@ public:
 	{
 		return Buildings;
 	}
-	//std::vector<uint64_t> getWeeklyUsageOfCommodities() const
-	//{}
-	//std::vector<uint64_t> getWeeklyProductionOfCommodities() const
-	//{}
+	std::vector<uint64_t> getWeeklyUsageOfCommodities() const
+	{
+		Commodities commd;
+		std::vector<uint64_t> ret(commd.get().size(), 0);
+		for (const auto & building : Buildings)
+		{
+			if (building.second > 0)
+			{
+				for (auto t : building.first.baseInput)
+				{
+					for (size_t i = 0; i < ret.size(); i++)
+					{
+						if (t.first == commd.get()[i])
+						{
+							ret[i] += (t.second * building.second);
+						}
+					}
+				}
+			}
+		}
+		return ret;
+	}
+	std::vector<uint64_t> getWeeklyProductionOfCommodities() const
+	{
+		Commodities commd;
+		std::vector<uint64_t> ret(commd.get().size(), 0);
+		for (const auto & building : Buildings)
+		{
+			if (building.second > 0)
+			{
+				for (auto t : building.first.baseOutput)
+				{
+					for (size_t i = 0; i < ret.size(); i++)
+					{
+						if (t.first == commd.get()[i])
+						{
+							ret[i] += (t.second * building.second);
+						}
+					}
+				}
+			}
+		}
+		return ret;
+	}
 };
