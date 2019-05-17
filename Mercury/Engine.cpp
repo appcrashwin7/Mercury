@@ -4,6 +4,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[3]))) }),
 	window(Colonies, mainWindow)
 {
+	window.setWindowTitle(QString("Mercury ") + gameName);
 	window.show();
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
 	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));

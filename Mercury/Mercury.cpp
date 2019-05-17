@@ -35,7 +35,8 @@ void Mercury::loadGameDialog()
 void Mercury::playGame()
 {
 	this->setVisible(false);
-	std::unique_ptr<Engine> ptr(new Engine(nullptr, ""));
+	QLineEdit * gameName = newGameWindow.findChild<QLineEdit*>("newGameName");
+	std::unique_ptr<Engine> ptr(new Engine(nullptr, gameName->text()));
 	game.swap(ptr);
 }
 
