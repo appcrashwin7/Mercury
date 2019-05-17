@@ -26,9 +26,9 @@ public:
 		uint64_t ret = 0;
 		for (const auto & b : Buildings)
 		{
-			if (b.first.energyProduction > 0)
+			if (b.first.energyProduction.value() > 0)
 			{
-				ret += (b.first.energyProduction * b.second);
+				ret += ((b.first.energyProduction / units::megawatt) * b.second);
 			}
 		}
 		return ret;
@@ -38,9 +38,9 @@ public:
 		uint64_t ret = 0;
 		for (const auto & b : Buildings)
 		{
-			if (b.first.energyDrain > 0)
+			if (b.first.energyDrain.value() > 0)
 			{
-				ret += (b.first.energyDrain * b.second);
+				ret += ((b.first.energyDrain / units::megawatt) * b.second);
 			}
 		}
 		return ret;

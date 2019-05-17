@@ -126,8 +126,8 @@ void ColoniesWindow::resetData()
 
 				auto & industry = colonies[selectedColony].getIndustry();
 				using name_value = std::pair<QString, QString>;
-				auto values = std::array<name_value, 2>({ name_value("Energy Demand", QString::number(industry.getEnergyDemand())),
-					name_value("Energy Production", QString::number(industry.getEnergyProduction())) });
+				auto values = std::array<name_value, 2>({ name_value("Energy Demand", QString::number(industry.getEnergyDemand()) + " MW"),
+					name_value("Energy Production", QString::number(industry.getEnergyProduction()) + " MW") });
 				auto ranges = { values.size(), industry.getBuildings().size() };
 				auto minmax = std::minmax_element(ranges.begin(), ranges.end());
 
@@ -144,7 +144,7 @@ void ColoniesWindow::resetData()
 					{
 						uiSummary.buildingsTable->insertRow(uiSummary.buildingsTable->rowCount());
 
-						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 0, 
+						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 0,
 							new QTableWidgetItem(QString::fromStdString(industry.getBuildings()[i].first.name)));
 						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 1,
 							new QTableWidgetItem(QString::number(industry.getBuildings()[i].second)));
