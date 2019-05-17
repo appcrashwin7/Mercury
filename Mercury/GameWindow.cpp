@@ -21,6 +21,7 @@ void GameWindow::closeEvent(QCloseEvent * event)
 		event->ignore();
 	}
 	else {
+		this->colsWindow.close();
 		event->accept();
 	}
 }
