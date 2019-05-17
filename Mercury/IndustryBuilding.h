@@ -12,20 +12,22 @@ class IndustryBuilding
 public:
 	IndustryBuilding() = delete;
 	IndustryBuilding(const IndustryBuilding & other)
-		:baseOutput(other.baseOutput), baseInput(other.baseInput), energyDrain(other.energyDrain), 
-		baseCost(other.baseCost), name(other.name)
+		:name(other.name), baseOutput(other.baseOutput), baseInput(other.baseInput), 
+		energyDrain(other.energyDrain), energyProduction(other.energyProduction), baseCost(other.baseCost)
 	{
 	};
-	IndustryBuilding(const std::string & name, const StockT & output, const StockT & input, int64_t drain, const StockT & cost)
-		:baseOutput(output), baseInput(input), energyDrain(drain), baseCost(cost), name(name)
+	IndustryBuilding(const std::string & name, const StockT & output, const StockT & input, uint64_t drain, const StockT & cost, uint64_t prod = 0)
+		: name(name), baseOutput(output), baseInput(input), energyDrain(drain), baseCost(cost), energyProduction(prod)
 	{};
 	~IndustryBuilding() = default;
 
 	const std::string name;
 	const StockT baseOutput;
 	const StockT baseInput;
-	//In megawatts, value lower than 0 mean that building is actually producing energy
-	const int64_t energyDrain;
+
+	//In megawatts
+	const uint64_t energyDrain;
+	const uint64_t energyProduction;
 
 	const StockT baseCost;
 
@@ -61,7 +63,7 @@ public:
 			10, {{commd["Industrial parts"], 20}, {commd["Steel"], 2}}),
 
 			IndustryBuilding("Power Plant", {{commd["Waste"], 5}}, {{commd["Carbon"], 20}},
-			-100, {{commd["Industrial parts"], 10}, {commd["Steel"], 20}, {commd["Electronics"], 5}})
+			0, {{commd["Industrial parts"], 10}, {commd["Steel"], 20}, {commd["Electronics"], 5}}, 100)
 			});
 	}
 };

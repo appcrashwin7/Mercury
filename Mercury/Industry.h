@@ -21,25 +21,24 @@ public:
 	Industry(const Industry & other) = default;
 	~Industry() = default;
 
-	float getEnergyProduction() const
+	uint64_t getEnergyProduction() const
 	{
-		float ret = 0.0f;
+		uint64_t ret = 0;
 		for (const auto & b : Buildings)
 		{
-			if (b.first.energyDrain < 0)
+			if (b.first.energyProduction > 0)
 			{
-				ret += (b.first.energyDrain * b.second);
+				ret += (b.first.energyProduction * b.second);
 			}
 		}
-		ret *= -1;
 		return ret;
 	}
-	float getEnergyDemand() const
+	uint64_t getEnergyDemand() const
 	{
-		float ret = 0.0f;
+		uint64_t ret = 0;
 		for (const auto & b : Buildings)
 		{
-			if (b.first.energyDrain != 0 && b.first.energyDrain > 0)
+			if (b.first.energyDrain > 0)
 			{
 				ret += (b.first.energyDrain * b.second);
 			}
@@ -51,10 +50,11 @@ public:
 	{
 		return Buildings;
 	}
-	std::vector<uint64_t> getWeeklyUsageOfCommodities() const
+
+	QuantityT getWeeklyUsageOfCommodities(uint64_t days = 7) const
 	{
 		Commodities commd;
-		std::vector<uint64_t> ret(commd.get().size(), 0);
+		QuantityT ret(commd.get().size(), 0);
 		for (const auto & building : Buildings)
 		{
 			if (building.second > 0)
@@ -65,7 +65,7 @@ public:
 					{
 						if (t.first == commd.get()[i])
 						{
-							ret[i] += (t.second * building.second);
+							ret[i] += (t.second * building.second * days);
 						}
 					}
 				}
@@ -73,10 +73,10 @@ public:
 		}
 		return ret;
 	}
-	std::vector<uint64_t> getWeeklyProductionOfCommodities() const
+	QuantityT getWeeklyProductionOfCommodities(uint64_t days = 7) const
 	{
 		Commodities commd;
-		std::vector<uint64_t> ret(commd.get().size(), 0);
+		QuantityT ret(commd.get().size(), 0);
 		for (const auto & building : Buildings)
 		{
 			if (building.second > 0)
@@ -87,12 +87,24 @@ public:
 					{
 						if (t.first == commd.get()[i])
 						{
-							ret[i] += (t.second * building.second);
+							ret[i] += (t.second * building.second * days);
 						}
 					}
 				}
 			}
 		}
 		return ret;
+	}
+	uint64_t getWeeklyMinesYield(uint64_t days = 7) const
+	{
+		auto mine = std::find_if(Buildings.begin(), Buildings.end(), [](const BuildingQuantityT & b)->bool
+		{
+			if (b.first.name == "Mine")
+			{
+				return true;
+			}
+			return false;
+		});
+		return (MINE_BASE_OUTPUT * mine->second * days);
 	}
 };

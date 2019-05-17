@@ -32,6 +32,17 @@ Industry & Colony::getIndustry()
 	return colonyIndustry;
 }
 
+QuantityT Colony::getWeeklyResourcesYield() const
+{
+	auto baseYield = colonyIndustry.getWeeklyMinesYield();
+	QuantityT ret;
+	for (auto res : planet.accessResources().get())
+	{
+		ret.push_back(baseYield * res.second);
+	}
+	return ret;
+}
+
 void Colony::constructStockpile(const std::vector<uint64_t>& units)
 {
 	if (units.empty())

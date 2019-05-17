@@ -21,6 +21,8 @@ public:
 	QuantityT getResourcesStockpile();
 	Industry & getIndustry();
 
+	QuantityT getWeeklyResourcesYield() const;
+
 private:
 	void constructStockpile(const std::vector<uint64_t>& units);
 	void defaultStockpile();

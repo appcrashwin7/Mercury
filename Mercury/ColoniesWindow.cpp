@@ -102,6 +102,7 @@ void ColoniesWindow::resetData()
 				auto resNames = ResourceDeposit::getResourcesNames();
 				auto & res = colonies[selectedColony].getPlanet().accessResources();
 				const auto & stockRes = colonies[selectedColony].getResourcesStockpile();
+				auto resYield = colonies[selectedColony].getWeeklyResourcesYield();
 
 				for (size_t i = 0; i < res.get().size(); i++)
 				{
@@ -111,6 +112,7 @@ void ColoniesWindow::resetData()
 					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 1, new QTableWidgetItem(Calc::representValue<uint64_t>(res.accessDeposit(i).first)));
 					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(res.accessDeposit(i).second)));
 					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(stockRes[i])));
+					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 4, new QTableWidgetItem(QString::number(resYield[i])));
 				}
 			}
 			if (selectedTab == TabT::Summary)
