@@ -149,5 +149,11 @@
     <ClInclude Include="Industry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MercurySave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSaver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

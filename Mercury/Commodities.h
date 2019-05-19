@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <qglobal.h>
+
 #include "Product.h"
 #include "ResourceDeposit.h"
 

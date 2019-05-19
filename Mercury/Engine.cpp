@@ -2,7 +2,7 @@
 
 Engine::Engine(QWidget * mainWindow, QString gameName)
 	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[3]))) }),
-	window(Colonies, mainWindow)
+	window(Colonies, mainWindow), gameName(gameName)
 {
 	window.setWindowTitle(QString("Mercury ") + gameName);
 	window.show();
@@ -28,6 +28,13 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	{
 		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body->name))));
 	}
+}
+
+Engine::~Engine()
+{
+	auto save = gameName + GAME_SAVE_EXTENSION;
+	GameSaver saver(save);
+	saver();
 }
 
 void Engine::changeTime(TimeChange change)

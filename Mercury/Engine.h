@@ -1,19 +1,21 @@
 #pragma once
 
-#include <qdatetime.h>
+#include <qdatetime>
 
 #include "GameWindow.h"
 #include "Universe.h"
 #include "Colony.h"
+#include "GameSaver.h"
 
 class Engine : public QObject
 {
 	Q_OBJECT
 public:
 	Engine(QWidget * mainWindow, QString gameName);
-	~Engine() = default;
+	~Engine();
 
 private:
+	QString gameName;
 	GameWindow window;
 	QDateTime gameTime;
 	Universe gameUniverse;

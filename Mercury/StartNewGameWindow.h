@@ -1,6 +1,7 @@
 #pragma once
 
-#include <QtWidgets/QWidget.h>
+#include <QtWidgets/QWidget>
+
 #include "ui_NewGameWindow.h"
 
 class StartNewGameWindow : public QWidget

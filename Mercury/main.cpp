@@ -1,6 +1,7 @@
+#include <QtWidgets/QApplication>
+
 #include "Mercury.h"
 #include "StartNewGameWindow.h"
-#include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[])
 {
