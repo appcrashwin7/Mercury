@@ -26,10 +26,28 @@ void Mercury::closeNewGameDialog()
 
 void Mercury::loadGameDialog()
 {
+	ui.newGameButton->setEnabled(false);
+	ui.loadGameButton->setEnabled(false);
+
 	QFileDialog saveLoad(this, Qt::Window);
 	saveLoad.setNameFilter("Mercury Saves (*.msave)");
 	saveLoad.show();
-	saveLoad.exec();
+	if (saveLoad.exec())
+	{
+		auto file = saveLoad.selectedFiles()[0];
+		if (!file.isEmpty())
+		{
+			this->setVisible(false);
+			auto fileStr = file.toStdString();
+			auto fileNameBeg = fileStr.find_last_of('/') + 1;
+			fileStr = fileStr.substr(fileNameBeg, fileStr.find_last_of('.') - fileNameBeg);
+
+			std::unique_ptr<Engine> ptr(new Engine(nullptr, QString::fromStdString(fileStr)));
+			game.swap(ptr);
+		}
+	}
+	ui.newGameButton->setEnabled(true);
+	ui.loadGameButton->setEnabled(false);
 }
 
 void Mercury::playGame()
