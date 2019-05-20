@@ -47,7 +47,7 @@ void Mercury::loadGameDialog()
 		}
 	}
 	ui.newGameButton->setEnabled(true);
-	ui.loadGameButton->setEnabled(false);
+	ui.loadGameButton->setEnabled(true);
 }
 
 void Mercury::playGame()
