@@ -5,8 +5,8 @@
 
 class GameSaver : public MercurySave
 {
-	const Universe * universeToSave;
-	const std::vector<Colony> * coloniesToSave;
+	const Universe * universeToSave = nullptr;
+	const std::vector<Colony> * coloniesToSave = nullptr;
 public:
 	GameSaver() = delete;
 	GameSaver(const QString & fileName)
@@ -17,23 +17,20 @@ public:
 
 	void addUniverse(const Universe * universe)
 	{
-		if (universe == nullptr)
-		{
-			qFatal("GameSaver received nullpointer to Universe");
-		}
+		checkIfNullptr(universe);
 		universeToSave = universe;
 	}
 	void addColonies(const std::vector<Colony> * colonies)
 	{
-		if (colonies == nullptr)
-		{
-			qFatal("GameSaver received nullpointer to vector<Colony>");
-		}
+		checkIfNullptr(colonies);
 		coloniesToSave = colonies;
 	}
 
 	void operator()()
 	{
+		checkIfNullptr(universeToSave);
+		checkIfNullptr(coloniesToSave);
+
 		openDB();
 		createTables();
 		closeDB();
@@ -47,5 +44,15 @@ private:
 			"ID int NOT NULL, NAME text, TYPE  int NOT NULL, PARENT_ID int NOT NULL, ORBIT_APOAPSIS real NOT NULL, " \
 			"ORBIT PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL);", save);
 		createCelBodiesList.exec();
+	}
+
+	template<typename T>
+	bool checkIfNullptr(T * ptr)
+	{
+		if (ptr == nullptr)
+		{
+			qFatal("GameSaver received nullptr!");
+		}
+		return false;
 	}
 };

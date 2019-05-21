@@ -34,6 +34,8 @@ Engine::~Engine()
 {
 	auto save = gameName + GAME_SAVE_EXTENSION;
 	GameSaver saver(save);
+	saver.addColonies(&Colonies);
+	saver.addUniverse(&gameUniverse);
 	saver();
 }
 
