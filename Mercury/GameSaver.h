@@ -38,9 +38,9 @@ public:
 private:
 	void createTables()
 	{
-		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEM(ID int NOT NULL, NAME text, CelestialBodiesAm int NOT NULL);", save);
+		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEM(ID int NOT NULL, NAME text);", save);
 		createSystemsTable.exec();
-		QSqlQuery createCelBodiesList("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(" \
+		QSqlQuery createCelBodiesList("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(SYSTEM_ID int NOT NULL, " \
 			"ID int NOT NULL, NAME text, TYPE int NOT NULL, PARENT_ID int NOT NULL, ORBIT_APOAPSIS real NOT NULL, " \
 			"ORBIT_PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL);", save);
 		createCelBodiesList.exec();
@@ -53,8 +53,7 @@ private:
 		for (size_t i = 0; i < universeToSave->getSystems().size(); i++)
 		{
 			QSqlQuery insert("INSERT INTO SYSTEM VALUES (" + QString::number(i) + "," + "'" +
-				QString::fromStdString(universeToSave->getSystems()[i].name) + "'" + ", " +
-				QString::number(universeToSave->getSystems()[i].Bodies.size()) + ");", save);
+				QString::fromStdString(universeToSave->getSystems()[i].name) + "'" +");", save);
 			insert.exec();
 		}
 	}
