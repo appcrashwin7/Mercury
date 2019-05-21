@@ -2,7 +2,6 @@
 
 #include "MercurySave.h"
 
-
 class GameSaver : public MercurySave
 {
 	const Universe * universeToSave = nullptr;
@@ -33,17 +32,31 @@ public:
 
 		openDB();
 		createTables();
+		saveSystems();
 		closeDB();
 	}
 private:
 	void createTables()
 	{
-		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXIST SYSTEM(ID int, CelestialObjects int)", save);
+		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEM(ID int NOT NULL, NAME text, CelestialBodiesAm int NOT NULL);", save);
 		createSystemsTable.exec();
 		QSqlQuery createCelBodiesList("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(" \
-			"ID int NOT NULL, NAME text, TYPE  int NOT NULL, PARENT_ID int NOT NULL, ORBIT_APOAPSIS real NOT NULL, " \
-			"ORBIT PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL);", save);
+			"ID int NOT NULL, NAME text, TYPE int NOT NULL, PARENT_ID int NOT NULL, ORBIT_APOAPSIS real NOT NULL, " \
+			"ORBIT_PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL);", save);
 		createCelBodiesList.exec();
+	}
+
+	void saveSystems()
+	{
+		QSqlQuery del("DELETE FROM SYSTEM", save);
+		del.exec();
+		for (size_t i = 0; i < universeToSave->getSystems().size(); i++)
+		{
+			QSqlQuery insert("INSERT INTO SYSTEM VALUES (" + QString::number(i) + "," + "'" +
+				QString::fromStdString(universeToSave->getSystems()[i].name) + "'" + ", " +
+				QString::number(universeToSave->getSystems()[i].Bodies.size()) + ");", save);
+			insert.exec();
+		}
 	}
 
 	template<typename T>
