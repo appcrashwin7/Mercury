@@ -33,6 +33,7 @@ public:
 		openDB();
 		createTables();
 		saveSystems();
+		saveBodies();
 		closeDB();
 	}
 private:
@@ -41,7 +42,7 @@ private:
 		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEM(ID int NOT NULL, NAME text);", save);
 		createSystemsTable.exec();
 		QSqlQuery createCelBodiesList("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(SYSTEM_ID int NOT NULL, " \
-			"ID int NOT NULL, NAME text, TYPE int NOT NULL, PARENT_ID int NOT NULL, ORBIT_APOAPSIS real NOT NULL, " \
+			"ID int NOT NULL, NAME text, TYPE int NOT NULL, PARENT_ID int, ORBIT_APOAPSIS real NOT NULL, " \
 			"ORBIT_PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL);", save);
 		createCelBodiesList.exec();
 	}
@@ -55,6 +56,44 @@ private:
 			QSqlQuery insert("INSERT INTO SYSTEM VALUES (" + QString::number(i) + "," + "'" +
 				QString::fromStdString(universeToSave->getSystems()[i].name) + "'" +");", save);
 			insert.exec();
+		}
+	}
+
+	void saveBodies()
+	{
+		QSqlQuery del("DELETE FROM CELESTIAL_BODIES", save);
+		del.exec();
+		
+		for (size_t iSys = 0; iSys < universeToSave->getSystems().size(); iSys++)
+		{
+			for (size_t iBody = 0; iBody < universeToSave->getSystems()[iSys].Bodies.size(); iBody++)
+			{
+				auto body = universeToSave->getSystems()[iSys].Bodies[iBody];
+				QSqlQuery insertBody;
+				insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS) "
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+				insertBody.addBindValue(iSys);
+				insertBody.addBindValue(iBody);
+				insertBody.addBindValue(QString::fromStdString(body->name));
+				insertBody.addBindValue(static_cast<uint32_t>(body->type));
+
+				if (body->parent.has_value())
+				{
+					insertBody.addBindValue(body->parent.value());
+				}
+				else
+				{
+					insertBody.addBindValue(QVariant());
+				}
+
+				insertBody.addBindValue(body->bodyOrbit.apoapsis.value());
+				insertBody.addBindValue(body->bodyOrbit.periapsis.value());
+				insertBody.addBindValue(body->radius.value());
+				insertBody.addBindValue(body->mass.value());
+
+				insertBody.exec();
+			}
 		}
 	}
 
