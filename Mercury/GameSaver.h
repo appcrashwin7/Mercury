@@ -41,10 +41,14 @@ private:
 	{
 		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEM(ID int NOT NULL, NAME text);", save);
 		createSystemsTable.exec();
-		QSqlQuery createCelBodiesList("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(SYSTEM_ID int NOT NULL, " \
+		QSqlQuery createCelBodiesTable("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(SYSTEM_ID int NOT NULL, " \
 			"ID int NOT NULL, NAME text, TYPE int NOT NULL, PARENT_ID int, ORBIT_APOAPSIS real NOT NULL, " \
 			"ORBIT_PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL);", save);
-		createCelBodiesList.exec();
+		createCelBodiesTable.exec();
+		QSqlQuery createColoniesTable("CREATE TABLE IF NOT EXISTS COLONIES("\
+			"ID int NOT NULL, SYSTEM_ID int NOT NULL, BODY_ID int NOT NULL);", save);
+		createColoniesTable.exec();
+
 	}
 
 	void saveSystems()
@@ -58,7 +62,6 @@ private:
 			insert.exec();
 		}
 	}
-
 	void saveBodies()
 	{
 		QSqlQuery del("DELETE FROM CELESTIAL_BODIES", save);
