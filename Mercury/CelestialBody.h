@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Orbit.h"
 #include "ResourceDeposit.h"
 
@@ -21,14 +23,14 @@ protected:
 	ResourceDeposit Resources = ResourceDeposit();
 public:
 	CelestialBody() = delete;
-	CelestialBody(Length radius, Mass mass, CelestialBodyType type, CelestialBody * parent = nullptr, Orbit orb = Orbit(), const std::string & name = "");
+	CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb = Orbit(), const std::string & name = "");
 	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
 	virtual ~CelestialBody() = default;
 
 	std::string name;
 	
 	const CelestialBodyType type;
-	const CelestialBody * const parent;
+	const std::optional<size_t> parent;
 
 	const Orbit bodyOrbit;
 	const Length radius;

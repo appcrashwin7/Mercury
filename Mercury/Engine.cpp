@@ -111,8 +111,11 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 				setItemValue("Periapsis", "---");
 			}
 
-			if (actualBody->parent != nullptr)
-				setItemValue("Parent body", QString::fromStdString(actualBody->parent->name));
+			if (actualBody->parent.has_value())
+			{
+
+				setItemValue("Parent body", QString::fromStdString(gameUniverse.getSystem(0).Bodies[actualBody->parent.value()]->name));
+			}
 			else
 				setItemValue("Parent body", "---");
 		}
