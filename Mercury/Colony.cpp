@@ -17,6 +17,11 @@ const Planet & Colony::getPlanet() const
 	return planet;
 }
 
+const StockT & Colony::getStockpile() const
+{
+	return stock;
+}
+
 StockT & Colony::getStockpile()
 {
 	return stock;
@@ -25,6 +30,11 @@ StockT & Colony::getStockpile()
 QuantityT Colony::getResourcesStockpile()
 {
 	return resourcesStock;
+}
+
+const Industry & Colony::getIndustry() const
+{
+	return colonyIndustry;
 }
 
 Industry & Colony::getIndustry()

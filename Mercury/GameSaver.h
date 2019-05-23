@@ -34,6 +34,7 @@ public:
 		createTables();
 		saveSystems();
 		saveBodies();
+		saveColonies();
 		closeDB();
 	}
 private:
@@ -97,6 +98,76 @@ private:
 
 				insertBody.exec();
 			}
+		}
+	}
+	void saveColonies()
+	{
+		auto findPlanet = [&](const Planet * searched)->std::optional<std::pair<size_t, size_t>>
+		{
+			auto ret = std::optional<std::pair<size_t, size_t>>();
+			for (size_t iSys = 0; iSys < universeToSave->getSystems().size(); iSys++)
+			{
+				for (size_t iBody = 0; iBody < universeToSave->getSystems()[iSys].Bodies.size(); iBody++)
+				{
+					if (universeToSave->getSystems()[iSys].Bodies[iBody] == searched)
+					{
+						ret.emplace(std::make_pair(iSys, iBody));
+					}
+				}
+			}
+			return ret;
+		};
+
+		QString createStockTableBeg("CREATE TABLE IF NOT EXISTS STOCK_");
+		QString createStockTableEnd("(amount TEXT NOT NULL);");
+		QString clearStockTable("DELETE FROM STOCK_");
+
+		QString createIndustryTableBeg("CREATE TABLE IF NOT EXISTS INDUSTRY_");
+		QString createIndustryTableEnd("(amount TEXT NOT NULL);");
+		QString clearIndustryTable("DELETE FROM INDUSTRY_");
+
+		for (size_t iCol = 0; iCol < coloniesToSave->size(); iCol++)
+		{
+			QSqlQuery insertCols;
+			insertCols.prepare("INSERT INTO COLONIES(ID, SYSTEM_ID, BODY_ID)"
+				"VALUES (?, ?, ?);");
+
+			auto iColStr = QString::number(iCol);
+			auto planetID = findPlanet(&(coloniesToSave->operator[](iCol).getPlanet()));
+			insertCols.addBindValue(iCol);
+			insertCols.addBindValue(planetID.value().first);
+			insertCols.addBindValue(planetID.value().second);
+
+			insertCols.exec();
+			QSqlQuery createStock(createStockTableBeg + iColStr + createStockTableEnd);
+			createStock.exec();
+			QSqlQuery createIndustry(createIndustryTableBeg + iColStr + createIndustryTableEnd);
+			createIndustry.exec();
+
+			QSqlQuery clearStock(clearStockTable + iColStr);
+			clearStock.exec();
+			QSqlQuery clearIndustry(clearIndustryTable + iColStr);
+			clearIndustry.exec();
+
+			QSqlQuery insertStock;
+			insertStock.prepare("INSERT INTO STOCK_" + iColStr + "(amount)" + "VALUES(?)");
+			QVariantList amountList;
+			for (auto & iStock : coloniesToSave->operator[](iCol).getStockpile())
+			{
+				amountList << QString::number(iStock.second);
+			}
+			insertStock.addBindValue(amountList);
+			insertStock.execBatch();
+			
+			amountList.clear();
+			QSqlQuery insertIndustry;
+			insertIndustry.prepare("INSERT INTO INDUSTRY_" + iColStr + "(amount)" + "VALUES(?)");
+			for (auto & buildingAm : coloniesToSave->operator[](iCol).getIndustry().getBuildings())
+			{
+				amountList << QString::number(buildingAm.second);
+			}
+			insertIndustry.addBindValue(amountList);
+			insertIndustry.execBatch();
 		}
 	}
 

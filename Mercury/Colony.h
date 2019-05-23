@@ -17,8 +17,10 @@ public:
 	~Colony() = default;
 
 	const Planet & getPlanet() const;
+	const StockT & getStockpile() const;
 	StockT & getStockpile();
 	QuantityT getResourcesStockpile();
+	const Industry & getIndustry() const;
 	Industry & getIndustry();
 
 	QuantityT getWeeklyResourcesYield() const;
