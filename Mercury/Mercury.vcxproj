@@ -166,6 +166,7 @@
     </QtMoc>
     <ClInclude Include="Colony.h" />
     <ClInclude Include="Commodities.h" />
+    <ClInclude Include="GameLoader.h" />
     <ClInclude Include="GameSaver.h" />
     <ClInclude Include="Industry.h" />
     <ClInclude Include="IndustryBuilding.h" />
