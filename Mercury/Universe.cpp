@@ -6,7 +6,7 @@ Universe::Universe()
 
 	addSystem(PlanetarySystem("Sol System"));
 	getSystem(0).Bodies.push_back(new Star(CelestialBody(units::si::meter * 6.9 * pow(10, 8), 
-		units::si::kilogram * 2.0 * pow(10, 30), CelestialBodyType::Star, {}, Orbit(), "Sol"), 3.75 * pow(10, 28), 0.0122f));
+		units::si::kilogram * 2.0 * pow(10, 30), CelestialBodyType::Star, {}, Orbit(), "Sol", units::si::kelvin * 5800)));
 
 	getSystem(0).Bodies.push_back(new Planet(
 		CelestialBody(units::si::meter * (2.4 * radiMult), units::si::kilogram * 3.3 * pow(10, 23), CelestialBodyType::Planet, 0, 

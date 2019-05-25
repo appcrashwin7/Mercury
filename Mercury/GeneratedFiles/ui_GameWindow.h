@@ -189,7 +189,13 @@ public:
         new QTreeWidgetItem(objectValues);
         new QTreeWidgetItem(objectValues);
         new QTreeWidgetItem(objectValues);
+        new QTreeWidgetItem(objectValues);
         objectValues->setObjectName(QStringLiteral("objectValues"));
+        objectValues->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        objectValues->setExpandsOnDoubleClick(true);
+        objectValues->header()->setCascadingSectionResizes(false);
+        objectValues->header()->setHighlightSections(false);
+        objectValues->header()->setStretchLastSection(true);
 
         gridLayout->addWidget(objectValues, 1, 0, 1, 1);
 
@@ -247,13 +253,15 @@ public:
         QTreeWidgetItem *___qtreewidgetitem3 = objectValues->topLevelItem(2);
         ___qtreewidgetitem3->setText(0, QApplication::translate("GameWindow", "Radius", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem4 = objectValues->topLevelItem(3);
-        ___qtreewidgetitem4->setText(0, QApplication::translate("GameWindow", "Escape velocity", Q_NULLPTR));
+        ___qtreewidgetitem4->setText(0, QApplication::translate("GameWindow", "Surface temperature", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem5 = objectValues->topLevelItem(4);
-        ___qtreewidgetitem5->setText(0, QApplication::translate("GameWindow", "Surface gravity", Q_NULLPTR));
+        ___qtreewidgetitem5->setText(0, QApplication::translate("GameWindow", "Escape velocity", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem6 = objectValues->topLevelItem(5);
-        ___qtreewidgetitem6->setText(0, QApplication::translate("GameWindow", "Periapsis", Q_NULLPTR));
+        ___qtreewidgetitem6->setText(0, QApplication::translate("GameWindow", "Surface gravity", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem7 = objectValues->topLevelItem(6);
-        ___qtreewidgetitem7->setText(0, QApplication::translate("GameWindow", "Apoapsis", Q_NULLPTR));
+        ___qtreewidgetitem7->setText(0, QApplication::translate("GameWindow", "Periapsis", Q_NULLPTR));
+        QTreeWidgetItem *___qtreewidgetitem8 = objectValues->topLevelItem(7);
+        ___qtreewidgetitem8->setText(0, QApplication::translate("GameWindow", "Apoapsis", Q_NULLPTR));
         objectValues->setSortingEnabled(__sortingEnabled);
 
         Q_UNUSED(GameWindow);

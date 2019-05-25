@@ -23,7 +23,7 @@ protected:
 	ResourceDeposit Resources = ResourceDeposit();
 public:
 	CelestialBody() = delete;
-	CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb = Orbit(), const std::string & name = "");
+	CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb = Orbit(), const std::string & name = "", Temperature temp = 0);
 	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
 	virtual ~CelestialBody() = default;
 
@@ -35,6 +35,7 @@ public:
 	const Orbit bodyOrbit;
 	const Length radius;
 	const Mass mass;
+	const Temperature surfaceTemperature;
 
 
 	const Velocity escapeVelocity;

@@ -99,6 +99,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 			setItemValue("Radius", QString::number(actualBody->radius.value()) + " m");
 			setItemValue("Escape velocity", QString::number(actualBody->escapeVelocity.value()) + " m/s");
 			setItemValue("Surface gravity", QString::number(actualBody->surfaceGravity.value()) + " m/s^2");
+			setItemValue("Surface temperature", QString::number(actualBody->surfaceTemperature.value()) + " K");
 
 			if (!actualBody->bodyOrbit.isZero)
 			{
