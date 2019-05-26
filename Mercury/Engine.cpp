@@ -7,7 +7,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	window.setWindowTitle(QString("Mercury ") + gameName);
 	window.show();
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
-	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));
+	timeShow->setText(gameTime.toString(GAME_TIME_FORMAT));
 
 	QPushButton * iTime1h = this->window.findChild<QPushButton*>("iTime1h");
 	QPushButton * iTime6h = this->window.findChild<QPushButton*>("iTime6h");
@@ -36,6 +36,7 @@ Engine::~Engine()
 	GameSaver saver(save);
 	saver.addColonies(&Colonies);
 	saver.addUniverse(&gameUniverse);
+	saver.addGameTime(&gameTime);
 	saver();
 }
 

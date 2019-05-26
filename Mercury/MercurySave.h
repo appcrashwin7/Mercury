@@ -12,6 +12,8 @@
 const static QString GAME_SAVE_EXTENSION = ".msave";
 const static QString DB_EXTENSION = ".db";
 
+const static QString GAME_TIME_FORMAT = "d/M/yyyy h:mm AD";
+
 class MercurySave
 {
 protected:
@@ -25,11 +27,6 @@ public:
 	{
 	}
 	~MercurySave() = default;
-
-	const QSqlDatabase & get() const
-	{
-		return save;
-	}
 
 protected:
 	void openDB()

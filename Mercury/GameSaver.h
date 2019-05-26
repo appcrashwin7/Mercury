@@ -6,6 +6,7 @@ class GameSaver : public MercurySave
 {
 	const Universe * universeToSave = nullptr;
 	const std::vector<Colony> * coloniesToSave = nullptr;
+	const QDateTime * gameTime = nullptr;
 public:
 	GameSaver() = delete;
 	GameSaver(const QString & fileName)
@@ -24,6 +25,11 @@ public:
 		checkIfNullptr(colonies);
 		coloniesToSave = colonies;
 	}
+	void addGameTime(const QDateTime * time)
+	{
+		checkIfNullptr(time);
+		gameTime = time;
+	}
 
 	void operator()()
 	{
@@ -32,6 +38,7 @@ public:
 
 		openDB();
 		createTables();
+		saveTime();
 		saveSystems();
 		saveBodies();
 		saveColonies();
@@ -49,7 +56,6 @@ private:
 		QSqlQuery createColoniesTable("CREATE TABLE IF NOT EXISTS COLONIES("\
 			"ID int NOT NULL, SYSTEM_ID int NOT NULL, BODY_ID int NOT NULL);", save);
 		createColoniesTable.exec();
-
 	}
 
 	void saveSystems()
@@ -172,6 +178,17 @@ private:
 			insertIndustry.addBindValue(amountList);
 			insertIndustry.execBatch();
 		}
+	}
+	void saveTime()
+	{
+		QSqlQuery timeTableCreate("CREATE TABLE IF NOT EXISTS GAME_TIME(TIME text NOT NULL);", save);
+		timeTableCreate.exec();
+
+		QSqlQuery timeDel("DELETE FROM GAME_TIME", save);
+		timeDel.exec();
+
+		QSqlQuery timeInsert("INSERT INTO GAME_TIME VALUES('" + gameTime->toString(GAME_TIME_FORMAT) + "');");
+		timeInsert.exec();
 	}
 
 	void saveBodyResources(size_t iSystem, size_t iBody, const CelestialBody * body)
