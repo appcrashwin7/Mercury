@@ -5,21 +5,24 @@
 #include <vector>
 #include <array>
 
+static constexpr size_t RESOURCES_LIST_SIZE = 18;
 
 //Amount, accessibly
 using Deposit = std::pair<uint64_t, float>;
+
 using ResQuantity = std::pair<uint64_t, uint64_t>;
 
-
-static constexpr size_t RESOURCES_LIST_SIZE = 18;
-
+using DepositContainer = std::array<Deposit, RESOURCES_LIST_SIZE>;
 
 class ResourceDeposit
 {
-	std::vector<Deposit> Res = std::vector<Deposit>(RESOURCES_LIST_SIZE, std::allocator<Deposit>());
+	DepositContainer Res = {};
 
 public:
 	ResourceDeposit() = default;
+	ResourceDeposit(const DepositContainer & otherRes)
+		:Res(otherRes)
+	{};
 	ResourceDeposit(const ResourceDeposit & other) = default;
 	ResourceDeposit(ResourceDeposit && other) = default;
 	~ResourceDeposit() = default;
@@ -32,9 +35,9 @@ public:
 		}
 	}
 
-	std::vector<uint64_t> SubstrAll(uint64_t amount)
+	std::array<uint64_t, RESOURCES_LIST_SIZE> SubstrAll(uint64_t amount)
 	{
-		std::vector<uint64_t> ret(RESOURCES_LIST_SIZE, {});
+		std::array<uint64_t, RESOURCES_LIST_SIZE> ret = {};
 		for (size_t i = 0; i < Res.size(); i++)
 		{
 			if (Res[i].first > 0)
@@ -86,22 +89,22 @@ public:
 		return true;
 	}
 
-	static std::vector<size_t> getLightElementsIds()
+	static std::array<size_t, 8> getLightElementsIds()
 	{
-		return std::vector<size_t>({ 0, 1, 10, 13, 14, 15, 16, 17 });
+		return { 0, 1, 10, 13, 14, 15, 16, 17 };
 	}
-	static std::vector<std::string> getResourcesNames()
+	static std::array<std::string, RESOURCES_LIST_SIZE> getResourcesNames()
 	{
-		return std::vector<std::string>({ "Water", "Frozen water", "Aluminum", "Copper", "Gold", "Iron", "Titanium",
-			"Lead", "Silver", "Zinc", "Carbon", "Thorium", "Uranium", "Lithium", "Helium", "Sulfur", "Silicon", "Nitrogen" });
+		return { "Water", "Frozen water", "Aluminum", "Copper", "Gold", "Iron", "Titanium",
+			"Lead", "Silver", "Zinc", "Carbon", "Thorium", "Uranium", "Lithium", "Helium", "Sulfur", "Silicon", "Nitrogen" };
 	}
 	static std::array<float, RESOURCES_LIST_SIZE> getResourcesDensity()
 	{
-		return std::array<float, RESOURCES_LIST_SIZE>({ 1.0f, 1.0f, 3.0f, 9.0f, 19.0f, 8.0f, 4.5f,
-			11.0f, 7.0f, 2.0f, 3.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f });
+		return { 1.0f, 1.0f, 3.0f, 9.0f, 19.0f, 8.0f, 4.5f,
+			11.0f, 7.0f, 2.0f, 3.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f };
 	}
 
-	const std::vector<Deposit> & get() const
+	const DepositContainer & get() const
 	{
 		return Res;
 	}

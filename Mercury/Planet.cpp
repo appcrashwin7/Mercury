@@ -8,8 +8,10 @@ Planet::Planet(const CelestialBody & body, ResourceDeposit res)
 
 ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 {
-	auto isLightElem = [](size_t id, std::vector<size_t> & lightElements)->bool
+	auto isLightElem = [](size_t id)->bool
 	{
+		auto lightElements = ResourceDeposit::getLightElementsIds();
+
 		auto elem = std::find(lightElements.begin(), lightElements.end(), id);
 		if (elem != lightElements.end())
 		{
@@ -38,7 +40,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 				double normal = maxRes / densities[i];
 				double bonus = normal * heavyElementsBonus;
 
-				if (isLightElem(i, lightElements))
+				if (isLightElem(i))
 				{
 					custom.editDeposit(i).first = static_cast<uint64_t>(normal);
 					custom.editDeposit(i).second = Calc::roundToDecimalPlace<float>((1.0f - static_cast<float>(lightElementsAccessPen)), 2);
@@ -65,7 +67,7 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 				double normal = maxRes / densities[i];
 				double bonus = normal * lightElementsBonus;
 
-				if (isLightElem(i, lightElements))
+				if (isLightElem(i))
 				{
 					custom.editDeposit(i).first = static_cast<uint64_t>(bonus);
 					custom.editDeposit(i).second = 1.0f;
