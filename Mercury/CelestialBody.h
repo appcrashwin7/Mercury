@@ -15,7 +15,7 @@ enum class CelestialBodyType
 };
 
 static constexpr double MEAN_DENSITY = 3000.0;
-static const double BODY_MASS_TO_DEPOSIT_SIZE_MULT = (1.0 / std::pow(10, 16));
+static constexpr double BODY_MASS_TO_DEPOSIT_SIZE_MULT = 1e-16;
 
 class CelestialBody
 {
