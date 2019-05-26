@@ -7,6 +7,7 @@
 #include <qdebug.h>
 
 #include "Engine.h"
+#include "GameLoader.h"
 #include "ui_Mercury.h"
 #include "StartNewGameWindow.h"
 

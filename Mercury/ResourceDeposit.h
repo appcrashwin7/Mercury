@@ -21,6 +21,7 @@ class ResourceDeposit
 public:
 	ResourceDeposit() = default;
 	ResourceDeposit(const ResourceDeposit & other) = default;
+	ResourceDeposit(ResourceDeposit && other) = default;
 	~ResourceDeposit() = default;
 
 	void replace(const ResourceDeposit & other)

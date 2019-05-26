@@ -4,6 +4,7 @@
 #include <QtSql/qsqlerror>
 #include <QtSql/qsqlquery>
 #include <qfile>
+#include <qvariant>
 
 #include "Universe.h"
 #include "Colony.h"

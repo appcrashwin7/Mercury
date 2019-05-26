@@ -6,6 +6,7 @@ class Universe
 {
 public:
 	Universe();
+	Universe(Universe && other) = default;
 	~Universe() = default;
 
 	PlanetarySystem & getSystem(size_t index);
