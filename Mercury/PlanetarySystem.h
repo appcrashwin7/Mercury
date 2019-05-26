@@ -7,11 +7,13 @@ class PlanetarySystem
 {
 public:
 	PlanetarySystem(const std::string & sysName);
-	~PlanetarySystem();
+	PlanetarySystem(const PlanetarySystem & other) = delete;
+	PlanetarySystem(PlanetarySystem && system) = default;
+	~PlanetarySystem() = default;
 
 
 	std::string name;
-	std::vector<CelestialBody*> Bodies;
+	std::vector<CelestialBodyPtr> Bodies;
 private:
 	
 };

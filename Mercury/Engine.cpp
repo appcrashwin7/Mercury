@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 Engine::Engine(QWidget * mainWindow, QString gameName)
-	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[3]))) }),
+	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[3].get()))) }),
 	window(Colonies, mainWindow), gameName(gameName)
 {
 	window.setWindowTitle(QString("Mercury ") + gameName);
@@ -24,9 +24,9 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
 
 	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).name));
-	for (const auto body : this->gameUniverse.getSystem(0).Bodies)
+	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)
 	{
-		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body->name))));
+		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body.get()->name))));
 	}
 }
 
@@ -86,7 +86,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 		QString bodyName = item->text(column);
 
 		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
-		CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName.toStdString());
+		const CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName.toStdString());
 
 		auto setItemValue = [objectValues](QString item, QString value)->void
 		{
@@ -114,8 +114,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 
 			if (actualBody->parent.has_value())
 			{
-
-				setItemValue("Parent body", QString::fromStdString(gameUniverse.getSystem(0).Bodies[actualBody->parent.value()]->name));
+				setItemValue("Parent body", QString::fromStdString(gameUniverse.getSystem(0).Bodies[actualBody->parent.value()].get()->name));
 			}
 			else
 				setItemValue("Parent body", "---");
@@ -123,15 +122,15 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 	}
 }
 
-CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const std::string & name)
+const CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const std::string & name)
 {
-	auto result = std::find_if(system.Bodies.begin(), system.Bodies.end(), [name](CelestialBody * body)->bool 
+	auto result = std::find_if(system.Bodies.begin(), system.Bodies.end(), [name](const CelestialBodyPtr & body)->bool 
 	{
-		if (body->name == name)
+		if (body.get()->name == name)
 		{
 			return true;
 		}
 		return false;
 	});
-	return result.operator*();
+	return result.operator*().get();
 }

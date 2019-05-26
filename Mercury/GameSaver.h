@@ -72,7 +72,8 @@ private:
 		{
 			for (size_t iBody = 0; iBody < universeToSave->getSystems()[iSys].Bodies.size(); iBody++)
 			{
-				auto body = universeToSave->getSystems()[iSys].Bodies[iBody];
+				auto body = universeToSave->getSystems()[iSys].Bodies[iBody].get();
+
 				QSqlQuery insertBody;
 				insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS) "
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -109,7 +110,7 @@ private:
 			{
 				for (size_t iBody = 0; iBody < universeToSave->getSystems()[iSys].Bodies.size(); iBody++)
 				{
-					if (universeToSave->getSystems()[iSys].Bodies[iBody] == searched)
+					if (universeToSave->getSystems()[iSys].Bodies[iBody].get() == searched)
 					{
 						ret.emplace(std::make_pair(iSys, iBody));
 					}

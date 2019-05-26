@@ -22,7 +22,7 @@ private:
 	std::vector<Colony> Colonies;
 
 	void changeTime(TimeChange change = TimeChange::hour_1);
-	CelestialBody * searchBodyByName(const PlanetarySystem & system, const std::string & name);
+	const CelestialBody * searchBodyByName(const PlanetarySystem & system, const std::string & name);
 
 public slots:
 	void showBodyInfo(QTreeWidgetItem * item, int column);

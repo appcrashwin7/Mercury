@@ -21,6 +21,7 @@ class CelestialBody
 {
 protected:
 	ResourceDeposit Resources = ResourceDeposit();
+
 public:
 	CelestialBody() = delete;
 	CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb = Orbit(), const std::string & name = "", Temperature temp = 0);
@@ -48,3 +49,5 @@ public:
 	const ResourceDeposit & accessResources() const;
 	ResourceDeposit & getResources();
 };
+
+using CelestialBodyPtr = std::unique_ptr<CelestialBody>;

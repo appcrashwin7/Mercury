@@ -14,8 +14,7 @@ public:
 	IndustryBuilding(const IndustryBuilding & other)
 		:name(other.name), baseOutput(other.baseOutput), baseInput(other.baseInput), 
 		energyDrain(other.energyDrain), energyProduction(other.energyProduction), baseCost(other.baseCost)
-	{
-	};
+	{};
 	IndustryBuilding(const std::string & name, const StockT & output, const StockT & input, Energy drain, const StockT & cost, Energy prod = Energy())
 		: name(name), baseOutput(output), baseInput(input), energyDrain(drain), baseCost(cost), energyProduction(prod)
 	{};

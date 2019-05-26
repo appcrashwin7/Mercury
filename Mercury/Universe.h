@@ -9,7 +9,7 @@ public:
 	~Universe() = default;
 
 	PlanetarySystem & getSystem(size_t index);
-	void addSystem(PlanetarySystem & newSystem);
+	void addSystem(const std::string & name);
 	void addSystem(PlanetarySystem && newSystem);
 
 
