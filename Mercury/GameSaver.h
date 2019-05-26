@@ -44,7 +44,7 @@ private:
 		createSystemsTable.exec();
 		QSqlQuery createCelBodiesTable("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(SYSTEM_ID int NOT NULL, " \
 			"ID int NOT NULL, NAME text, TYPE int NOT NULL, PARENT_ID int, ORBIT_APOAPSIS real NOT NULL, " \
-			"ORBIT_PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL);", save);
+			"ORBIT_PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL, TEMPERATURE int NOT NULL);", save);
 		createCelBodiesTable.exec();
 		QSqlQuery createColoniesTable("CREATE TABLE IF NOT EXISTS COLONIES("\
 			"ID int NOT NULL, SYSTEM_ID int NOT NULL, BODY_ID int NOT NULL);", save);
@@ -67,7 +67,7 @@ private:
 	{
 		QSqlQuery del("DELETE FROM CELESTIAL_BODIES", save);
 		del.exec();
-		
+
 		for (size_t iSys = 0; iSys < universeToSave->getSystems().size(); iSys++)
 		{
 			for (size_t iBody = 0; iBody < universeToSave->getSystems()[iSys].Bodies.size(); iBody++)
@@ -75,8 +75,8 @@ private:
 				auto body = universeToSave->getSystems()[iSys].Bodies[iBody].get();
 
 				QSqlQuery insertBody;
-				insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS) "
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE) "
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 				insertBody.addBindValue(iSys);
 				insertBody.addBindValue(iBody);
@@ -96,8 +96,10 @@ private:
 				insertBody.addBindValue(body->bodyOrbit.periapsis.value());
 				insertBody.addBindValue(body->radius.value());
 				insertBody.addBindValue(body->mass.value());
+				insertBody.addBindValue(body->surfaceTemperature.value());
 
 				insertBody.exec();
+				saveBodyResources(iSys, iBody, body);
 			}
 		}
 	}
@@ -170,6 +172,40 @@ private:
 			insertIndustry.addBindValue(amountList);
 			insertIndustry.execBatch();
 		}
+	}
+
+	void saveBodyResources(size_t iSystem, size_t iBody, const CelestialBody * body)
+	{
+		QString iBodyStr = QString::number(iBody);
+		QString iSysStr = QString::number(iSystem);
+
+		QString resourcesTableCrBeg("CREATE TABLE IF NOT EXISTS RESOURCES_");
+		QString resourcesTableCrEnd("( AMOUNT TEXT NOT NULL, ACCESS real NOT NULL);");
+		QSqlQuery resourceTableCr(resourcesTableCrBeg + iSysStr + "_" + iBodyStr + resourcesTableCrEnd);
+		resourceTableCr.exec();
+
+		QString resourceTableDel("DELETE FROM RESOURCES_");
+		QSqlQuery resourcesTableDel(resourceTableDel + iSysStr + "_" + iBodyStr);
+		resourcesTableDel.exec();
+
+		QString saveResourcesBeg("INSERT INTO RESOURCES_");
+		QString saveResourcesEnd("(AMOUNT, ACCESS) VALUES(?, ?)");
+		QSqlQuery saveResources;
+		saveResources.prepare(saveResourcesBeg + iSysStr + "_" + iBodyStr + saveResourcesEnd);
+
+		QVariantList resAmountToSave;
+		QVariantList resAccessToSave;
+
+		auto & Res = body->accessResources();
+		for (auto & iRes : Res.get())
+		{
+			resAmountToSave << QString::number(iRes.first);
+			resAccessToSave << iRes.second;
+		}
+
+		saveResources.addBindValue(resAmountToSave);
+		saveResources.addBindValue(resAccessToSave);
+		saveResources.execBatch();
 	}
 
 	template<typename T>
