@@ -74,6 +74,17 @@ public:
 		}
 		return std::move(universe);
 	}
+
+	QDateTime loadGameTime()
+	{
+		QSqlQuery loadTime("SELECT TIME FROM GAME_TIME");
+		loadTime.exec();
+
+		loadTime.next();
+		QDateTime gameTime;
+		gameTime.fromString(loadTime.value(0).toString(), GAME_TIME_FORMAT);
+		return gameTime;
+	}
 private:
 	ResourceDeposit && loadBodyResources(size_t iSystem, size_t iBody)
 	{
