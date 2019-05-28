@@ -14,7 +14,6 @@ public:
 	Engine(QWidget * mainWindow, QString gameName);
 	~Engine();
 
-	static QString getTimeFormat();
 private:
 	QString gameName;
 	GameWindow window;

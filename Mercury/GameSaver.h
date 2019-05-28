@@ -35,6 +35,7 @@ public:
 	{
 		checkIfNullptr(universeToSave);
 		checkIfNullptr(coloniesToSave);
+		checkIfNullptr(gameTime);
 
 		openDB();
 		createTables();
@@ -193,6 +194,9 @@ private:
 
 	void saveBodyResources(size_t iSystem, size_t iBody, const CelestialBody * body)
 	{
+		if (body->type == CelestialBodyType::Star || body->type == CelestialBodyType::GasGiant)
+			return;
+
 		QString iBodyStr = QString::number(iBody);
 		QString iSysStr = QString::number(iSystem);
 
