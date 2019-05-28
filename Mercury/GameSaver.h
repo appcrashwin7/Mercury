@@ -129,11 +129,11 @@ private:
 		};
 
 		QString createStockTableBeg("CREATE TABLE IF NOT EXISTS STOCK_");
-		QString createStockTableEnd("(amount TEXT NOT NULL);");
+		QString createStockTableEnd("(AMOUNT text NOT NULL);");
 		QString clearStockTable("DELETE FROM STOCK_");
 
 		QString createIndustryTableBeg("CREATE TABLE IF NOT EXISTS INDUSTRY_");
-		QString createIndustryTableEnd("(amount TEXT NOT NULL);");
+		QString createIndustryTableEnd("(AMOUNT text NOT NULL);");
 		QString clearIndustryTable("DELETE FROM INDUSTRY_");
 
 		for (size_t iCol = 0; iCol < coloniesToSave->size(); iCol++)
@@ -160,7 +160,7 @@ private:
 			clearIndustry.exec();
 
 			QSqlQuery insertStock;
-			insertStock.prepare("INSERT INTO STOCK_" + iColStr + "(amount)" + "VALUES(?)");
+			insertStock.prepare("INSERT INTO STOCK_" + iColStr + "(AMOUNT)" + "VALUES(?)");
 			QVariantList amountList;
 			for (auto & iStock : coloniesToSave->operator[](iCol).getStockpile())
 			{
@@ -171,7 +171,7 @@ private:
 			
 			amountList.clear();
 			QSqlQuery insertIndustry;
-			insertIndustry.prepare("INSERT INTO INDUSTRY_" + iColStr + "(amount)" + "VALUES(?)");
+			insertIndustry.prepare("INSERT INTO INDUSTRY_" + iColStr + "(AMOUNT)" + "VALUES(?)");
 			for (auto & buildingAm : coloniesToSave->operator[](iCol).getIndustry().getBuildings())
 			{
 				amountList << QString::number(buildingAm.second);

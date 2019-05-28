@@ -19,6 +19,7 @@ public:
 		closeDB();
 	}
 
+
 	Universe && loadUniverse()
 	{
 		Universe universe;
@@ -111,5 +112,35 @@ private:
 			ret.emplace_back(loadNames.value(1).toString());
 		}
 		return ret;
+	}
+
+	Industry && loadIndustry(size_t colonyID)
+	{
+		Industry ret;
+		std::vector<uint64_t> amount;
+		QSqlQuery load("SELECT AMOUNT FROM INDUSTRY_" + QString::number(colonyID));
+		load.exec();
+
+		while (load.next())
+		{
+			amount.push_back(load.value(0).toUInt());
+		}
+		ret += (amount);
+		return std::move(ret);
+	}
+	StockT && loadStock(size_t colonyID)
+	{
+		QSqlQuery load("SELECT AMOUNT FROM STOCK_" + QString::number(colonyID));
+		load.exec();
+
+		StockT ret;
+		Commodities commd;
+
+		for (size_t i = 0; i < commd.get().size(); i++)
+		{
+			load.next();
+			ret.emplace_back(StockUnit(commd.get()[i], load.value(0).toUInt()));
+		}
+		return std::move(ret);
 	}
 };

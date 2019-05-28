@@ -15,11 +15,35 @@ public:
 		auto buildingList = IndustryBuilding::getDefaultBuildings();
 		for (auto & b : buildingList)
 		{
-			Buildings.emplace_back(BuildingQuantityT(b, 2));
+			Buildings.emplace_back(BuildingQuantityT(b, 0));
 		}
 	}
 	Industry(const Industry & other) = default;
+	Industry(Industry && other) = default;
 	~Industry() = default;
+
+	Industry & operator=(const Industry & other)
+	{
+		Buildings.clear();
+		for (auto & i : other.Buildings)
+		{
+			Buildings.emplace_back(BuildingQuantityT(i.first, i.second));
+		}
+
+		return *this;
+	}
+	Industry & operator+=(std::vector<size_t> buildingAmount)
+	{
+		for (size_t i = 0; i < Buildings.size(); i++)
+		{
+			if (i > buildingAmount.size() - 1)
+			{
+				break;
+			}
+			Buildings[i].second += buildingAmount[i];
+		}
+		return *this;
+	}
 
 	uint64_t getEnergyProduction() const
 	{
@@ -106,5 +130,19 @@ public:
 			return false;
 		});
 		return (MINE_BASE_OUTPUT * mine->second * days);
+	}
+
+	void addBuilding(size_t index, uint64_t amount = 1)
+	{
+		Buildings[index].second += amount;
+	}
+	void removeBuilding(size_t index, uint64_t amount = 1)
+	{
+		Buildings[index].second -= amount;
+	}
+
+	const BuildingQuantityT & operator[](size_t index) const
+	{
+		return Buildings[index];
 	}
 };
