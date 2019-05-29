@@ -32,15 +32,18 @@ public:
 
 		return *this;
 	}
-	Industry & operator+=(std::vector<size_t> buildingAmount)
+	Industry & operator+=(const QuantityT & buildingAmount)
 	{
-		for (size_t i = 0; i < Buildings.size(); i++)
+		if (!buildingAmount.empty())
 		{
-			if (i > buildingAmount.size() - 1)
+			for (size_t i = 0; i < Buildings.size(); i++)
 			{
-				break;
+				if (i == buildingAmount.size())
+				{
+					break;
+				}
+				Buildings[i].second += buildingAmount[i];
 			}
-			Buildings[i].second += buildingAmount[i];
 		}
 		return *this;
 	}

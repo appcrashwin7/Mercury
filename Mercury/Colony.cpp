@@ -1,15 +1,10 @@
 #include "Colony.h"
 
-Colony::Colony(const Colony & other, const QuantityT & commQuantity, const QuantityT & resQuantity)
-	:planet(other.planet), resourcesStock(resQuantity)
+Colony::Colony(Planet & onPlanet, const QuantityT & commQuantity, const QuantityT & buildings)
+	:planet(onPlanet)
 {
 	constructStockpile(commQuantity);
-}
-
-Colony::Colony(Planet & onPlanet, const QuantityT & commQuantity, const QuantityT & resQuantity)
-	:planet(onPlanet), resourcesStock(resQuantity)
-{
-	constructStockpile(commQuantity);
+	colonyIndustry += (buildings);
 }
 
 const Planet & Colony::getPlanet() const
@@ -25,11 +20,6 @@ const StockT & Colony::getStockpile() const
 StockT & Colony::getStockpile()
 {
 	return stock;
-}
-
-QuantityT Colony::getResourcesStockpile()
-{
-	return resourcesStock;
 }
 
 const Industry & Colony::getIndustry() const
@@ -53,7 +43,7 @@ QuantityT Colony::getWeeklyResourcesYield() const
 	return ret;
 }
 
-void Colony::constructStockpile(const std::vector<uint64_t>& units)
+void Colony::constructStockpile(const QuantityT & units)
 {
 	if (units.empty())
 	{
