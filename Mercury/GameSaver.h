@@ -63,12 +63,22 @@ private:
 	{
 		QSqlQuery del("DELETE FROM SYSTEM", save);
 		del.exec();
+
+		QSqlQuery insert(save);
+		insert.prepare("INSERT INTO SYSTEM(ID, NAME) VALUES(?, ?)");
+
+		QVariantList idsList;
+		QVariantList namesList;
+
 		for (size_t i = 0; i < universeToSave->getSystems().size(); i++)
 		{
-			QSqlQuery insert("INSERT INTO SYSTEM VALUES (" + QString::number(i) + "," + "'" +
-				QString::fromStdString(universeToSave->getSystems()[i].name) + "'" +");", save);
-			insert.exec();
+			idsList << i;
+			namesList << QString::fromStdString(universeToSave->getSystems()[i].name);
 		}
+		insert.addBindValue(idsList);
+		insert.addBindValue(namesList);
+
+		insert.execBatch();
 	}
 	void saveBodies()
 	{
@@ -81,7 +91,7 @@ private:
 			{
 				auto body = universeToSave->getSystems()[iSys].Bodies[iBody].get();
 
-				QSqlQuery insertBody;
+				QSqlQuery insertBody(save);
 				insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE) "
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
@@ -96,7 +106,7 @@ private:
 				}
 				else
 				{
-					insertBody.addBindValue(QVariant());
+					insertBody.addBindValue(QVariant(QVariant::UInt));
 				}
 
 				insertBody.addBindValue(body->bodyOrbit.apoapsis.value());
@@ -136,12 +146,12 @@ private:
 		QString createIndustryTableEnd("(AMOUNT text NOT NULL);");
 		QString clearIndustryTable("DELETE FROM INDUSTRY_");
 
-		QSqlQuery deleteColonies("DELETE FROM COLONIES");
+		QSqlQuery deleteColonies("DELETE FROM COLONIES", save);
 		deleteColonies.exec();
 
 		for (size_t iCol = 0; iCol < coloniesToSave->size(); iCol++)
 		{
-			QSqlQuery insertCols;
+			QSqlQuery insertCols(save);
 			insertCols.prepare("INSERT INTO COLONIES(ID, SYSTEM_ID, BODY_ID)"
 				"VALUES (?, ?, ?);");
 
@@ -152,9 +162,9 @@ private:
 			insertCols.addBindValue(planetID.value().second);
 
 			insertCols.exec();
-			QSqlQuery createStock(createStockTableBeg + iColStr + createStockTableEnd);
+			QSqlQuery createStock(createStockTableBeg + iColStr + createStockTableEnd, save);
 			createStock.exec();
-			QSqlQuery createIndustry(createIndustryTableBeg + iColStr + createIndustryTableEnd);
+			QSqlQuery createIndustry(createIndustryTableBeg + iColStr + createIndustryTableEnd, save);
 			createIndustry.exec();
 
 			QSqlQuery clearStock(clearStockTable + iColStr);
@@ -162,7 +172,7 @@ private:
 			QSqlQuery clearIndustry(clearIndustryTable + iColStr);
 			clearIndustry.exec();
 
-			QSqlQuery insertStock;
+			QSqlQuery insertStock(save);
 			insertStock.prepare("INSERT INTO STOCK_" + iColStr + "(AMOUNT)" + "VALUES(?)");
 			QVariantList amountList;
 			for (auto & iStock : coloniesToSave->operator[](iCol).getStockpile())
@@ -173,7 +183,7 @@ private:
 			insertStock.execBatch();
 			
 			amountList.clear();
-			QSqlQuery insertIndustry;
+			QSqlQuery insertIndustry(save);
 			insertIndustry.prepare("INSERT INTO INDUSTRY_" + iColStr + "(AMOUNT)" + "VALUES(?)");
 			for (auto & buildingAm : coloniesToSave->operator[](iCol).getIndustry().getBuildings())
 			{
@@ -191,7 +201,9 @@ private:
 		QSqlQuery timeDel("DELETE FROM GAME_TIME", save);
 		timeDel.exec();
 
-		QSqlQuery timeInsert("INSERT INTO GAME_TIME VALUES('" + gameTime->toString(GAME_TIME_FORMAT) + "');");
+		QSqlQuery timeInsert(save);
+		timeInsert.prepare("INSERT INTO GAME_TIME(TIME) VALUES(?)");
+		timeInsert.addBindValue(gameTime->toString(GAME_TIME_FORMAT));
 		timeInsert.exec();
 	}
 
@@ -205,16 +217,16 @@ private:
 
 		QString resourcesTableCrBeg("CREATE TABLE IF NOT EXISTS RESOURCES_");
 		QString resourcesTableCrEnd("( AMOUNT TEXT NOT NULL, ACCESS real NOT NULL);");
-		QSqlQuery resourceTableCr(resourcesTableCrBeg + iSysStr + "_" + iBodyStr + resourcesTableCrEnd);
+		QSqlQuery resourceTableCr(resourcesTableCrBeg + iSysStr + "_" + iBodyStr + resourcesTableCrEnd, save);
 		resourceTableCr.exec();
 
 		QString resourceTableDel("DELETE FROM RESOURCES_");
-		QSqlQuery resourcesTableDel(resourceTableDel + iSysStr + "_" + iBodyStr);
+		QSqlQuery resourcesTableDel(resourceTableDel + iSysStr + "_" + iBodyStr, save);
 		resourcesTableDel.exec();
 
 		QString saveResourcesBeg("INSERT INTO RESOURCES_");
 		QString saveResourcesEnd("(AMOUNT, ACCESS) VALUES(?, ?)");
-		QSqlQuery saveResources;
+		QSqlQuery saveResources(save);
 		saveResources.prepare(saveResourcesBeg + iSysStr + "_" + iBodyStr + saveResourcesEnd);
 
 		QVariantList resAmountToSave;
