@@ -85,40 +85,47 @@ private:
 		QSqlQuery del("DELETE FROM CELESTIAL_BODIES", save);
 		del.exec();
 
+		QSqlQuery insertBody(save);
+		insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE) "
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		std::array<QVariantList, 10> dataForInsert;
+
 		for (size_t iSys = 0; iSys < universeToSave->getSystems().size(); iSys++)
 		{
 			for (size_t iBody = 0; iBody < universeToSave->getSystems()[iSys].Bodies.size(); iBody++)
 			{
 				auto body = universeToSave->getSystems()[iSys].Bodies[iBody].get();
 
-				QSqlQuery insertBody(save);
-				insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE) "
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-				insertBody.addBindValue(iSys);
-				insertBody.addBindValue(iBody);
-				insertBody.addBindValue(QString::fromStdString(body->name));
-				insertBody.addBindValue(static_cast<uint32_t>(body->type));
+				dataForInsert[0] << iSys;
+				dataForInsert[1] << iBody;
+				dataForInsert[2] << QString::fromStdString(body->name);
+				dataForInsert[3] << static_cast<uint32_t>(body->type);
 
 				if (body->parent.has_value())
 				{
-					insertBody.addBindValue(body->parent.value());
+					dataForInsert[4] << body->parent.value();
 				}
 				else
 				{
-					insertBody.addBindValue(QVariant(QVariant::UInt));
+					dataForInsert[4] << QVariant(QVariant::UInt);
 				}
 
-				insertBody.addBindValue(body->bodyOrbit.apoapsis.value());
-				insertBody.addBindValue(body->bodyOrbit.periapsis.value());
-				insertBody.addBindValue(body->radius.value());
-				insertBody.addBindValue(body->mass.value());
-				insertBody.addBindValue(body->surfaceTemperature.value());
-
-				insertBody.exec();
+				dataForInsert[5] << body->bodyOrbit.apoapsis.value();
+				dataForInsert[6] << body->bodyOrbit.periapsis.value();
+				dataForInsert[7] << body->radius.value();
+				dataForInsert[8] << body->mass.value();
+				dataForInsert[9] << body->surfaceTemperature.value();
+				
 				saveBodyResources(iSys, iBody, body);
 			}
 		}
+
+		for (size_t i = 0; i < dataForInsert.size(); i++)
+		{
+			insertBody.addBindValue(dataForInsert[i]);
+		}
+
+		insertBody.execBatch();
 	}
 	void saveColonies()
 	{
