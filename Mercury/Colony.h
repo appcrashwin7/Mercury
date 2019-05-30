@@ -1,7 +1,12 @@
 #pragma once
 
+#include <tuple>
+
 #include "Planet.h"
 #include "Industry.h"
+
+//pair(systemID, bodyID), colony stock, buildings number
+using ColonyData = std::tuple<std::pair<size_t, size_t>, QuantityT, QuantityT>;
 
 class Colony
 {

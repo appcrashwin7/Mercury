@@ -19,21 +19,38 @@ public:
 		closeDB();
 	}
 
+	std::vector<ColonyData> loadColonies()
+	{
+		std::vector<ColonyData> ret;
+		QSqlQuery load("SELECT ID, SYSTEM_ID, BODY_ID FROM COLONIES");
+		load.exec();
 
-	Universe && loadUniverse()
+		while (load.next())
+		{
+			auto colonyID = load.value(0).toUInt();
+			auto systemID = load.value(1).toUInt();
+			auto bodyID = load.value(2).toUInt();
+
+			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(colonyID), loadIndustryBuildings(colonyID)));
+		}
+		return ret;
+	}
+
+	Universe loadUniverse()
 	{
 		Universe universe;
 		QSqlQuery loadBodies("SELECT SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, " \
 			"ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE FROM CELESTIAL_BODIES");
+		loadBodies.setForwardOnly(true);
 		loadBodies.exec();
 
-		auto systems = loadSystemsName();
-		for (const auto & i : systems)
+		auto systemsName = loadSystemsName();
+		for (const auto & i : systemsName)
 		{
 			universe.addSystem(i.toStdString());
 		}
 
-		while (loadBodies.next())
+		while (loadBodies.nextResult())
 		{
 			auto systemID = loadBodies.value(0).toUInt();
 			auto bodyID = loadBodies.value(1).toUInt();
@@ -46,7 +63,7 @@ public:
 			auto mass = loadBodies.value(8).toDouble();
 			auto temperature = loadBodies.value(9).toInt();
 
-			
+
 			CelestialBodyPtr body(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type, std::make_optional(parentID.toUInt()),
 				Orbit(apoapsis * units::si::meter, periapsis * units::si::meter), name.toStdString(), temperature * units::si::kelvin));
 			if (parentID.isNull())
@@ -57,8 +74,6 @@ public:
 
 			switch (type)
 			{
-			case CelestialBodyType::Undefided:
-				break;
 			case CelestialBodyType::Star:
 				universe.getSystem(systemID).Bodies.emplace_back(std::move(CelestialBodyPtr(new Star(*body))));
 				break;
@@ -69,11 +84,9 @@ public:
 				break;
 			case CelestialBodyType::Asteroid:
 				break;
-			default:
-				break;
 			}
 		}
-		return std::move(universe);
+		return universe;
 	}
 
 	QDateTime loadGameTime()
@@ -82,8 +95,7 @@ public:
 		loadTime.exec();
 
 		loadTime.next();
-		QDateTime gameTime;
-		gameTime.fromString(loadTime.value(0).toString(), GAME_TIME_FORMAT);
+		QDateTime gameTime = QDateTime::fromString(loadTime.value(0).toString(), GAME_TIME_FORMAT);
 		return gameTime;
 	}
 private:
@@ -114,9 +126,8 @@ private:
 		return ret;
 	}
 
-	Industry && loadIndustry(size_t colonyID)
+	QuantityT loadIndustryBuildings(size_t colonyID)
 	{
-		Industry ret;
 		std::vector<uint64_t> amount;
 		QSqlQuery load("SELECT AMOUNT FROM INDUSTRY_" + QString::number(colonyID));
 		load.exec();
@@ -125,22 +136,18 @@ private:
 		{
 			amount.push_back(load.value(0).toUInt());
 		}
-		ret += (amount);
-		return std::move(ret);
+		return amount;
 	}
-	StockT && loadStock(size_t colonyID)
+	QuantityT loadStock(size_t colonyID)
 	{
 		QSqlQuery load("SELECT AMOUNT FROM STOCK_" + QString::number(colonyID));
 		load.exec();
+		QuantityT ret;
 
-		StockT ret;
-		Commodities commd;
-
-		for (size_t i = 0; i < commd.get().size(); i++)
+		while (load.next())
 		{
-			load.next();
-			ret.emplace_back(StockUnit(commd.get()[i], load.value(0).toUInt()));
+			ret.push_back(load.value(0).toUInt());
 		}
-		return std::move(ret);
+		return ret;
 	}
 };

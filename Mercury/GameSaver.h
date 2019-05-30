@@ -136,6 +136,9 @@ private:
 		QString createIndustryTableEnd("(AMOUNT text NOT NULL);");
 		QString clearIndustryTable("DELETE FROM INDUSTRY_");
 
+		QSqlQuery deleteColonies("DELETE FROM COLONIES");
+		deleteColonies.exec();
+
 		for (size_t iCol = 0; iCol < coloniesToSave->size(); iCol++)
 		{
 			QSqlQuery insertCols;

@@ -42,7 +42,10 @@ void Mercury::loadGameDialog()
 			auto fileNameBeg = fileStr.find_last_of('/') + 1;
 			fileStr = fileStr.substr(fileNameBeg, fileStr.find_last_of('.') - fileNameBeg);
 
-			std::unique_ptr<Engine> ptr(new Engine(nullptr, QString::fromStdString(fileStr)));
+			GameLoader loader(file);
+
+			std::unique_ptr<Engine> ptr(new Engine(nullptr, QString::fromStdString(fileStr), 
+				loader.loadUniverse(), loader.loadColonies(), loader.loadGameTime()));
 			game.swap(ptr);
 		}
 	}

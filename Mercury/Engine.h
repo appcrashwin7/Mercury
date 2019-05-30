@@ -9,20 +9,26 @@
 
 class Engine : public QObject
 {
-	Q_OBJECT
+	Q_OBJECT;
+		
 public:
 	Engine(QWidget * mainWindow, QString gameName);
+	Engine(QWidget * mainWindow, QString gameName, Universe universe, std::vector<ColonyData> dt, QDateTime time);
 	~Engine();
 
 private:
 	QString gameName;
-	GameWindow window;
 	QDateTime gameTime;
 	Universe gameUniverse;
 	std::vector<Colony> Colonies;
+	GameWindow window;
 
 	void changeTime(TimeChange change = TimeChange::hour_1);
 	const CelestialBody * searchBodyByName(const PlanetarySystem & system, const std::string & name);
+
+	void init();
+
+	std::vector<Colony> constructColonies(std::vector<ColonyData> data);
 
 public slots:
 	void showBodyInfo(QTreeWidgetItem * item, int column);

@@ -4,30 +4,15 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[3].get()))) }),
 	window(Colonies, mainWindow), gameName(gameName)
 {
-	window.setWindowTitle(QString("Mercury ") + gameName);
-	window.show();
-	QLabel * timeShow = this->window.findChild<QLabel*>("date");
-	timeShow->setText(gameTime.toString(GAME_TIME_FORMAT));
+	init();
+}
 
-	QPushButton * iTime1h = this->window.findChild<QPushButton*>("iTime1h");
-	QPushButton * iTime6h = this->window.findChild<QPushButton*>("iTime6h");
-
-
-	QObject::connect(iTime1h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_1); });
-	QObject::connect(iTime6h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_6); });
-
-	
-	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
-	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
-	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
-
-	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
-
-	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).name));
-	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)
-	{
-		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body.get()->name))));
-	}
+Engine::Engine(QWidget * mainWindow, QString gameName, Universe universe, std::vector<ColonyData> dt, QDateTime time)
+	:gameTime(std::move(time)), gameUniverse(std::move(universe)),
+	Colonies(std::move(constructColonies(std::move(dt)))), gameName(std::move(gameName)),
+	window(Colonies, mainWindow)
+{
+	init();
 }
 
 Engine::~Engine()
@@ -134,4 +119,46 @@ const CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, c
 		return false;
 	});
 	return result.operator*().get();
+}
+
+void Engine::init()
+{
+	window.setWindowTitle(QString("Mercury ") + gameName);
+	window.show();
+	QLabel * timeShow = this->window.findChild<QLabel*>("date");
+	timeShow->setText(gameTime.toString(GAME_TIME_FORMAT));
+
+	QPushButton * iTime1h = this->window.findChild<QPushButton*>("iTime1h");
+	QPushButton * iTime6h = this->window.findChild<QPushButton*>("iTime6h");
+
+
+	QObject::connect(iTime1h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_1); });
+	QObject::connect(iTime6h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_6); });
+
+
+	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
+	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
+	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
+
+	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
+
+	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).name));
+	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)
+	{
+		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body.get()->name))));
+	}
+}
+
+std::vector<Colony> Engine::constructColonies(std::vector<ColonyData> data)
+{
+	std::vector<Colony> ret;
+
+	for (const auto & i : data)
+	{
+		auto id = std::get<0>(i);
+		ret.emplace_back(Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(id.first).Bodies[id.second].get())),
+			std::get<1>(i), std::get<2>(i)));
+	}
+
+	return ret;
 }
