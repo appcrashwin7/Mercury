@@ -22,7 +22,8 @@ public:
 	std::vector<ColonyData> loadColonies()
 	{
 		std::vector<ColonyData> ret;
-		QSqlQuery load("SELECT ID, SYSTEM_ID, BODY_ID FROM COLONIES");
+		QSqlQuery load("SELECT ID, SYSTEM_ID, BODY_ID FROM COLONIES", save);
+		load.setForwardOnly(true);
 		load.exec();
 
 		while (load.next())
@@ -31,7 +32,9 @@ public:
 			auto systemID = load.value(1).toUInt();
 			auto bodyID = load.value(2).toUInt();
 
-			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(colonyID), loadIndustryBuildings(colonyID)));
+			QString colonyIDStr = QString::number(colonyID);
+
+			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(colonyIDStr), loadIndustryBuildings(colonyIDStr)));
 		}
 		return ret;
 	}
@@ -40,7 +43,7 @@ public:
 	{
 		Universe universe;
 		QSqlQuery loadBodies("SELECT SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, " \
-			"ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE FROM CELESTIAL_BODIES");
+			"ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE FROM CELESTIAL_BODIES", save);
 		loadBodies.setForwardOnly(true);
 		loadBodies.exec();
 
@@ -91,7 +94,7 @@ public:
 
 	QDateTime loadGameTime()
 	{
-		QSqlQuery loadTime("SELECT TIME FROM GAME_TIME");
+		QSqlQuery loadTime("SELECT TIME FROM GAME_TIME", save);
 		loadTime.exec();
 
 		loadTime.next();
@@ -99,9 +102,9 @@ public:
 		return gameTime;
 	}
 private:
-	ResourceDeposit && loadBodyResources(size_t iSystem, size_t iBody)
+	ResourceDeposit loadBodyResources(size_t iSystem, size_t iBody)
 	{
-		QSqlQuery loadRes("SELECT AMOUNT, ACCESS FROM RESOURCES_" + QString::number(iSystem) + "_" + QString::number(iBody));
+		QSqlQuery loadRes("SELECT AMOUNT, ACCESS FROM RESOURCES_" + QString::number(iSystem) + "_" + QString::number(iBody), save);
 		loadRes.exec();
 		ResourceDeposit res;
 
@@ -110,13 +113,13 @@ private:
 			loadRes.next();
 			res.editDeposit(iRes) = std::make_pair<uint64_t, float>(loadRes.value(0).toUInt(), loadRes.value(1).toFloat());
 		}
-		return std::move(res);
+		return res;
 	}
 
 	std::vector<QString> loadSystemsName()
 	{
 		std::vector<QString> ret;
-		QSqlQuery loadNames("SELECT ID, NAME FROM SYSTEMS");
+		QSqlQuery loadNames("SELECT ID, NAME FROM SYSTEMS", save);
 		loadNames.exec();
 
 		while (loadNames.next())
@@ -126,23 +129,27 @@ private:
 		return ret;
 	}
 
-	QuantityT loadIndustryBuildings(size_t colonyID)
+	QuantityT loadIndustryBuildings(const QString & colonyIDStr)
 	{
-		std::vector<uint64_t> amount;
-		QSqlQuery load("SELECT AMOUNT FROM INDUSTRY_" + QString::number(colonyID));
+		QuantityT ret;
+
+		QSqlQuery load("SELECT AMOUNT FROM INDUSTRY_" + colonyIDStr, save);
+		load.setForwardOnly(true);
 		load.exec();
 
 		while (load.next())
 		{
-			amount.push_back(load.value(0).toUInt());
+			ret.push_back(load.value(0).toUInt());
 		}
-		return amount;
+		return ret;
 	}
-	QuantityT loadStock(size_t colonyID)
+	QuantityT loadStock(const QString & colonyIDStr)
 	{
-		QSqlQuery load("SELECT AMOUNT FROM STOCK_" + QString::number(colonyID));
-		load.exec();
 		QuantityT ret;
+
+		QSqlQuery load("SELECT AMOUNT FROM STOCK_" + colonyIDStr, save);
+		load.setForwardOnly(true);
+		load.exec();
 
 		while (load.next())
 		{

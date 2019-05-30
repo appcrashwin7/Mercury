@@ -3,7 +3,7 @@
 Planet::Planet(const CelestialBody & body, ResourceDeposit res)
 	:CelestialBody(body, CelestialBodyType::Planet)
 {
-	Resources.replace(generateResources(res));
+	Resources.replace(generateResources(std::move(res)));
 }
 
 ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
