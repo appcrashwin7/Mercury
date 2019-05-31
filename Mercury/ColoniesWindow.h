@@ -28,7 +28,7 @@ class ColoniesWindow : public QWidget
 	TabT selectedTab;
 	TabT previousTab;
 
-	int selectedColony;
+	std::optional<size_t> selectedColony;
 
 	QWidget stock;
 	QWidget mining;

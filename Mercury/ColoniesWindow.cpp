@@ -1,7 +1,7 @@
 #include "ColoniesWindow.h"
 
 ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
-	:QWidget(nullptr), colonies(cl), selectedColony(-1), previousTab(TabT::Undefined), selectedTab(TabT::Undefined)
+	:QWidget(nullptr), colonies(cl), previousTab(TabT::Undefined), selectedTab(TabT::Undefined)
 {
 	ui.setupUi(this);
 
@@ -67,7 +67,7 @@ void ColoniesWindow::resetData()
 		{
 			ui.coloniesTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(col.getPlanet().name))));
 		}
-		if (selectedColony != -1)
+		if (selectedColony.has_value())
 		{
 			if (selectedTab == TabT::Stockpile)
 			{
@@ -76,9 +76,9 @@ void ColoniesWindow::resetData()
 				stock.show();
 
 				clearTable(uiStock.StockTable);
-				const auto & stockPile = colonies[selectedColony].getStockpile();
-				auto usage = colonies[selectedColony].getIndustry().getWeeklyUsageOfCommodities();
-				auto prod = colonies[selectedColony].getIndustry().getWeeklyProductionOfCommodities();
+				const auto & stockPile = colonies[selectedColony.value()].getStockpile();
+				auto usage = colonies[selectedColony.value()].getIndustry().getWeeklyUsageOfCommodities();
+				auto prod = colonies[selectedColony.value()].getIndustry().getWeeklyProductionOfCommodities();
 
 				for (size_t i = 0; i < stockPile.size(); i++)
 				{
@@ -100,9 +100,9 @@ void ColoniesWindow::resetData()
 				clearTable(uiMining.miningTable);
 
 				auto resNames = ResourceDeposit::getResourcesNames();
-				auto & res = colonies[selectedColony].getPlanet().accessResources();
-				const auto & stockRes = colonies[selectedColony].getStockpile();
-				auto resYield = colonies[selectedColony].getWeeklyResourcesYield();
+				auto & res = colonies[selectedColony.value()].getPlanet().accessResources();
+				const auto & stockRes = colonies[selectedColony.value()].getStockpile();
+				auto resYield = colonies[selectedColony.value()].getWeeklyResourcesYield();
 
 				for (size_t i = 0; i < res.get().size(); i++)
 				{
@@ -124,7 +124,7 @@ void ColoniesWindow::resetData()
 				clearTable(uiSummary.valuesTable);
 				clearTable(uiSummary.buildingsTable);
 
-				auto & industry = colonies[selectedColony].getIndustry();
+				auto & industry = colonies[selectedColony.value()].getIndustry();
 				using name_value = std::pair<QString, QString>;
 				auto values = std::array<name_value, 2>({ name_value("Energy Demand", QString::number(industry.getEnergyDemand()) + " MW"),
 					name_value("Energy Production", QString::number(industry.getEnergyProduction()) + " MW") });
