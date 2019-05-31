@@ -24,9 +24,11 @@ using Acceleration = units::quantity<units::si::acceleration, float>;
 using Velocity = units::quantity<units::si::velocity, float>;
 using Energy = units::quantity<units::si::power, uint64_t>;
 using Temperature = units::quantity<units::si::temperature, int32_t>;
+using EnergyD = units::quantity<units::si::power, double>;
 
 
 static constexpr float GRAVITY_CONSTANT = 6.67e-11f;
+static constexpr double STEFAN_BOLTZMANN_CONST = 5.670373e-8;
 static const float PI_F = static_cast<float>(atan(1)) * 4.0f;
 
 
