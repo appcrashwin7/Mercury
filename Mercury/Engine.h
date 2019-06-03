@@ -24,7 +24,7 @@ private:
 	GameWindow window;
 
 	void changeTime(TimeChange change = TimeChange::hour_1);
-	const CelestialBody * searchBodyByName(const PlanetarySystem & system, const std::string & name);
+	const CelestialBody * searchBodyByName(const PlanetarySystem & system, const QString & name);
 
 	void init();
 

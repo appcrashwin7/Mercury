@@ -1,6 +1,6 @@
 #include "CelestialBody.h"
 
-CelestialBody::CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb, const std::string & name, Temperature temp)
+CelestialBody::CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb, const QString & name, Temperature temp)
 	:radius(radius), mass(mass),
 	escapeVelocity(Calc::getEscapeVelocity(mass, radius)),
 	surfaceGravity(Calc::getGravity(mass, radius)),

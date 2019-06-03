@@ -21,7 +21,7 @@ void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
 {
 	for (size_t i = 0; i < colonies.size(); i++)
 	{
-		if (item->text(column).toStdString() == colonies[i].getPlanet().name)
+		if (item->text(column) == colonies[i].getPlanet().name)
 		{
 			selectedColony = i;
 		}
@@ -65,7 +65,7 @@ void ColoniesWindow::resetData()
 		ui.coloniesTree->clear();
 		for (const auto & col : colonies)
 		{
-			ui.coloniesTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(col.getPlanet().name))));
+			ui.coloniesTree->addTopLevelItem(new QTreeWidgetItem(QStringList(col.getPlanet().name)));
 		}
 		if (selectedColony.has_value())
 		{

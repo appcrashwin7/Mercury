@@ -72,12 +72,12 @@ public:
 			{
 				auto parent = parentID.toUInt();
 				body = std::move(CelestialBodyPtr(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type, std::make_optional(parent),
-					Orbit(apoapsis * units::si::meter, periapsis * units::si::meter, std::make_optional(universe.getLastSystem().Bodies[parent].get()->mass)), name.toStdString(), temperature * units::si::kelvin)));
+					Orbit(apoapsis * units::si::meter, periapsis * units::si::meter, std::make_optional(universe.getLastSystem().Bodies[parent].get()->mass)), name, temperature * units::si::kelvin)));
 			}
 			else
 			{
 				body = std::move(CelestialBodyPtr(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type, std::optional<size_t>(),
-					Orbit(apoapsis * units::si::meter, periapsis * units::si::meter), name.toStdString(), temperature * units::si::kelvin)));
+					Orbit(apoapsis * units::si::meter, periapsis * units::si::meter), name, temperature * units::si::kelvin)));
 			}
 
 			switch (type)

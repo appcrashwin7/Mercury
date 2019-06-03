@@ -24,11 +24,11 @@ protected:
 
 public:
 	CelestialBody() = delete;
-	CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb = Orbit(), const std::string & name = "", Temperature temp = 0);
+	CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb = Orbit(), const QString & name = "", Temperature temp = 0);
 	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
 	virtual ~CelestialBody() = default;
 
-	std::string name;
+	QString name;
 	
 	const CelestialBodyType type;
 	const std::optional<size_t> parent;

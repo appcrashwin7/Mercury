@@ -72,7 +72,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 		QString bodyName = item->text(column);
 
 		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
-		const CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName.toStdString());
+		const CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName);
 
 		auto setItemValue = [objectValues](QString item, QString value)->void
 		{
@@ -104,7 +104,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 
 			if (actualBody->parent.has_value())
 			{
-				setItemValue("Parent body", QString::fromStdString(gameUniverse.getSystem(0).Bodies[actualBody->parent.value()].get()->name));
+				setItemValue("Parent body", gameUniverse.getSystem(0).Bodies[actualBody->parent.value()].get()->name);
 			}
 			else
 				setItemValue("Parent body", "---");
@@ -112,7 +112,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 	}
 }
 
-const CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const std::string & name)
+const CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const QString & name)
 {
 	auto result = std::find_if(system.Bodies.begin(), system.Bodies.end(), [name](const CelestialBodyPtr & body)->bool 
 	{
@@ -149,7 +149,7 @@ void Engine::init()
 	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).name));
 	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)
 	{
-		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(QString::fromStdString(body.get()->name))));
+		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(body.get()->name)));
 	}
 }
 

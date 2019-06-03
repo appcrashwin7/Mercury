@@ -100,7 +100,7 @@ private:
 
 				dataForInsert[0] << iSys;
 				dataForInsert[1] << iBody;
-				dataForInsert[2] << QString::fromStdString(body->name);
+				dataForInsert[2] << body->name;
 				dataForInsert[3] << static_cast<uint32_t>(body->type);
 
 				if (body->parent.has_value())
