@@ -29,8 +29,7 @@ void Mercury::loadGameDialog()
 	ui.newGameButton->setEnabled(false);
 	ui.loadGameButton->setEnabled(false);
 
-	QFileDialog saveLoad(this, Qt::Window);
-	saveLoad.setNameFilter("Mercury Saves (*.msave)");
+	QFileDialog saveLoad(this, tr("Open Save"), QDir::currentPath(), "Mercury Saves (*.msave)");
 	saveLoad.show();
 	if (saveLoad.exec())
 	{

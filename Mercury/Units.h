@@ -9,6 +9,7 @@ namespace boost
 	namespace units
 	{
 		static const auto megawatt = units::si::watt * 1000000;
+		static const auto days = units::si::second * 3600 * 24;
 	};
 };
 
@@ -20,3 +21,4 @@ using Velocity = units::quantity<units::si::velocity, float>;
 using Energy = units::quantity<units::si::power, uint64_t>;
 using Temperature = units::quantity<units::si::temperature, int32_t>;
 using EnergyD = units::quantity<units::si::power, double>;
+using TimeInt = units::quantity<units::si::time, int64_t>;

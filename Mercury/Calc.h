@@ -40,11 +40,26 @@ public:
 		return static_cast<Acceleration>(std::round(up / down.value()) * units::si::meters_per_second_squared);
 	}
 
+	static Length getSemiMajorAxis(Length apoapsis, Length periapsis)
+	{
+		return Length((apoapsis + periapsis) / 2.0);
+	}
+
 	static float getEccentric(Length apoapsis, Length periapsis)
 	{
-		Length minor_axis = (apoapsis + periapsis) / 2.0;
-		double rel = (minor_axis * minor_axis) / (apoapsis * apoapsis);
-		return static_cast<float>(sqrt(1.0 - rel));
+		Length up(apoapsis - periapsis);
+		Length down(apoapsis + periapsis);
+		return (up.value() / down.value());
+	}
+
+	static TimeInt getOrbitalPeriod(Mass parentBodyMass, Length semiMajorAxis)
+	{
+		auto majorPow = std::pow(semiMajorAxis.value(), 3);
+		auto gm = GRAVITY_CONSTANT * parentBodyMass.value();
+
+		auto mjrGm = std::sqrt(majorPow) / std::sqrt(gm);
+		auto ret = mjrGm * 2.0 * PI_F;
+		return TimeInt(ret * units::si::second);
 	}
 
 	template<typename T, typename = typename std::enable_if<std::is_floating_point<T>::value, T>::type>

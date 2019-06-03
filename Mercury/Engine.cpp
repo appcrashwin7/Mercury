@@ -91,11 +91,15 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 			{
 				setItemValue("Apoapsis", QString::number(actualBody->bodyOrbit.apoapsis.value()) + " m");
 				setItemValue("Periapsis", QString::number(actualBody->bodyOrbit.periapsis.value()) + " m");
+				setItemValue("Eccentricity", QString::number(actualBody->bodyOrbit.eccentricity));
+				setItemValue("Orbital period", QString::number(actualBody->bodyOrbit.getOrbitalPeriod() / units::days));
 			}
 			else
 			{
 				setItemValue("Apoapsis", "---");
 				setItemValue("Periapsis", "---");
+				setItemValue("Eccentricity", "---");
+				setItemValue("Orbital period", "---");
 			}
 
 			if (actualBody->parent.has_value())

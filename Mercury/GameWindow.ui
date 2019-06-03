@@ -265,6 +265,16 @@
          <string>Apoapsis</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Eccentricity</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Orbital period</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>

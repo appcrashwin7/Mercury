@@ -67,9 +67,14 @@ public:
 			auto temperature = loadBodies.value(9).toInt();
 
 
-			CelestialBodyPtr body(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type, std::make_optional(parentID.toUInt()),
-				Orbit(apoapsis * units::si::meter, periapsis * units::si::meter), name.toStdString(), temperature * units::si::kelvin));
-			if (parentID.isNull())
+			CelestialBodyPtr body;
+			if (!parentID.isNull())
+			{
+				auto parent = parentID.toUInt();
+				body = std::move(CelestialBodyPtr(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type, std::make_optional(parent),
+					Orbit(apoapsis * units::si::meter, periapsis * units::si::meter, std::make_optional(universe.getLastSystem().Bodies[parent].get()->mass)), name.toStdString(), temperature * units::si::kelvin)));
+			}
+			else
 			{
 				body = std::move(CelestialBodyPtr(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type, std::optional<size_t>(),
 					Orbit(apoapsis * units::si::meter, periapsis * units::si::meter), name.toStdString(), temperature * units::si::kelvin)));
