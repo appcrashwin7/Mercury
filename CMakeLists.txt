@@ -15,15 +15,13 @@ set(Boost_USE_MULTITHREADED      ON)
 
 set(Boost_ADDITIONAL_VERSIONS 1.70.0 1.70)
 
-include(cmake/findGtest.cmake)
-
 find_package(Qt5 COMPONENTS Core Widgets Sql REQUIRED)
-find_package(GTest)
 find_package(Boost 1.70.0 REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/Mercury)
 include_directories(${PROJECT_SOURCE_DIR}/Mercury/GeneratedFiles)
+
 
 file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/Mercury/*.h"
@@ -31,6 +29,8 @@ file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/Mercury/*.cpp"
         "${PROJECT_SOURCE_DIR}/Mercury/*.c"
         )
+
+add_subdirectory(tests)
 
 add_executable(Mercury ${all_SRCS})
 
