@@ -1,6 +1,14 @@
-#include "gtest/gtest.h"
+#include <optional>
 
-TEST(test1, vals)
+#include <gtest/gtest.h>
+#include "Orbit.h"
+
+
+TEST(Orbit_Class, DefaultConstructor)
 {
-	ASSERT_EQ(true, true);
+	Orbit orbit;
+
+	ASSERT_EQ(orbit.isZero, true);
+	ASSERT_EQ(orbit.apoapsis, Length());
+	ASSERT_EQ(orbit.periapsis, Length());
 }

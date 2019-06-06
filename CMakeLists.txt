@@ -4,6 +4,9 @@ project(Mercury)
 
 set(CMAKE_CXX_STANDARD 17)
 
+if(MSVC)
+	add_definitions(-W4)
+endif()
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -18,6 +21,7 @@ set(Boost_ADDITIONAL_VERSIONS 1.70.0 1.70)
 find_package(Qt5 COMPONENTS Core Widgets Sql REQUIRED)
 find_package(Boost 1.70.0 REQUIRED)
 
+
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/Mercury)
 include_directories(${PROJECT_SOURCE_DIR}/Mercury/GeneratedFiles)
@@ -29,6 +33,7 @@ file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/Mercury/*.cpp"
         "${PROJECT_SOURCE_DIR}/Mercury/*.c"
         )
+
 
 add_subdirectory(tests)
 
