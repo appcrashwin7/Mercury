@@ -74,18 +74,18 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
 		const CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName);
 
-		auto setItemValue = [objectValues](QString item, QString value)->void
+		auto setItemValue = [objectValues](const QString & item, QString value = "---")->void
 		{
 			objectValues->findItems(item, Qt::MatchFlag::MatchExactly)[0]->setText(1, value);
 		};
 
 		if (actualBody != nullptr)
 		{
-			setItemValue("Mass", QString::number(actualBody->mass.value()) + " kg");
-			setItemValue("Radius", QString::number(actualBody->radius.value()) + " m");
+			setItemValue("Mass", QString::number(actualBody->physics.mass.value()) + " kg");
+			setItemValue("Radius", QString::number(actualBody->physics.radius.value()) + " m");
 			setItemValue("Escape velocity", QString::number(actualBody->escapeVelocity.value()) + " m/s");
 			setItemValue("Surface gravity", QString::number(actualBody->surfaceGravity.value()) + " m/s^2");
-			setItemValue("Surface temperature", QString::number(actualBody->surfaceTemperature.value()) + " K");
+			setItemValue("Surface temperature", QString::number(actualBody->physics.getSurfaceTemperature().value()) + " K");
 
 			if (!actualBody->orbit.isDefault)
 			{
@@ -93,21 +93,16 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 				setItemValue("Periapsis", QString::number(actualBody->orbit.periapsis.value()) + " m");
 				setItemValue("Eccentricity", QString::number(actualBody->orbit.eccentricity));
 				setItemValue("Orbital period", QString::number(actualBody->orbit.getOrbitalPeriod() / units::days));
+				setItemValue("Parent body", gameUniverse.getSystem(0).Bodies[actualBody->orbit.parent.value()].get()->getName());
 			}
 			else
 			{
-				setItemValue("Apoapsis", "---");
-				setItemValue("Periapsis", "---");
-				setItemValue("Eccentricity", "---");
-				setItemValue("Orbital period", "---");
+				setItemValue("Apoapsis");
+				setItemValue("Periapsis");
+				setItemValue("Eccentricity");
+				setItemValue("Orbital period");
+				setItemValue("Parent body");
 			}
-
-			if (actualBody->orbit.parent.has_value())
-			{
-				setItemValue("Parent body", gameUniverse.getSystem(0).Bodies[actualBody->orbit.parent.value()].get()->name);
-			}
-			else
-				setItemValue("Parent body", "---");
 		}
 	}
 }
@@ -116,7 +111,7 @@ const CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, c
 {
 	auto result = std::find_if(system.Bodies.begin(), system.Bodies.end(), [name](const CelestialBodyPtr & body)->bool 
 	{
-		if (body.get()->name == name)
+		if (body.get()->getName() == name)
 		{
 			return true;
 		}
@@ -149,7 +144,7 @@ void Engine::init()
 	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).name));
 	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)
 	{
-		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(body.get()->name)));
+		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(body.get()->getName())));
 	}
 }
 

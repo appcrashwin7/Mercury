@@ -6,8 +6,8 @@ Star::Star(const CelestialBody & body)
 
 EnergyD Star::getLuminosity()
 {
-	auto dRadius = std::pow(radius.value(), 2);
-	auto fTemp = std::pow(surfaceTemperature.value(), 4);
+	auto dRadius = std::pow(physics.radius.value(), 2);
+	auto fTemp = std::pow(physics.getSurfaceTemperature().value(), 4);
 	EnergyD ret(4 * PI_F * dRadius * STEFAN_BOLTZMANN_CONST * fTemp * units::si::watt);
 
 	return ret;

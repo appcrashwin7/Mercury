@@ -6,12 +6,12 @@
 
 class Orbit 
 {
-	void setOrbitalPeriod(const std::optional<Mass> & parentMass)
+	static void setOrbitalPeriod(Orbit & orbit, const std::optional<Mass> & parentMass)
 	{
 		if (parentMass.has_value())
 		{
-			auto axis = Calc::getSemiMajorAxis(apoapsis, periapsis);
-			orbitalPeriod = Calc::getOrbitalPeriod(parentMass.value(), axis);
+			auto axis = Calc::getSemiMajorAxis(orbit.apoapsis, orbit.periapsis);
+			orbit.orbitalPeriod = Calc::getOrbitalPeriod(parentMass.value(), axis);
 		}
 	}
 
@@ -31,13 +31,13 @@ public:
 		:apoapsis(apo), periapsis(per), parent(std::move(parentID)),
 		eccentricity(Calc::getEccentric(apo, per)), isDefault(false)
 	{
-		setOrbitalPeriod(parentBodyMass);
+		setOrbitalPeriod(*this, parentBodyMass);
 	}
 	Orbit(Length radius, const std::optional<Mass> & parentBodyMass, std::optional<size_t> parentID)
 		:apoapsis(radius), periapsis(radius), isDefault(false),
 		parent(std::move(parentID))
 	{
-		setOrbitalPeriod(parentBodyMass);
+		setOrbitalPeriod(*this, parentBodyMass);
 	}
 	Orbit(const Orbit & other) = default;
 	Orbit(Orbit &&) = default;

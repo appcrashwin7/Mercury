@@ -3,6 +3,7 @@
 #include <optional>
 
 #include "Orbit.h"
+#include "PhysicalProperties.h"
 #include "ResourceDeposit.h"
 
 enum class CelestialBodyType
@@ -18,29 +19,44 @@ static constexpr double BODY_MASS_TO_DEPOSIT_SIZE_MULT = 1e-16;
 
 class CelestialBody
 {
+
+	QString name;
 protected:
 	ResourceDeposit Resources = ResourceDeposit();
 
 public:
+	const CelestialBodyType type;
+	const Orbit orbit;
+	const PhysicalProperties physics;
+	const Velocity escapeVelocity;
+ 	const Acceleration surfaceGravity;
+
+
 	CelestialBody() = delete;
-	CelestialBody(Length radius, Mass mass, CelestialBodyType type, Orbit orb = Orbit(), const QString & name = "", Temperature temp = 0);
+	CelestialBody(PhysicalProperties properties, CelestialBodyType type, Orbit orb = Orbit(), QString name = "");
 	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
 	virtual ~CelestialBody() = default;
 
-	QString name;
-	
-	const CelestialBodyType type;
 
-	const Orbit orbit;
-	const Length radius;
-	const Mass mass;
-	const Temperature surfaceTemperature;
+	void setName(QString newName)
+	{
+		name = std::move(newName);
+	}
+	const QString & getName() const
+	{
+		return name;
+	}
 
 
-	const Velocity escapeVelocity;
-	const Acceleration surfaceGravity;
+	Velocity getEscapeVelocity() const
+	{
+		return escapeVelocity;
+	}
+	Acceleration getSurfaceGravity() const
+	{
+		return surfaceGravity;
+	}
 
-	double getDensity() const;
 
 	virtual ResourceDeposit generateResources(ResourceDeposit & custom);
 

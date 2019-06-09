@@ -3,7 +3,7 @@
 Planet::Planet(const CelestialBody & body, ResourceDeposit res)
 	:CelestialBody(body, CelestialBodyType::Planet)
 {
-	Resources.replace(generateResources(std::move(res)));
+	Resources.replace(generateResources(res));
 }
 
 ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
@@ -22,11 +22,11 @@ ResourceDeposit Planet::generateResources(ResourceDeposit & custom)
 
 	if (custom.isNotGenerated())
 	{
-		const double maxRes = this->mass.value() * BODY_MASS_TO_DEPOSIT_SIZE_MULT;
+		const double maxRes = this->physics.mass.value() * BODY_MASS_TO_DEPOSIT_SIZE_MULT;
 
 		auto densities = ResourceDeposit::getResourcesDensity();
-		auto planetDensityInt = static_cast<uint64_t>(getDensity());
-		auto planetDensity = getDensity();
+		auto planetDensityInt = static_cast<uint64_t>(physics.getDensity());
+		auto planetDensity = physics.getDensity();
 
 		auto lightElements = ResourceDeposit::getLightElementsIds();
 

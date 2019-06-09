@@ -100,7 +100,7 @@ private:
 
 				dataForInsert[0] << iSys;
 				dataForInsert[1] << iBody;
-				dataForInsert[2] << body->name;
+				dataForInsert[2] << body->getName();
 				dataForInsert[3] << static_cast<uint32_t>(body->type);
 
 				if (body->orbit.parent.has_value())
@@ -114,9 +114,9 @@ private:
 
 				dataForInsert[5] << body->orbit.apoapsis.value();
 				dataForInsert[6] << body->orbit.periapsis.value();
-				dataForInsert[7] << body->radius.value();
-				dataForInsert[8] << body->mass.value();
-				dataForInsert[9] << body->surfaceTemperature.value();
+				dataForInsert[7] << body->physics.radius.value();
+				dataForInsert[8] << body->physics.mass.value();
+				dataForInsert[9] << body->physics.getSurfaceTemperature().value();
 				
 				saveBodyResources(iSys, iBody, body);
 			}
