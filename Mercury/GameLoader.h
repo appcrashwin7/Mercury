@@ -75,8 +75,8 @@ public:
 				parent = parentID.toUInt();
 				parentMass = universe.getLastSystem().Bodies[parent.value()].get()->mass;
 			}
-			body = std::move(CelestialBodyPtr(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type, parent,
-				Orbit(apoapsis * units::si::meter, periapsis * units::si::meter, parentMass), name, temperature * units::si::kelvin)));
+			body = std::move(CelestialBodyPtr(new CelestialBody(radius * units::si::meter, mass * units::si::kilogram, type,
+				Orbit(apoapsis * units::si::meter, periapsis * units::si::meter, parentMass, parent), name, temperature * units::si::kelvin)));
 
 
 			switch (type)

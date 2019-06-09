@@ -1,11 +1,10 @@
 #include "CelestialBody.h"
 
-CelestialBody::CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb, const QString & name, Temperature temp)
+CelestialBody::CelestialBody(Length radius, Mass mass, CelestialBodyType type, Orbit orb, const QString & name, Temperature temp)
 	:radius(radius), mass(mass),
 	escapeVelocity(Calc::getEscapeVelocity(mass, radius)),
 	surfaceGravity(Calc::getGravity(mass, radius)),
-	type(type), parent(parent),
-	bodyOrbit(orb), name(name),
+	type(type), orbit(orb), name(name),
 	surfaceTemperature(temp)
 {
 }
@@ -14,8 +13,7 @@ CelestialBody::CelestialBody(const CelestialBody & other, CelestialBodyType newT
 	:radius(other.radius), mass(other.mass),
 	escapeVelocity(other.escapeVelocity),
 	surfaceGravity(other.surfaceGravity),
-	type(newType), parent(other.parent),
-	bodyOrbit(other.bodyOrbit),
+	type(newType), orbit(other.orbit),
 	name(other.name), surfaceTemperature(other.surfaceTemperature)
 {
 }

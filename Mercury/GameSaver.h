@@ -103,17 +103,17 @@ private:
 				dataForInsert[2] << body->name;
 				dataForInsert[3] << static_cast<uint32_t>(body->type);
 
-				if (body->parent.has_value())
+				if (body->orbit.parent.has_value())
 				{
-					dataForInsert[4] << body->parent.value();
+					dataForInsert[4] << body->orbit.parent.value();
 				}
 				else
 				{
 					dataForInsert[4] << QVariant(QVariant::UInt);
 				}
 
-				dataForInsert[5] << body->bodyOrbit.apoapsis.value();
-				dataForInsert[6] << body->bodyOrbit.periapsis.value();
+				dataForInsert[5] << body->orbit.apoapsis.value();
+				dataForInsert[6] << body->orbit.periapsis.value();
 				dataForInsert[7] << body->radius.value();
 				dataForInsert[8] << body->mass.value();
 				dataForInsert[9] << body->surfaceTemperature.value();

@@ -7,7 +7,6 @@
 
 enum class CelestialBodyType
 {
-	Undefided,
 	Star,
 	Planet,
 	GasGiant,
@@ -24,16 +23,15 @@ protected:
 
 public:
 	CelestialBody() = delete;
-	CelestialBody(Length radius, Mass mass, CelestialBodyType type, std::optional<size_t> parent, Orbit orb = Orbit(), const QString & name = "", Temperature temp = 0);
+	CelestialBody(Length radius, Mass mass, CelestialBodyType type, Orbit orb = Orbit(), const QString & name = "", Temperature temp = 0);
 	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
 	virtual ~CelestialBody() = default;
 
 	QString name;
 	
 	const CelestialBodyType type;
-	const std::optional<size_t> parent;
 
-	const Orbit bodyOrbit;
+	const Orbit orbit;
 	const Length radius;
 	const Mass mass;
 	const Temperature surfaceTemperature;

@@ -87,12 +87,12 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 			setItemValue("Surface gravity", QString::number(actualBody->surfaceGravity.value()) + " m/s^2");
 			setItemValue("Surface temperature", QString::number(actualBody->surfaceTemperature.value()) + " K");
 
-			if (!actualBody->bodyOrbit.isZero)
+			if (!actualBody->orbit.isDefault)
 			{
-				setItemValue("Apoapsis", QString::number(actualBody->bodyOrbit.apoapsis.value()) + " m");
-				setItemValue("Periapsis", QString::number(actualBody->bodyOrbit.periapsis.value()) + " m");
-				setItemValue("Eccentricity", QString::number(actualBody->bodyOrbit.eccentricity));
-				setItemValue("Orbital period", QString::number(actualBody->bodyOrbit.getOrbitalPeriod() / units::days));
+				setItemValue("Apoapsis", QString::number(actualBody->orbit.apoapsis.value()) + " m");
+				setItemValue("Periapsis", QString::number(actualBody->orbit.periapsis.value()) + " m");
+				setItemValue("Eccentricity", QString::number(actualBody->orbit.eccentricity));
+				setItemValue("Orbital period", QString::number(actualBody->orbit.getOrbitalPeriod() / units::days));
 			}
 			else
 			{
@@ -102,9 +102,9 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 				setItemValue("Orbital period", "---");
 			}
 
-			if (actualBody->parent.has_value())
+			if (actualBody->orbit.parent.has_value())
 			{
-				setItemValue("Parent body", gameUniverse.getSystem(0).Bodies[actualBody->parent.value()].get()->name);
+				setItemValue("Parent body", gameUniverse.getSystem(0).Bodies[actualBody->orbit.parent.value()].get()->name);
 			}
 			else
 				setItemValue("Parent body", "---");

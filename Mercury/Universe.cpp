@@ -9,23 +9,23 @@ Universe::Universe()
 	auto sunMass = units::si::kilogram * 2.0e30;
 
 	getSystem(0).Bodies.push_back(std::move(CelestialBodyPtr(new Star(CelestialBody(units::si::meter * 6.9e8,
-		sunMass, CelestialBodyType::Star, {}, Orbit(), "Sol", units::si::kelvin * 5800)))));
+		sunMass, CelestialBodyType::Star, Orbit(), "Sol", units::si::kelvin * 5800)))));
 
 	getSystem(0).Bodies.push_back(std::move(CelestialBodyPtr(new Planet(
-		CelestialBody(units::si::meter * 2.4e6, units::si::kilogram * 3.3e23, CelestialBodyType::Planet, 0, 
-			Orbit(units::si::meter * 6.9e10, units::si::meter * 4.9e10, make_optional(sunMass)), "Mercury")))));
+		CelestialBody(units::si::meter * 2.4e6, units::si::kilogram * 3.3e23, CelestialBodyType::Planet, 
+			Orbit(units::si::meter * 6.9e10, units::si::meter * 4.9e10, sunMass, 0), "Mercury")))));
 
 	getSystem(0).Bodies.push_back(std::move(CelestialBodyPtr(new Planet(
-		CelestialBody(units::si::meter * 6.0e6, units::si::kilogram * 4.8e24, CelestialBodyType::Planet, 0, 
-			Orbit(units::si::meter * 1.08e11, units::si::meter * 1.07e11, make_optional(sunMass)), "Venus")))));
+		CelestialBody(units::si::meter * 6.0e6, units::si::kilogram * 4.8e24, CelestialBodyType::Planet, 
+			Orbit(units::si::meter * 1.08e11, units::si::meter * 1.07e11, sunMass, 0), "Venus")))));
 
 	getSystem(0).Bodies.push_back(std::move(CelestialBodyPtr(new Planet(
-		CelestialBody(units::si::meter * 6.3e6, units::si::kilogram * 5.9e24, CelestialBodyType::Planet, 0, 
-			Orbit(units::si::meter * 1.52e11, units::si::meter * 1.47e11, make_optional(sunMass)), "Earth")))));
+		CelestialBody(units::si::meter * 6.3e6, units::si::kilogram * 5.9e24, CelestialBodyType::Planet, 
+			Orbit(units::si::meter * 1.52e11, units::si::meter * 1.47e11, sunMass, 0), "Earth")))));
 
 	getSystem(0).Bodies.push_back(std::move(CelestialBodyPtr(new Planet(
 		CelestialBody(units::si::meter * 1.7e6, units::si::kilogram * 7.3e22, CelestialBodyType::Planet,
-	getSystem(0).Bodies.size() - 1, Orbit(units::si::meter * 4.0e8, units::si::meter * 3.6e8, make_optional(units::si::kilogram * 7.3e22)), "Luna")))));
+	Orbit(units::si::meter * 4.0e8, units::si::meter * 3.6e8, units::si::kilogram * 7.3e22, getSystem(0).Bodies.size() - 1), "Luna")))));
 }
 
 PlanetarySystem & Universe::getSystem(size_t index)
