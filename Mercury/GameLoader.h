@@ -14,10 +14,7 @@ public:
 	{
 		openDB();
 	}
-	~GameLoader()
-	{
-		closeDB();
-	}
+	~GameLoader() = default;
 
 	std::vector<ColonyData> loadColonies()
 	{
@@ -50,7 +47,7 @@ public:
 		auto systemsName = loadSystemsName();
 		for (const auto & i : systemsName)
 		{
-			universe.addSystem(i.toStdString());
+			universe.addSystem(i);
 		}
 
 		while (loadBodies.nextResult())
@@ -86,7 +83,7 @@ public:
 				universe.getSystem(systemID).Bodies.emplace_back(std::move(CelestialBodyPtr(new Star(*body))));
 				break;
 			case CelestialBodyType::Planet:
-				universe.getSystem(systemID).Bodies.emplace_back(std::move(CelestialBodyPtr(new Planet(*body, loadBodyResources(systemID, bodyID)))));
+				universe.getSystem(systemID).Bodies.emplace_back(std::move(CelestialBodyPtr(new RockyBody(*body, loadBodyResources(systemID, bodyID)))));
 				break;
 			case CelestialBodyType::GasGiant:
 				break;

@@ -26,7 +26,10 @@ public:
 		:fileName(fileName)
 	{
 	}
-	~MercurySave() = default;
+	~MercurySave()
+	{
+		save.close();
+	}
 
 protected:
 	void openDB()

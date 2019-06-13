@@ -21,7 +21,7 @@ void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
 {
 	for (size_t i = 0; i < colonies.size(); i++)
 	{
-		if (item->text(column) == colonies[i].getPlanet().getName())
+		if (item->text(column) == colonies[i].getBody().getName())
 		{
 			selectedColony = i;
 		}
@@ -65,7 +65,7 @@ void ColoniesWindow::resetData()
 		ui.coloniesTree->clear();
 		for (const auto & col : colonies)
 		{
-			ui.coloniesTree->addTopLevelItem(new QTreeWidgetItem(QStringList(col.getPlanet().getName())));
+			ui.coloniesTree->addTopLevelItem(new QTreeWidgetItem(QStringList(col.getBody().getName())));
 		}
 		if (selectedColony.has_value())
 		{
@@ -100,7 +100,7 @@ void ColoniesWindow::resetData()
 				clearTable(uiMining.miningTable);
 
 				auto resNames = ResourceDeposit::getResourcesNames();
-				auto & res = colonies[selectedColony.value()].getPlanet().accessResources();
+				auto & res = colonies[selectedColony.value()].getBody().getResources();
 				const auto & stockRes = colonies[selectedColony.value()].getStockpile();
 				auto resYield = colonies[selectedColony.value()].getWeeklyResourcesYield();
 

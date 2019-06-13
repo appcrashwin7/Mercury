@@ -13,6 +13,8 @@ public:
 		:MercurySave(fileName)
 	{
 	}
+	GameSaver(const GameSaver & other) = delete;
+	GameSaver(GameSaver &&) = delete;
 	~GameSaver() = default;
 
 	void addUniverse(const Universe * universe)
@@ -75,7 +77,7 @@ private:
 		for (size_t i = 0; i < universeToSave->getSystems().size(); i++)
 		{
 			idsList << i;
-			namesList << QString::fromStdString(universeToSave->getSystems()[i].name);
+			namesList << universeToSave->getSystems()[i].getName();
 		}
 		insert.addBindValue(idsList);
 		insert.addBindValue(namesList);
@@ -129,7 +131,7 @@ private:
 	}
 	void saveColonies()
 	{
-		auto findPlanet = [&](const Planet * searched)->std::optional<std::pair<size_t, size_t>>
+		auto findPlanet = [&](const RockyBody * searched)->std::optional<std::pair<size_t, size_t>>
 		{
 			auto ret = std::optional<std::pair<size_t, size_t>>();
 			for (size_t iSys = 0; iSys < universeToSave->getSystems().size(); iSys++)
@@ -156,7 +158,7 @@ private:
 		for (size_t iCol = 0; iCol < coloniesToSave->size(); iCol++)
 		{
 			auto iColStr = QString::number(iCol);
-			auto planetID = findPlanet(&(coloniesToSave->operator[](iCol).getPlanet()));
+			auto planetID = findPlanet(&(coloniesToSave->operator[](iCol).getBody()));
 
 			data[0] << iCol;
 			data[1] << planetID.value().first;
@@ -224,7 +226,8 @@ private:
 
 	void saveBodyResources(size_t iSystem, size_t iBody, const CelestialBody * body)
 	{
-		if (body->type == CelestialBodyType::Star || body->type == CelestialBodyType::GasGiant)
+		const RockyBody * rockyBody = dynamic_cast<const RockyBody*>(body);
+		if (rockyBody == nullptr)
 			return;
 
 		QString iBodyStr = QString::number(iBody);
@@ -245,7 +248,7 @@ private:
 		QVariantList resAmountToSave;
 		QVariantList resAccessToSave;
 
-		auto & Res = body->accessResources();
+		auto & Res = rockyBody->getResources();
 		for (auto & iRes : Res.get())
 		{
 			resAmountToSave << QString::number(iRes.first);

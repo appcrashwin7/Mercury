@@ -4,7 +4,6 @@
 
 #include "Orbit.h"
 #include "PhysicalProperties.h"
-#include "ResourceDeposit.h"
 
 enum class CelestialBodyType
 {
@@ -21,9 +20,6 @@ class CelestialBody
 {
 
 	QString name;
-protected:
-	ResourceDeposit Resources = ResourceDeposit();
-
 public:
 	const CelestialBodyType type;
 	const Orbit orbit;
@@ -33,8 +29,23 @@ public:
 
 
 	CelestialBody() = delete;
-	CelestialBody(PhysicalProperties properties, CelestialBodyType type, Orbit orb = Orbit(), QString name = "");
-	CelestialBody(const CelestialBody & other, CelestialBodyType newType);
+	CelestialBody(CelestialBody &&) = default;
+	CelestialBody(const CelestialBody & other) = default;
+	CelestialBody(PhysicalProperties properties, CelestialBodyType type, Orbit orb = Orbit(), QString name = "")
+		:physics(std::move(properties)),
+		escapeVelocity(Calc::getEscapeVelocity(physics.mass, physics.radius)),
+		surfaceGravity(Calc::getGravity(physics.mass, physics.radius)),
+		type(type), orbit(orb), name(std::move(name))
+	{
+	}
+	CelestialBody(const CelestialBody & other, CelestialBodyType newType)
+		:physics(other.physics),
+		escapeVelocity(other.escapeVelocity),
+		surfaceGravity(other.surfaceGravity),
+		type(newType), orbit(other.orbit),
+		name(other.name)
+	{
+	}
 	virtual ~CelestialBody() = default;
 
 
@@ -56,12 +67,6 @@ public:
 	{
 		return surfaceGravity;
 	}
-
-
-	virtual ResourceDeposit generateResources(ResourceDeposit & custom);
-
-	const ResourceDeposit & accessResources() const;
-	ResourceDeposit & getResources();
 };
 
 using CelestialBodyPtr = std::unique_ptr<CelestialBody>;

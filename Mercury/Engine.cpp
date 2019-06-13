@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 Engine::Engine(QWidget * mainWindow, QString gameName)
-	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(0).Bodies[3].get()))) }),
+	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<RockyBody*>(gameUniverse.getSystem(0).Bodies[3].get()))) }),
 	window(Colonies, mainWindow), gameName(gameName)
 {
 	init();
@@ -136,12 +136,12 @@ void Engine::init()
 
 
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
-	systemSelect->addItem(QString::fromStdString(this->gameUniverse.getSystem(0).name), QVariant(0));
+	systemSelect->addItem(this->gameUniverse.getSystem(0).getName(), QVariant(0));
 	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
 
 	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
 
-	systemObjectTree->setHeaderLabel(QString::fromStdString(this->gameUniverse.getSystem(0).name));
+	systemObjectTree->setHeaderLabel(this->gameUniverse.getSystem(0).getName());
 	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)
 	{
 		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(body.get()->getName())));
@@ -155,7 +155,7 @@ std::vector<Colony> Engine::constructColonies(std::vector<ColonyData> data)
 	for (const auto & i : data)
 	{
 		auto id = std::get<0>(i);
-		ret.emplace_back(Colony(*(dynamic_cast<Planet*>(gameUniverse.getSystem(id.first).Bodies[id.second].get())),
+		ret.emplace_back(Colony(*(dynamic_cast<RockyBody*>(gameUniverse.getSystem(id.first).Bodies[id.second].get())),
 			std::get<1>(i), std::get<2>(i)));
 	}
 

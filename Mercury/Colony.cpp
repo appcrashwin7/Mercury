@@ -1,15 +1,15 @@
 #include "Colony.h"
 
-Colony::Colony(Planet & onPlanet, const QuantityT & commQuantity, const QuantityT & buildings)
-	:planet(onPlanet)
+Colony::Colony(RockyBody & on, const QuantityT & commQuantity, const QuantityT & buildings)
+	:body(on)
 {
 	constructStockpile(commQuantity);
 	colonyIndustry += (buildings);
 }
 
-const Planet & Colony::getPlanet() const
+const RockyBody & Colony::getBody() const
 {
-	return planet;
+	return body;
 }
 
 const StockT & Colony::getStockpile() const
@@ -36,7 +36,7 @@ QuantityT Colony::getWeeklyResourcesYield() const
 {
 	auto baseYield = colonyIndustry.getWeeklyMinesYield();
 	QuantityT ret;
-	for (auto res : planet.accessResources().get())
+	for (auto res : body.getResources().get())
 	{
 		ret.push_back(baseYield * res.second);
 	}

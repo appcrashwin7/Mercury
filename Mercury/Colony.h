@@ -2,7 +2,7 @@
 
 #include <tuple>
 
-#include "Planet.h"
+#include "RockyBody.h"
 #include "Industry.h"
 
 //pair(systemID, bodyID), colony stock, buildings number
@@ -10,7 +10,7 @@ using ColonyData = std::tuple<std::pair<size_t, size_t>, QuantityT, QuantityT>;
 
 class Colony
 {
-	Planet & planet;
+	RockyBody & body;
 	StockT stock;
 	Industry colonyIndustry;
 
@@ -18,10 +18,10 @@ public:
 	Colony() = delete;
 	Colony(const Colony & other) = default;
 	Colony(Colony && other) = default;
-	Colony(Planet & onPlanet, const QuantityT & commQuantity = QuantityT(), const QuantityT & buildings = QuantityT());
+	Colony(RockyBody & on, const QuantityT & commQuantity = QuantityT(), const QuantityT & buildings = QuantityT());
 	~Colony() = default;
 
-	const Planet & getPlanet() const;
+	const RockyBody & getBody() const;
 
 	const StockT & getStockpile() const;
 	StockT & getStockpile();

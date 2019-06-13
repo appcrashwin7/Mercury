@@ -11,7 +11,7 @@ public:
 
 	PlanetarySystem & getSystem(size_t index);
 
-	void addSystem(const std::string & name);
+	void addSystem(const QString & name);
 	void addSystem(PlanetarySystem && newSystem);
 
 	const std::vector<PlanetarySystem> & getSystems() const;

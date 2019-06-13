@@ -1,19 +1,26 @@
 #pragma once
 
 #include "Star.h"
-#include "Planet.h"
+#include "RockyBody.h"
 
 class PlanetarySystem
 {
+	QString name;
 public:
-	PlanetarySystem(const std::string & sysName);
+	PlanetarySystem() = delete;
+	PlanetarySystem(QString sysName);
 	PlanetarySystem(const PlanetarySystem & other) = delete;
 	PlanetarySystem(PlanetarySystem && system) = default;
 	~PlanetarySystem() = default;
-
-
-	std::string name;
-	std::vector<CelestialBodyPtr> Bodies;
-private:
 	
+	std::vector<CelestialBodyPtr> Bodies;
+
+	void setName(QString newName)
+	{
+		name = std::move(newName);
+	}
+	const QString & getName() const
+	{
+		return name;
+	}
 };
