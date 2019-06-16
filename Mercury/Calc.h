@@ -10,7 +10,8 @@
 
 static constexpr float GRAVITY_CONSTANT = 6.67e-11f;
 static constexpr double STEFAN_BOLTZMANN_CONST = 5.670373e-8;
-static const float PI_F = static_cast<float>(atan(1)) * 4.0f;
+static const double PI = std::atan(1) * 4.0;
+static constexpr double RATIO_43 = 4.0 / 3.0;
 
 
 enum class valueRepresentation
@@ -25,6 +26,13 @@ class Calc
 public:
 	Calc() = default;
 	~Calc() = default;
+
+	//density is in kg/m^3
+	static Length getRadius(Mass mass, double density)
+	{
+		auto massDensRel = (mass.value() / (density * PI * RATIO_43));
+		return Length(std::pow(massDensRel, 1.0 / 3.0) * units::si::meter);
+	}
 
 	static Velocity getEscapeVelocity(Mass mass, Length radius)
 	{
@@ -58,7 +66,7 @@ public:
 		auto gm = GRAVITY_CONSTANT * parentBodyMass.value();
 
 		auto mjrGm = std::sqrt(majorPow) / std::sqrt(gm);
-		auto ret = mjrGm * 2.0 * PI_F;
+		auto ret = mjrGm * 2.0 * PI;
 		return TimeInt(ret * units::si::second);
 	}
 

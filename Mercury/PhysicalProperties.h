@@ -5,7 +5,7 @@ class PhysicalProperties
 	static void setDensity(PhysicalProperties & p)
 	{
 		double radiusPow = pow(p.radius.value(), 3);
-		double vol = 1.333 * PI_F * radiusPow;
+		double vol = RATIO_43 * PI * radiusPow;
 
 		p.density = (p.mass.value() / vol);
 	}

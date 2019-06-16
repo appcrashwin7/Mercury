@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Star.h"
-#include "RockyBody.h"
+#include "CelestialBodyFactory.h"
 
 class PlanetarySystem
 {

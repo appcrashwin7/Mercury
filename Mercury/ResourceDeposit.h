@@ -27,6 +27,9 @@ public:
 	ResourceDeposit(ResourceDeposit && other) = default;
 	~ResourceDeposit() = default;
 
+	ResourceDeposit & operator=(ResourceDeposit &&) = default;
+
+
 	void replace(const ResourceDeposit & other)
 	{
 		for (size_t i = 0; i < RESOURCES_LIST_SIZE; i++)
@@ -57,6 +60,7 @@ public:
 		return ret;
 	}
 
+
 	Deposit & editDeposit(size_t id)
 	{
 		return Res[id];
@@ -65,6 +69,7 @@ public:
 	{
 		return Res[id];
 	}
+
 
 	bool isEmpty() const
 	{
@@ -89,6 +94,7 @@ public:
 		return true;
 	}
 
+
 	static std::array<size_t, 8> getLightElementsIds()
 	{
 		return { 0, 1, 10, 13, 14, 15, 16, 17 };
@@ -103,6 +109,7 @@ public:
 		return { 1.0f, 1.0f, 3.0f, 9.0f, 19.0f, 8.0f, 4.5f,
 			11.0f, 7.0f, 2.0f, 3.0f, 12.0f, 18.0f, 0.5f, 0.1f, 2.0f, 2.3f, 0.8f };
 	}
+
 
 	const DepositContainer & get() const
 	{

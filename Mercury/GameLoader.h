@@ -50,6 +50,7 @@ public:
 			universe.addSystem(i);
 		}
 
+		CelestialBodyFactory factory;
 		while (loadBodies.nextResult())
 		{
 			auto systemID = loadBodies.value(0).toUInt();
@@ -72,24 +73,15 @@ public:
 				parent = parentID.toUInt();
 				parentMass = universe.getLastSystem().Bodies[parent.value()].get()->physics.mass;
 			}
-			body = std::move(CelestialBodyPtr(new CelestialBody(
-				PhysicalProperties(radius * units::si::meter, mass * units::si::kilogram, temperature * units::si::kelvin),
-				type, Orbit(apoapsis * units::si::meter, periapsis * units::si::meter, parentMass, parent), name)));
-
-
-			switch (type)
+			PhysicalProperties prop(radius * units::si::meter, mass * units::si::kilogram, temperature * units::si::kelvin);
+			Orbit orb(apoapsis * units::si::meter, periapsis * units::si::meter, parentMass, parent);
+			ResourceDeposit res;
+			if (type == CelestialBodyType::Planet)
 			{
-			case CelestialBodyType::Star:
-				universe.getSystem(systemID).Bodies.emplace_back(std::move(CelestialBodyPtr(new Star(*body))));
-				break;
-			case CelestialBodyType::Planet:
-				universe.getSystem(systemID).Bodies.emplace_back(std::move(CelestialBodyPtr(new RockyBody(*body, loadBodyResources(systemID, bodyID)))));
-				break;
-			case CelestialBodyType::GasGiant:
-				break;
-			case CelestialBodyType::Asteroid:
-				break;
+				res = loadBodyResources(systemID, bodyID);
 			}
+
+			universe.getLastSystem().Bodies.emplace_back(factory.createBody(prop, orb, name, res));
 		}
 		return universe;
 	}

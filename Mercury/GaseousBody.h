@@ -2,6 +2,9 @@
 
 #include "CelestialBody.h"
 
+static constexpr Mass MIN_GAS_GIANT_MASS = 5.972e25 * units::si::kilogram;
+static constexpr double MAX_GAS_GIANT_DENSITY = 1700.0;
+
 class GaseousBody : public CelestialBody
 {
 public:

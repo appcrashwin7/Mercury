@@ -8,8 +8,9 @@ namespace boost
 {
 	namespace units
 	{
-		static const auto megawatt = units::si::watt * 1000000;
-		static const auto days = units::si::second * 3600 * 24;
+		static constexpr auto megawatt = units::si::watt * 1000000;
+		static constexpr auto days = units::si::second * 3600 * 24;
+		static constexpr auto kilometer = units::si::meter * 1000.0;
 	};
 };
 
