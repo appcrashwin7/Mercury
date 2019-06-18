@@ -115,13 +115,11 @@ void Engine::init()
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
 	timeShow->setText(gameTime.toString(GAME_TIME_FORMAT));
 
-	QPushButton * iTime1h = this->window.findChild<QPushButton*>("iTime1h");
-	QPushButton * iTime6h = this->window.findChild<QPushButton*>("iTime6h");
-
-
-	QObject::connect(iTime1h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_1); });
-	QObject::connect(iTime6h, &QPushButton::clicked, [=] {this->changeTime(TimeChange::hour_6); });
-
+	for (size_t i = 0; i < static_cast<size_t>(TimeChange::month_24) + 1; i++)
+	{
+		QObject::connect(window.findChild<QPushButton*>("iTime" + QString::number(i + 1)),
+			&QPushButton::clicked, [&, i] {changeTime(static_cast<TimeChange>(i)); });
+	}
 
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
 	systemSelect->addItem(this->gameUniverse.getSystem(0).getName(), QVariant(0));

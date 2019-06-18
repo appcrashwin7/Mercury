@@ -90,63 +90,63 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime1h">
+      <widget class="QPushButton" name="iTime1">
        <property name="text">
         <string>+1h</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime6h">
+      <widget class="QPushButton" name="iTime2">
        <property name="text">
         <string>+6h</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime12h">
+      <widget class="QPushButton" name="iTime3">
        <property name="text">
         <string>+12h</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime24h">
+      <widget class="QPushButton" name="iTime4">
        <property name="text">
         <string>+24h</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime7d">
+      <widget class="QPushButton" name="iTime5">
        <property name="text">
         <string>+7d</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime30d">
+      <widget class="QPushButton" name="iTime6">
        <property name="text">
         <string>+30d</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime6m">
+      <widget class="QPushButton" name="iTime7">
        <property name="text">
         <string>+6m</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime12m">
+      <widget class="QPushButton" name="iTime8">
        <property name="text">
         <string>+1y</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="iTime24m">
+      <widget class="QPushButton" name="iTime9">
        <property name="text">
         <string>+2y</string>
        </property>
