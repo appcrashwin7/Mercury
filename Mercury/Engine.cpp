@@ -74,35 +74,23 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
 		const CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName);
 
-		auto setItemValue = [objectValues](const QString & item, QString value = "---")->void
-		{
-			objectValues->findItems(item, Qt::MatchFlag::MatchExactly)[0]->setText(1, value);
+		std::array<QString, 10> bodyProps = {
+			QString::number(actualBody->physics.mass.value()) + " kg",
+			QString::number(actualBody->physics.radius.value()) + " m",
+			QString::number(actualBody->escapeVelocity.value()) + " m/s",
+			QString::number(actualBody->surfaceGravity.value()) + " m/s^2",
+			QString::number(actualBody->physics.getSurfaceTemperature().value()) + " K",
+			(!actualBody->orbit.isDefault) ? gameUniverse.getSystem(0).Bodies[actualBody->orbit.parent.value()].get()->getName() :
+			"",
+			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.apoapsis.value()) + " m" : "",
+			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.periapsis.value()) + " m" : "",
+			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.getOrbitalPeriod() / units::days) : "",
+			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.eccentricity) : ""
 		};
 
-		if (actualBody != nullptr)
+		for (size_t i = 0; i < objectValues->topLevelItemCount(); i++)
 		{
-			setItemValue("Mass", QString::number(actualBody->physics.mass.value()) + " kg");
-			setItemValue("Radius", QString::number(actualBody->physics.radius.value()) + " m");
-			setItemValue("Escape velocity", QString::number(actualBody->escapeVelocity.value()) + " m/s");
-			setItemValue("Surface gravity", QString::number(actualBody->surfaceGravity.value()) + " m/s^2");
-			setItemValue("Surface temperature", QString::number(actualBody->physics.getSurfaceTemperature().value()) + " K");
-
-			if (!actualBody->orbit.isDefault)
-			{
-				setItemValue("Apoapsis", QString::number(actualBody->orbit.apoapsis.value()) + " m");
-				setItemValue("Periapsis", QString::number(actualBody->orbit.periapsis.value()) + " m");
-				setItemValue("Eccentricity", QString::number(actualBody->orbit.eccentricity));
-				setItemValue("Orbital period", QString::number(actualBody->orbit.getOrbitalPeriod() / units::days));
-				setItemValue("Parent body", gameUniverse.getSystem(0).Bodies[actualBody->orbit.parent.value()].get()->getName());
-			}
-			else
-			{
-				setItemValue("Apoapsis");
-				setItemValue("Periapsis");
-				setItemValue("Eccentricity");
-				setItemValue("Orbital period");
-				setItemValue("Parent body");
-			}
+			objectValues->topLevelItem(i)->setText(1, bodyProps[i]);
 		}
 	}
 }

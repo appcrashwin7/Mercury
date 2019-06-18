@@ -218,11 +218,6 @@
        </column>
        <item>
         <property name="text">
-         <string>Parent body</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>Mass</string>
         </property>
         <property name="text">
@@ -239,11 +234,6 @@
        </item>
        <item>
         <property name="text">
-         <string>Surface temperature</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>Escape velocity</string>
         </property>
        </item>
@@ -254,7 +244,12 @@
        </item>
        <item>
         <property name="text">
-         <string>Periapsis</string>
+         <string>Surface temperature</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Parent body</string>
         </property>
         <property name="text">
          <string/>
@@ -267,12 +262,20 @@
        </item>
        <item>
         <property name="text">
-         <string>Eccentricity</string>
+         <string>Periapsis</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </item>
        <item>
         <property name="text">
          <string>Orbital period</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Eccentricity</string>
         </property>
        </item>
       </widget>
