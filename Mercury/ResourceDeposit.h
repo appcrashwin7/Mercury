@@ -29,15 +29,6 @@ public:
 
 	ResourceDeposit & operator=(ResourceDeposit &&) = default;
 
-
-	void replace(const ResourceDeposit & other)
-	{
-		for (size_t i = 0; i < RESOURCES_LIST_SIZE; i++)
-		{
-			Res[i] = other.get()[i];
-		}
-	}
-
 	std::array<uint64_t, RESOURCES_LIST_SIZE> SubstrAll(uint64_t amount)
 	{
 		std::array<uint64_t, RESOURCES_LIST_SIZE> ret = {};
