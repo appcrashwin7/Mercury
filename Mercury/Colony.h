@@ -31,6 +31,8 @@ public:
 
 	QuantityT getWeeklyResourcesYield() const;
 
+	void simulate();
+
 private:
 	void constructStockpile(const QuantityT & units);
 	void defaultStockpile();

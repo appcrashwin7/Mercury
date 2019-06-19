@@ -43,6 +43,20 @@ QuantityT Colony::getWeeklyResourcesYield() const
 	return ret;
 }
 
+void Colony::simulate()
+{
+	if (colonyIndustry.getEnergyProduction() < colonyIndustry.getEnergyDemand())
+		return;
+
+	auto res = body.getResources().SubstrAll(colonyIndustry.getWeeklyMinesYield(1));
+	size_t index = 0;
+	for (auto i : res)
+	{
+		stock[index].second += i;
+		++index;
+	}
+}
+
 void Colony::constructStockpile(const QuantityT & units)
 {
 	if (units.empty())

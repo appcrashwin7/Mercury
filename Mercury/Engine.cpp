@@ -29,6 +29,7 @@ Engine::~Engine()
 void Engine::changeTime(TimeChange change)
 {
 	const qint64 hour = 3600;
+	QDateTime prev = gameTime;
 
 	switch (change)
 	{
@@ -59,9 +60,17 @@ void Engine::changeTime(TimeChange change)
 	case TimeChange::month_24:
 		this->gameTime = this->gameTime.addMonths(24);
 		break;
-	default:
-		break;
 	}
+
+	auto daysPassed = prev.daysTo(gameTime);
+	for (size_t i = 0; i < static_cast<size_t>(daysPassed); i++)
+	{
+		for (auto & col : Colonies)
+		{
+			col.simulate();
+		}
+	}
+
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
 	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));
 }

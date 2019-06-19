@@ -43,7 +43,8 @@ public:
 				}
 				else
 				{
-					Res[i].first =- amount;
+					auto nRes = Res[i].first - amount;
+					Res[i].first = nRes;
 					ret[i] = amount;
 				}
 			}

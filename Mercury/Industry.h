@@ -12,8 +12,8 @@ class Industry
 public:
 	Industry()
 	{
-		auto buildingList = IndustryBuilding::getDefaultBuildings();
-		for (auto & b : buildingList)
+		auto buildings = IndustryBuilding::getDefaultBuildings();
+		for (auto & b : buildings)
 		{
 			Buildings.emplace_back(BuildingQuantityT(b, 0));
 		}
@@ -143,6 +143,7 @@ public:
 	{
 		Buildings[index].second -= amount;
 	}
+
 
 	const BuildingQuantityT & operator[](size_t index) const
 	{
