@@ -36,6 +36,10 @@ public:
 			IndustryBuilding("Infrastructure", {}, {}, 0, {{commd["Steel"], 2}}),
 			IndustryBuilding("Mine", {}, {}, 1 * units::megawatt, {{commd["Industrial parts"], 5}, {commd["Steel"], 1}}),
 			IndustryBuilding("Housing", {}, {}, 1 * units::megawatt, {{commd["Steel"], 10}}),
+
+			IndustryBuilding("Power Plant", {{commd["Waste"], 5}}, {{commd["Carbon"], 20}},
+			0, {{commd["Industrial parts"], 10}, {commd["Steel"], 20}, {commd["Electronics"], 5}}, 100 * units::megawatt),
+
 			IndustryBuilding("Steel Forge", {{commd["Steel"], 10}}, {{commd["Iron"], 9}, {commd["Carbon"], 1}},
 			10 * units::megawatt, {{commd["Industrial parts"], 40}, {commd["Steel"], 10}}),
 
@@ -58,10 +62,7 @@ public:
 			100 * units::megawatt, {{commd["Steel"], 10}, {commd["Electronics"], 20}, {commd["Industrial parts"], 100}}),
 
 			IndustryBuilding("Electronics Factory", {{commd["Electronics"], 50}}, {{commd["Gold"], 2}, {commd["Silicon"], 10}},
-			10 * units::megawatt, {{commd["Industrial parts"], 20}, {commd["Steel"], 2}}),
-
-			IndustryBuilding("Power Plant", {{commd["Waste"], 5}}, {{commd["Carbon"], 20}},
-			0, {{commd["Industrial parts"], 10}, {commd["Steel"], 20}, {commd["Electronics"], 5}}, 100 * units::megawatt)
+			10 * units::megawatt, {{commd["Industrial parts"], 20}, {commd["Steel"], 2}})
 			});
 	}
 };

@@ -2,7 +2,7 @@
 
 Engine::Engine(QWidget * mainWindow, QString gameName)
 	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<RockyBody*>(gameUniverse.getSystem(0).Bodies[3].get())), 
-		QuantityT(RESOURCES_LIST_SIZE, 10000), QuantityT({0, 20, 5, 2, 1, 1, 1, 0, 0, 0, 5}))}),
+		QuantityT(RESOURCES_LIST_SIZE, 10000), QuantityT({0, 20, 5, 5, 1, 1, 1, 0, 0, 0, 2}))}),
 	window(Colonies, mainWindow), gameName(gameName)
 {
 	init();

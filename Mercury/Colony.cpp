@@ -55,6 +55,43 @@ void Colony::simulate()
 		stock[index].second += i;
 		++index;
 	}
+
+	for (auto & building : colonyIndustry.getBuildings())
+	{
+		size_t buildingProducingNumber = building.second;
+
+		std::vector<std::pair<size_t, uint64_t>> in;
+		for (auto & input : building.first.baseInput)
+		{
+			auto max = stock[input.first.id].second / input.second;
+			if (max == 0)
+			{
+				break;
+			}
+
+			if (max < buildingProducingNumber)
+			{
+				buildingProducingNumber = max;
+			}
+
+			in.emplace_back(std::make_pair(input.first.id, input.second));
+		}
+		if (buildingProducingNumber > 0)
+		{
+			for (const auto & i : in)
+			{
+				auto newStockAm = stock[i.first].second - (i.second * buildingProducingNumber);
+				stock[i.first].second = newStockAm;
+			}
+
+			for (auto & output : building.first.baseOutput)
+			{
+				stock[output.first.id].second += (output.second * buildingProducingNumber);
+			}
+		}
+	}
+
+
 }
 
 void Colony::constructStockpile(const QuantityT & units)
