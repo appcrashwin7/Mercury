@@ -85,7 +85,7 @@ void ColoniesWindow::resetData()
 					uiStock.StockTable->insertRow(uiStock.StockTable->rowCount());
 
 					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, 
-						new QTableWidgetItem(QString::fromStdString(stockPile[i].first.getName())));
+						new QTableWidgetItem(QString::fromStdString(stockPile[i].first.name)));
 					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockPile[i].second)));
 					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(prod[i])));
 					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(usage[i])));

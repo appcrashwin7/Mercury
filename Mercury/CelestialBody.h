@@ -57,16 +57,6 @@ public:
 	{
 		return name;
 	}
-
-
-	Velocity getEscapeVelocity() const
-	{
-		return escapeVelocity;
-	}
-	Acceleration getSurfaceGravity() const
-	{
-		return surfaceGravity;
-	}
 };
 
 using CelestialBodyPtr = std::unique_ptr<CelestialBody>;

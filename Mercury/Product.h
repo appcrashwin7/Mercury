@@ -16,15 +16,17 @@ enum class ProductType
 
 class Product
 {
+public:
 	const std::string name;
 	const float massPerUnit;
 	const ProductType type;
+	const size_t id;
 
-public:
 	Product() = delete;
 	Product(const Product & other) = default;
-	Product(const std::string & pname, float mass, ProductType t)
-		:name(pname), massPerUnit(mass), type(t)
+	Product(Product &&) = default;
+	Product(std::string pname, float mass, ProductType t, size_t id)
+		:name(std::move(pname)), massPerUnit(mass), type(t), id(id)
 	{}
 	~Product() = default;
 
@@ -38,18 +40,5 @@ public:
 			}
 		}
 		return false;
-	}
-
-	const std::string & getName() const
-	{
-		return name;
-	}
-	float getMassPerUnit() const
-	{
-		return massPerUnit;
-	}
-	ProductType getType() const
-	{
-		return type;
 	}
 };
