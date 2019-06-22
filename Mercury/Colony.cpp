@@ -45,9 +45,6 @@ QuantityT Colony::getWeeklyResourcesYield() const
 
 void Colony::simulate()
 {
-	if (colonyIndustry.getEnergyProduction() < colonyIndustry.getEnergyDemand())
-		return;
-
 	auto res = body.getResources().SubstrAll(colonyIndustry.getWeeklyMinesYield(1));
 	size_t index = 0;
 	for (auto i : res)
@@ -56,42 +53,65 @@ void Colony::simulate()
 		++index;
 	}
 
+	Energy energyUsed;
 	for (auto & building : colonyIndustry.getBuildings())
 	{
-		size_t buildingProducingNumber = building.second;
+		if (energyUsed > Energy() && building.first.getEnergyConsumption() > Energy())
+			continue;
 
+		auto buildingProducingNumber = building.second;
 		std::vector<std::pair<size_t, uint64_t>> in;
-		for (auto & input : building.first.baseInput)
+		for (auto & input : building.first.getInput())
 		{
 			auto max = stock[input.first.id].second / input.second;
 			if (max == 0)
 			{
 				break;
 			}
-
 			if (max < buildingProducingNumber)
 			{
 				buildingProducingNumber = max;
+			}
+
+			if (building.first.getEnergyConsumption() > Energy())
+			{
+				auto maxE = (energyUsed.value() / building.first.getEnergyConsumption().value()) * -1;
+				if (maxE < 0)
+				{
+					break;
+				}
+				if (maxE < static_cast<int64_t>(buildingProducingNumber))
+				{
+					buildingProducingNumber = maxE;
+				}
 			}
 
 			in.emplace_back(std::make_pair(input.first.id, input.second));
 		}
 		if (buildingProducingNumber > 0)
 		{
+			if (energyUsed < Energy())
+			{
+				energyUsed -= (building.first.getEnergyConsumption() * static_cast<int64_t>(buildingProducingNumber));
+			}
+			else if (energyUsed == Energy())
+			{
+				energyUsed += (building.first.getEnergyConsumption() * static_cast<int64_t>(buildingProducingNumber));
+			}
+
+
 			for (const auto & i : in)
 			{
 				auto newStockAm = stock[i.first].second - (i.second * buildingProducingNumber);
 				stock[i.first].second = newStockAm;
 			}
 
-			for (auto & output : building.first.baseOutput)
+			for (auto & output : building.first.getOutput())
 			{
 				stock[output.first.id].second += (output.second * buildingProducingNumber);
 			}
 		}
 	}
-
-
 }
 
 void Colony::constructStockpile(const QuantityT & units)

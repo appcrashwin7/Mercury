@@ -145,7 +145,7 @@ void ColoniesWindow::resetData()
 						uiSummary.buildingsTable->insertRow(uiSummary.buildingsTable->rowCount());
 
 						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 0,
-							new QTableWidgetItem(QString::fromStdString(industry.getBuildings()[i].first.name)));
+							new QTableWidgetItem(QString::fromStdString(industry.getBuildings()[i].first.getName())));
 						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 1,
 							new QTableWidgetItem(QString::number(industry.getBuildings()[i].second)));
 					}

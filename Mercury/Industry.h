@@ -12,11 +12,17 @@ class Industry
 public:
 	Industry()
 	{
-		auto buildings = IndustryBuilding::getDefaultBuildings();
+		auto buildings = IndustryBuilding::getDefaults();
 		for (auto & b : buildings)
 		{
 			Buildings.emplace_back(BuildingQuantityT(b, 0));
 		}
+
+		std::sort(Buildings.begin(), Buildings.end(), 
+			[](const BuildingQuantityT & a, const BuildingQuantityT & b)->bool
+		{
+			return a.first.getEnergyConsumption() < b.first.getEnergyConsumption();
+		});
 	}
 	Industry(const Industry & other) = default;
 	Industry(Industry && other) = default;
@@ -53,9 +59,9 @@ public:
 		uint64_t ret = 0;
 		for (const auto & b : Buildings)
 		{
-			if (b.first.energyProduction.value() > 0)
+			if (b.first.getEnergyConsumption() < Energy())
 			{
-				ret += ((b.first.energyProduction / units::megawatt) * b.second);
+				ret += (((b.first.getEnergyConsumption() * static_cast<int64_t>(-1)) / units::megawatt) * b.second);
 			}
 		}
 		return ret;
@@ -65,9 +71,9 @@ public:
 		uint64_t ret = 0;
 		for (const auto & b : Buildings)
 		{
-			if (b.first.energyDrain.value() > 0)
+			if (b.first.getEnergyConsumption() > Energy())
 			{
-				ret += ((b.first.energyDrain / units::megawatt) * b.second);
+				ret += ((b.first.getEnergyConsumption() / units::megawatt) * b.second);
 			}
 		}
 		return ret;
@@ -86,7 +92,7 @@ public:
 		{
 			if (building.second > 0)
 			{
-				for (auto t : building.first.baseInput)
+				for (auto t : building.first.getInput())
 				{
 					for (size_t i = 0; i < ret.size(); i++)
 					{
@@ -108,7 +114,7 @@ public:
 		{
 			if (building.second > 0)
 			{
-				for (auto t : building.first.baseOutput)
+				for (auto t : building.first.getOutput())
 				{
 					for (size_t i = 0; i < ret.size(); i++)
 					{
@@ -126,13 +132,13 @@ public:
 	{
 		auto mine = std::find_if(Buildings.begin(), Buildings.end(), [](const BuildingQuantityT & b)->bool
 		{
-			if (b.first.name == "Mine")
+			if (b.first.getName() == "Mine")
 			{
 				return true;
 			}
 			return false;
 		});
-		return (MINE_BASE_OUTPUT * mine->second * days);
+		return (mine->first.getMiningOutput() * mine->second * days);
 	}
 
 	void addBuilding(size_t index, uint64_t amount = 1)
