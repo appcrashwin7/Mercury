@@ -45,15 +45,8 @@ QuantityT Colony::getWeeklyResourcesYield() const
 
 void Colony::simulate()
 {
-	auto res = body.getResources().SubstrAll(colonyIndustry.getWeeklyMinesYield(1));
-	size_t index = 0;
-	for (auto i : res)
-	{
-		stock[index].second += i;
-		++index;
-	}
-
 	Energy energyUsed;
+	uint64_t minedResources = 0;
 	for (auto & building : colonyIndustry.getBuildings())
 	{
 		if (energyUsed > Energy() && building.first.getEnergyConsumption() > Energy())
@@ -110,7 +103,21 @@ void Colony::simulate()
 			{
 				stock[output.first.id].second += (output.second * buildingProducingNumber);
 			}
+
+			auto minOutput = building.first.getMiningOutput();
+			if (minOutput > 0)
+			{
+				minedResources += (minOutput * buildingProducingNumber);
+			}
 		}
+	}
+
+	auto res = body.getResources().SubstrAll(minedResources);
+	size_t index = 0;
+	for (auto i : res)
+	{
+		stock[index].second += i;
+		++index;
 	}
 }
 

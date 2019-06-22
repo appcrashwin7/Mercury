@@ -130,15 +130,16 @@ public:
 	}
 	uint64_t getWeeklyMinesYield(uint64_t days = 7) const
 	{
-		auto mine = std::find_if(Buildings.begin(), Buildings.end(), [](const BuildingQuantityT & b)->bool
+		uint64_t ret = 0;
+		for (const auto & b : Buildings)
 		{
-			if (b.first.getName() == "Mine")
+			auto out = b.first.getMiningOutput();
+			if (b.second > 0 && out > 0)
 			{
-				return true;
+				ret += (out * b.second * days);
 			}
-			return false;
-		});
-		return (mine->first.getMiningOutput() * mine->second * days);
+		}
+		return ret;
 	}
 
 	void addBuilding(size_t index, uint64_t amount = 1)
