@@ -11,7 +11,7 @@ Mercury::Mercury(QWidget *parent)
 	QObject::connect(ui.loadGameButton, &QPushButton::clicked, this, &Mercury::loadGameDialog);
 	QObject::connect(ui.aboutButton, &QPushButton::clicked, []() {
 		QMessageBox a("About Mercury",
-			"Mercury ver.0.0.0000 <br> Copyright (C) 2019  appcrashwin7 <br><br>" \
+			"Mercury ver.0.0.0001 <br> Copyright (C) 2019  appcrashwin7 <br><br>" \
 			"This program comes with ABSOLUTELY NO WARRANTY<br>" \
 			"This is free software, and you are welcome to redistribute it under certain conditions<br>",
 			QMessageBox::Icon::Information,
