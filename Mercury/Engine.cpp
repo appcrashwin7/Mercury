@@ -98,7 +98,7 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.eccentricity) : ""
 		};
 
-		for (size_t i = 0; i < objectValues->topLevelItemCount(); i++)
+		for (int i = 0; i < objectValues->topLevelItemCount(); i++)
 		{
 			objectValues->topLevelItem(i)->setText(1, bodyProps[i]);
 		}

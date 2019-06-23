@@ -9,6 +9,15 @@ Mercury::Mercury(QWidget *parent)
 	QPushButton * nGStartButton = newGameWindow.findChild<QPushButton*>("startButton");
 	QObject::connect(nGStartButton, &QPushButton::clicked, this, &Mercury::closeNewGameDialog);
 	QObject::connect(ui.loadGameButton, &QPushButton::clicked, this, &Mercury::loadGameDialog);
+	QObject::connect(ui.aboutButton, &QPushButton::clicked, []() {
+		QMessageBox a("About Mercury",
+			"Mercury ver.0.0.0000 <br> Copyright (C) 2019  appcrashwin7 <br><br>" \
+			"This program comes with ABSOLUTELY NO WARRANTY<br>" \
+			"This is free software, and you are welcome to redistribute it under certain conditions<br>",
+			QMessageBox::Icon::Information,
+			QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
+		a.exec();
+	});
 }
 
 void Mercury::newGameDialog()

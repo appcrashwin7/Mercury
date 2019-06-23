@@ -32,6 +32,7 @@ file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/Mercury/*.hpp"
         "${PROJECT_SOURCE_DIR}/Mercury/*.cpp"
         "${PROJECT_SOURCE_DIR}/Mercury/*.c"
+		"${PROJECT_SOURCE_DIR}/Mercury/*.ui"
         )
 
 
