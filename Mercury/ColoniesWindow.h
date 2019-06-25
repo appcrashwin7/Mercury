@@ -7,6 +7,7 @@
 #include "ui_StockpileWindow.h"
 #include "ui_MiningWindow.h"
 #include "ui_SummaryWindow.h"
+#include "ui_IndustryWindow.h" 
 
 #include "Colony.h"
 
@@ -33,6 +34,7 @@ class ColoniesWindow : public QWidget
 	QWidget stock;
 	QWidget mining;
 	QWidget summary;
+	QWidget industry;
 public:
 	ColoniesWindow() = delete;
 	ColoniesWindow(std::vector<Colony> & cl);
@@ -47,6 +49,7 @@ private:
 	Ui::StockWindow uiStock;
 	Ui::MiningWindow uiMining;
 	Ui::SummaryWindow uiSummary;
+	Ui::IndustryWindow uiIndustry;
 
 	std::vector<Colony> & colonies;
 

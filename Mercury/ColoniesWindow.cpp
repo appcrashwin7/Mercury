@@ -15,6 +15,7 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 	uiMining.setupUi(&mining);
 	uiStock.setupUi(&stock);
 	uiSummary.setupUi(&summary);
+	uiIndustry.setupUi(&industry);
 }
 
 void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
@@ -39,6 +40,8 @@ void ColoniesWindow::resetData()
 			summary.close();
 			break;
 		case TabT::Industry:
+			ui.contentLayout->removeWidget(&industry);
+			industry.close();
 			break;
 		case TabT::Mining:
 			ui.contentLayout->removeWidget(&mining);
@@ -150,6 +153,12 @@ void ColoniesWindow::resetData()
 							new QTableWidgetItem(QString::number(industry.getBuildings()[i].second)));
 					}
 				}
+			}
+			if (selectedTab == TabT::Industry)
+			{
+				tabManagment();
+				ui.contentLayout->addWidget(&industry);
+				industry.show();
 			}
 		}
 	}
