@@ -15,6 +15,7 @@ class IndustryBuilding
 
 	uint32_t miningOutput;
 	uint32_t populationSupport;
+	uint32_t constructionCapability;
 	//If negative then it take infrastructure
 	int32_t infrastructureSupport;
 
@@ -23,11 +24,11 @@ public:
 	IndustryBuilding(const IndustryBuilding &) = default;
 	IndustryBuilding(IndustryBuilding &&) = default;
 	IndustryBuilding(std::string name, StockT input, StockT output, StockT buildCost, 
-		Energy energyConsumption, int32_t infrastructure = -1, uint32_t popSupport = 0, uint32_t miningOutput = 0)
+		Energy energyConsumption, int32_t infrastructure = -1, uint32_t popSupport = 0, uint32_t miningOutput = 0, uint32_t constrCapability = 0)
 		:name(std::move(name)), input(std::move(input)), output(std::move(output)),
 		buildCost(std::move(buildCost)), energyConsumption(std::move(energyConsumption)),
 		miningOutput(miningOutput), populationSupport(popSupport), 
-		infrastructureSupport(infrastructure)
+		infrastructureSupport(infrastructure), constructionCapability(constrCapability)
 	{}
 	~IndustryBuilding() = default;
 
@@ -100,6 +101,8 @@ public:
 			{{commd["Electronics"], 1}, {commd["Titanium"], 5}, {commd["Duraluminium"], 3}, {commd["Carbon"], 1}},
 			{{commd["High-tech rocket parts"], 10}}, {{commd["Steel"], 10}, {commd["Electronics"], 20}, {commd["Industrial parts"], 100}},
 			100 * units::megawatt),
+
+			IndustryBuilding("Construction Facility", {}, {}, {{commd["Steel"], 10}, {commd["Industrial parts"], 50}}, 5 * units::megawatt, -1, 0, 0, 100),
 
 			IndustryBuilding("Electronics Factory", {{commd["Gold"], 2}, {commd["Silicon"], 10}},
 			 {{commd["Electronics"], 50}}, {{commd["Industrial parts"], 20}, {commd["Steel"], 2}},
