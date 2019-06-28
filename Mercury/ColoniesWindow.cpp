@@ -16,6 +16,42 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 	uiStock.setupUi(&stock);
 	uiSummary.setupUi(&summary);
 	uiIndustry.setupUi(&industry);
+
+	QObject::connect(uiIndustry.itemTypeSelector, QOverload<const QString &>::of(&QComboBox::activated), 
+		[&](const QString & var) {
+
+		if (!selectedColony.has_value())
+			return;
+
+		uiIndustry.itemsTable->setRowCount(0);
+
+		if (var == "Buildings")
+		{
+			int row = 0;
+			for (auto & b : colonies[selectedColony.value()].getIndustry().getBuildings())
+			{
+				uiIndustry.itemsTable->insertRow(uiIndustry.itemsTable->rowCount());
+				uiIndustry.itemsTable->setItem(uiIndustry.itemsTable->rowCount() - 1, 0, 
+					new QTableWidgetItem(QString::fromStdString(b.first.getName())));
+			}
+		}
+	});
+	QObject::connect(uiIndustry.itemsTable, &QTableWidget::cellClicked, [&](int row, int column)
+	{
+		uiIndustry.itemCostTable->setRowCount(0);
+		if (uiIndustry.itemTypeSelector->currentText() == "Buildings")
+		{
+			for (auto & stck : colonies[selectedColony.value()].
+				getIndustry().getBuildings()[row].first.getBuildCost())
+			{
+				uiIndustry.itemCostTable->insertRow(uiIndustry.itemCostTable->rowCount());
+
+				auto actualRow = uiIndustry.itemCostTable->rowCount() - 1;
+				uiIndustry.itemCostTable->setItem(actualRow, 0, new QTableWidgetItem(QString::fromStdString(stck.first.name)));
+				uiIndustry.itemCostTable->setItem(actualRow, 1, new QTableWidgetItem(QString::number(stck.second)));
+			}
+		}
+	});
 }
 
 void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
