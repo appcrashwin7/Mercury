@@ -27,7 +27,6 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 
 		if (var == "Buildings")
 		{
-			int row = 0;
 			for (auto & b : colonies[selectedColony.value()].getIndustry().getBuildings())
 			{
 				uiIndustry.itemsTable->insertRow(uiIndustry.itemsTable->rowCount());
@@ -38,6 +37,7 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 	});
 	QObject::connect(uiIndustry.itemsTable, &QTableWidget::cellClicked, [&](int row, int column)
 	{
+		column;
 		uiIndustry.itemCostTable->setRowCount(0);
 		if (uiIndustry.itemTypeSelector->currentText() == "Buildings")
 		{
@@ -95,12 +95,6 @@ void ColoniesWindow::resetData()
 
 	if (ui.coloniesTree != nullptr)
 	{
-		auto clearTable = [](QTableWidget * table)
-		{
-			table->clearContents();
-			table->setRowCount(0);
-		};
-
 		ui.coloniesTree->clear();
 		for (const auto & col : colonies)
 		{
@@ -114,7 +108,7 @@ void ColoniesWindow::resetData()
 				ui.contentLayout->addWidget(&stock);
 				stock.show();
 
-				clearTable(uiStock.StockTable);
+				uiStock.StockTable->setRowCount(0);
 				const auto & stockPile = colonies[selectedColony.value()].getStockpile();
 				auto usage = colonies[selectedColony.value()].getIndustry().getWeeklyUsageOfCommodities();
 				auto prod = colonies[selectedColony.value()].getIndustry().getWeeklyProductionOfCommodities();
@@ -136,7 +130,7 @@ void ColoniesWindow::resetData()
 				ui.contentLayout->addWidget(&mining);
 				mining.show();
 
-				clearTable(uiMining.miningTable);
+				uiMining.miningTable->setRowCount(0);
 
 				auto resNames = ResourceDeposit::getResourcesNames();
 				auto & res = colonies[selectedColony.value()].getBody().getResources();
@@ -160,14 +154,17 @@ void ColoniesWindow::resetData()
 				ui.contentLayout->addWidget(&summary);
 				summary.show();
 
-				clearTable(uiSummary.valuesTable);
-				clearTable(uiSummary.buildingsTable);
+				uiSummary.valuesTable->setRowCount(0);
+				uiSummary.buildingsTable->setRowCount(0);
 
-				auto & industry = colonies[selectedColony.value()].getIndustry();
+				auto & colIndustry = colonies[selectedColony.value()].getIndustry();
+
 				using name_value = std::pair<QString, QString>;
-				auto values = std::array<name_value, 2>({ name_value("Energy Demand", QString::number(industry.getEnergyDemand()) + " MW"),
-					name_value("Energy Production", QString::number(industry.getEnergyProduction()) + " MW") });
-				auto ranges = { values.size(), industry.getBuildings().size() };
+				auto values = std::array<name_value, 2>({ 
+					name_value("Energy Demand", QString::number(colIndustry.getEnergyDemand()) + " MW"),
+					name_value("Energy Production", QString::number(colIndustry.getEnergyProduction()) + " MW") });
+
+				auto ranges = { values.size(), colIndustry.getBuildings().size() };
 				auto minmax = std::minmax_element(ranges.begin(), ranges.end());
 
 				for (size_t i = 0; i < *minmax.second; i++)
@@ -179,14 +176,14 @@ void ColoniesWindow::resetData()
 						uiSummary.valuesTable->setItem(uiSummary.valuesTable->rowCount() - 1, 0, new QTableWidgetItem(values[i].first));
 						uiSummary.valuesTable->setItem(uiSummary.valuesTable->rowCount() - 1, 1, new QTableWidgetItem(values[i].second));
 					}
-					if(i < industry.getBuildings().size())
+					if(i < colIndustry.getBuildings().size())
 					{
 						uiSummary.buildingsTable->insertRow(uiSummary.buildingsTable->rowCount());
 
 						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 0,
-							new QTableWidgetItem(QString::fromStdString(industry.getBuildings()[i].first.getName())));
+							new QTableWidgetItem(QString::fromStdString(colIndustry.getBuildings()[i].first.getName())));
 						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 1,
-							new QTableWidgetItem(QString::number(industry.getBuildings()[i].second)));
+							new QTableWidgetItem(QString::number(colIndustry.getBuildings()[i].second)));
 					}
 				}
 			}
