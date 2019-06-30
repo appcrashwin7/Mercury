@@ -78,6 +78,15 @@ public:
 		}
 		return ret;
 	}
+	uint64_t getConstructionCapability() const
+	{
+		uint64_t ret = 0;
+		for (const auto & b : Buildings)
+		{
+			ret += (b.first.getConstructionCapability() * b.second);
+		}
+		return ret;
+	}
 
 	const std::vector<BuildingQuantityT> & getBuildings() const
 	{

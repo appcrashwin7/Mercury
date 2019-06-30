@@ -63,6 +63,10 @@ public:
 	{
 		return populationSupport;
 	}
+	uint32_t getConstructionCapability() const
+	{
+		return constructionCapability;
+	}
 	int32_t getInfrastructureSupport() const
 	{
 		return infrastructureSupport;

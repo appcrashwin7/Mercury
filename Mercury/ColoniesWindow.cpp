@@ -160,9 +160,10 @@ void ColoniesWindow::resetData()
 				auto & colIndustry = colonies[selectedColony.value()].getIndustry();
 
 				using name_value = std::pair<QString, QString>;
-				auto values = std::array<name_value, 2>({ 
+				auto values = std::array<name_value, 3>({ 
 					name_value("Energy Demand", QString::number(colIndustry.getEnergyDemand()) + " MW"),
-					name_value("Energy Production", QString::number(colIndustry.getEnergyProduction()) + " MW") });
+					name_value("Energy Production", QString::number(colIndustry.getEnergyProduction()) + " MW"), 
+					name_value("Construction Capability", QString::number(colIndustry.getConstructionCapability()))});
 
 				auto ranges = { values.size(), colIndustry.getBuildings().size() };
 				auto minmax = std::minmax_element(ranges.begin(), ranges.end());
