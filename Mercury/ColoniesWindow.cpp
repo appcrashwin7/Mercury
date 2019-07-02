@@ -52,6 +52,37 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 			}
 		}
 	});
+	QObject::connect(uiIndustry.createButton, &QPushButton::clicked, [&]()
+	{
+		if (!selectedColony)
+		{
+			return;
+		}
+
+		bool ok;
+		int32_t amount = uiIndustry.amountLineEdit->text().toInt(&ok, 10);
+		uiIndustry.amountLineEdit->setText("");
+
+		auto item = uiIndustry.itemsTable->selectedItems().first()->text().toStdString();
+		if (uiIndustry.itemTypeSelector->currentText() == QString("Buildings"))
+		{
+			auto building = std::find_if(colonies[selectedColony.value()].getIndustry().getBuildings().begin(),
+				colonies[selectedColony.value()].getIndustry().getBuildings().end(),
+				[item](const BuildingQuantityT & b)
+			{
+				if (b.first.getName() == item)
+				{
+					return true;
+				}
+				return false;
+			});
+			auto ID = std::distance(colonies[selectedColony.value()].getIndustry().getBuildings().begin(),
+				building);
+			colonies[selectedColony.value()].getIndustry().
+				addNewConstruction(Construction(static_cast<size_t>(ID), amount, QDate()));
+		}
+		
+	});
 }
 
 void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
@@ -102,6 +133,8 @@ void ColoniesWindow::resetData()
 		}
 		if (selectedColony.has_value())
 		{
+			auto & selectedColonyRef = colonies[selectedColony.value()];
+
 			if (selectedTab == TabT::Stockpile)
 			{
 				tabManagment();
@@ -110,8 +143,8 @@ void ColoniesWindow::resetData()
 
 				uiStock.StockTable->setRowCount(0);
 				const auto & stockPile = colonies[selectedColony.value()].getStockpile();
-				auto usage = colonies[selectedColony.value()].getIndustry().getWeeklyUsageOfCommodities();
-				auto prod = colonies[selectedColony.value()].getIndustry().getWeeklyProductionOfCommodities();
+				auto usage = selectedColonyRef.getIndustry().getWeeklyUsageOfCommodities();
+				auto prod = selectedColonyRef.getIndustry().getWeeklyProductionOfCommodities();
 
 				for (size_t i = 0; i < stockPile.size(); i++)
 				{
@@ -133,9 +166,9 @@ void ColoniesWindow::resetData()
 				uiMining.miningTable->setRowCount(0);
 
 				auto resNames = ResourceDeposit::getResourcesNames();
-				auto & res = colonies[selectedColony.value()].getBody().getResources();
-				const auto & stockRes = colonies[selectedColony.value()].getStockpile();
-				auto resYield = colonies[selectedColony.value()].getWeeklyResourcesYield();
+				auto & res = selectedColonyRef.getBody().getResources();
+				const auto & stockRes = selectedColonyRef.getStockpile();
+				auto resYield = selectedColonyRef.getWeeklyResourcesYield();
 
 				for (size_t i = 0; i < res.get().size(); i++)
 				{
@@ -157,7 +190,7 @@ void ColoniesWindow::resetData()
 				uiSummary.valuesTable->setRowCount(0);
 				uiSummary.buildingsTable->setRowCount(0);
 
-				auto & colIndustry = colonies[selectedColony.value()].getIndustry();
+				auto & colIndustry = selectedColonyRef.getIndustry();
 
 				using name_value = std::pair<QString, QString>;
 				auto values = std::array<name_value, 3>({ 
@@ -193,6 +226,26 @@ void ColoniesWindow::resetData()
 				tabManagment();
 				ui.contentLayout->addWidget(&industry);
 				industry.show();
+
+				uiIndustry.currentProjectsTable->setRowCount(0);
+
+				for (auto & constr : selectedColonyRef.getIndustry().getConstructionQueue())
+				{
+					uiIndustry.currentProjectsTable->insertRow(uiIndustry.currentProjectsTable->rowCount());
+					auto currentRow = uiIndustry.currentProjectsTable->rowCount() - 1;
+
+					uiIndustry.currentProjectsTable->setItem(currentRow, 0,
+						new QTableWidgetItem(QString::fromStdString(selectedColonyRef.getIndustry().
+							getBuildings()[constr.getBuildingID()].first.getName())));
+					uiIndustry.currentProjectsTable->setItem(currentRow, 1,
+						new QTableWidgetItem(QString::number(constr.getAmount())));
+					uiIndustry.currentProjectsTable->setItem(currentRow, 2,
+						new QTableWidgetItem(QString::number(constr.getConstructionCost())));
+					uiIndustry.currentProjectsTable->setItem(currentRow, 3,
+						new QTableWidgetItem(constr.getETC().toString()));
+					uiIndustry.currentProjectsTable->setItem(currentRow, 4,
+						new QTableWidgetItem(Construction::StatusToQString(constr.getStatus())));
+				}
 			}
 		}
 	}
