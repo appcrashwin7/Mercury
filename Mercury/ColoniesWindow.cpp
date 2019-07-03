@@ -27,11 +27,13 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 
 		if (var == "Buildings")
 		{
+			constexpr size_t arrSize = 1;
+			std::array<QString, arrSize> dt;
+
 			for (auto & b : colonies[selectedColony.value()].getIndustry().getBuildings())
 			{
-				uiIndustry.itemsTable->insertRow(uiIndustry.itemsTable->rowCount());
-				uiIndustry.itemsTable->setItem(uiIndustry.itemsTable->rowCount() - 1, 0, 
-					new QTableWidgetItem(QString::fromStdString(b.first.getName())));
+				dt = { QString::fromStdString(b.first.getName()) };
+				fillNewRow<arrSize>(uiIndustry.itemsTable, dt);
 			}
 		}
 	});
@@ -39,16 +41,17 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 	{
 		column;
 		uiIndustry.itemCostTable->setRowCount(0);
+
+		constexpr size_t arrSize = 2;
+		std::array<QString, arrSize> dt;
+
 		if (uiIndustry.itemTypeSelector->currentText() == "Buildings")
 		{
 			for (auto & stck : colonies[selectedColony.value()].
 				getIndustry().getBuildings()[row].first.getBuildCost())
 			{
-				uiIndustry.itemCostTable->insertRow(uiIndustry.itemCostTable->rowCount());
-
-				auto actualRow = uiIndustry.itemCostTable->rowCount() - 1;
-				uiIndustry.itemCostTable->setItem(actualRow, 0, new QTableWidgetItem(QString::fromStdString(stck.first.name)));
-				uiIndustry.itemCostTable->setItem(actualRow, 1, new QTableWidgetItem(QString::number(stck.second)));
+				dt = { QString::fromStdString(stck.first.name), QString::number(stck.second) };
+				fillNewRow<arrSize>(uiIndustry.itemCostTable, dt);
 			}
 		}
 	});
@@ -86,6 +89,7 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 	QObject::connect(uiIndustry.modifyButton, &QPushButton::clicked, [&]()
 	{
 		uint64_t newAmount = static_cast<uint64_t>(uiIndustry.amountLineEdit->text().toInt());
+		uiIndustry.amountLineEdit->setText("");
 		size_t constructionIndex = static_cast<size_t>(uiIndustry.currentProjectsTable->currentRow());
 
 		colonies[selectedColony.value()].getIndustry().setConstructionAmount(newAmount, constructionIndex);
