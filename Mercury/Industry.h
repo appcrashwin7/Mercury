@@ -105,6 +105,9 @@ class Industry
 	}
 	void sortConstructionQueue()
 	{
+		if (constructionQueue.empty())
+			return;
+
 		constructionQueue.sort([](const Construction & a, const Construction & b)->bool
 		{
 			if (static_cast<int32_t>(a.getStatus()) < static_cast<int32_t>(b.getStatus()))

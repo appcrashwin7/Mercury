@@ -83,6 +83,26 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 		}
 		fillIndustry();
 	});
+	QObject::connect(uiIndustry.modifyButton, &QPushButton::clicked, [&]()
+	{
+		uint64_t newAmount = static_cast<uint64_t>(uiIndustry.amountLineEdit->text().toInt());
+		size_t constructionIndex = static_cast<size_t>(uiIndustry.currentProjectsTable->currentRow());
+
+		colonies[selectedColony.value()].getIndustry().setConstructionAmount(newAmount, constructionIndex);
+		fillIndustry();
+	});
+	QObject::connect(uiIndustry.cancelButton, &QPushButton::clicked, [&]()
+	{
+		size_t constructionIndex = static_cast<size_t>(uiIndustry.currentProjectsTable->currentRow());
+		colonies[selectedColony.value()].getIndustry().cancelConstruction(constructionIndex);
+		fillIndustry();
+	});
+	QObject::connect(uiIndustry.pauseButton, &QPushButton::clicked, [&]()
+	{
+		size_t constructionIndex = static_cast<size_t>(uiIndustry.currentProjectsTable->currentRow());
+		colonies[selectedColony.value()].getIndustry().pauseConstruction(constructionIndex);
+		fillIndustry();
+	});
 }
 
 void ColoniesWindow::setSelectedColony(QTreeWidgetItem * item, int column)
