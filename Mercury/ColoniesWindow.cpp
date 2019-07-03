@@ -1,7 +1,7 @@
 #include "ColoniesWindow.h"
 
 ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
-	:QWidget(nullptr), colonies(cl), previousTab(TabT::Undefined), selectedTab(TabT::Undefined)
+	:QWidget(nullptr), colonies(cl), previousTab(TabT::Summary), selectedTab(TabT::Summary)
 {
 	ui.setupUi(this);
 
@@ -81,7 +81,7 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 			colonies[selectedColony.value()].getIndustry().
 				addNewConstruction(Construction(static_cast<size_t>(ID), amount, QDate()));
 		}
-		
+		fillIndustry();
 	});
 }
 
@@ -133,120 +133,131 @@ void ColoniesWindow::resetData()
 		}
 		if (selectedColony.has_value())
 		{
-			auto & selectedColonyRef = colonies[selectedColony.value()];
+			tabManagment();
 
-			if (selectedTab == TabT::Stockpile)
+			switch (selectedTab)
 			{
-				tabManagment();
-				ui.contentLayout->addWidget(&stock);
-				stock.show();
-
-				uiStock.StockTable->setRowCount(0);
-				const auto & stockPile = colonies[selectedColony.value()].getStockpile();
-				auto usage = selectedColonyRef.getIndustry().getWeeklyUsageOfCommodities();
-				auto prod = selectedColonyRef.getIndustry().getWeeklyProductionOfCommodities();
-
-				for (size_t i = 0; i < stockPile.size(); i++)
-				{
-					uiStock.StockTable->insertRow(uiStock.StockTable->rowCount());
-
-					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 0, 
-						new QTableWidgetItem(QString::fromStdString(stockPile[i].first.name)));
-					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 1, new QTableWidgetItem(QString::number(stockPile[i].second)));
-					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(prod[i])));
-					uiStock.StockTable->setItem(uiStock.StockTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(usage[i])));
-				}
-			}
-			if (selectedTab == TabT::Mining)
-			{
-				tabManagment();
-				ui.contentLayout->addWidget(&mining);
-				mining.show();
-
-				uiMining.miningTable->setRowCount(0);
-
-				auto resNames = ResourceDeposit::getResourcesNames();
-				auto & res = selectedColonyRef.getBody().getResources();
-				const auto & stockRes = selectedColonyRef.getStockpile();
-				auto resYield = selectedColonyRef.getWeeklyResourcesYield();
-
-				for (size_t i = 0; i < res.get().size(); i++)
-				{
-					uiMining.miningTable->insertRow(uiMining.miningTable->rowCount());
-
-					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 0, new QTableWidgetItem(QString::fromStdString(resNames[i])));
-					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 1, new QTableWidgetItem(Calc::representValue<uint64_t>(res.accessDeposit(i).first)));
-					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 2, new QTableWidgetItem(QString::number(res.accessDeposit(i).second)));
-					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 3, new QTableWidgetItem(QString::number(stockRes[i].second)));
-					uiMining.miningTable->setItem(uiMining.miningTable->rowCount() - 1, 4, new QTableWidgetItem(QString::number(resYield[i])));
-				}
-			}
-			if (selectedTab == TabT::Summary)
-			{
-				tabManagment();
+			case TabT::Summary:
+				fillSummary();
 				ui.contentLayout->addWidget(&summary);
 				summary.show();
-
-				uiSummary.valuesTable->setRowCount(0);
-				uiSummary.buildingsTable->setRowCount(0);
-
-				auto & colIndustry = selectedColonyRef.getIndustry();
-
-				using name_value = std::pair<QString, QString>;
-				auto values = std::array<name_value, 3>({ 
-					name_value("Energy Demand", QString::number(colIndustry.getEnergyDemand()) + " MW"),
-					name_value("Energy Production", QString::number(colIndustry.getEnergyProduction()) + " MW"), 
-					name_value("Construction Capability", QString::number(colIndustry.getConstructionCapability()))});
-
-				auto ranges = { values.size(), colIndustry.getBuildings().size() };
-				auto minmax = std::minmax_element(ranges.begin(), ranges.end());
-
-				for (size_t i = 0; i < *minmax.second; i++)
-				{
-					if (i < values.size())
-					{
-						uiSummary.valuesTable->insertRow(uiSummary.valuesTable->rowCount());
-
-						uiSummary.valuesTable->setItem(uiSummary.valuesTable->rowCount() - 1, 0, new QTableWidgetItem(values[i].first));
-						uiSummary.valuesTable->setItem(uiSummary.valuesTable->rowCount() - 1, 1, new QTableWidgetItem(values[i].second));
-					}
-					if(i < colIndustry.getBuildings().size())
-					{
-						uiSummary.buildingsTable->insertRow(uiSummary.buildingsTable->rowCount());
-
-						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 0,
-							new QTableWidgetItem(QString::fromStdString(colIndustry.getBuildings()[i].first.getName())));
-						uiSummary.buildingsTable->setItem(uiSummary.buildingsTable->rowCount() - 1, 1,
-							new QTableWidgetItem(QString::number(colIndustry.getBuildings()[i].second)));
-					}
-				}
-			}
-			if (selectedTab == TabT::Industry)
-			{
-				tabManagment();
+				break;
+			case TabT::Industry:
+				fillIndustry();
 				ui.contentLayout->addWidget(&industry);
 				industry.show();
-
-				uiIndustry.currentProjectsTable->setRowCount(0);
-
-				for (auto & constr : selectedColonyRef.getIndustry().getConstructionQueue())
-				{
-					uiIndustry.currentProjectsTable->insertRow(uiIndustry.currentProjectsTable->rowCount());
-					auto currentRow = uiIndustry.currentProjectsTable->rowCount() - 1;
-
-					uiIndustry.currentProjectsTable->setItem(currentRow, 0,
-						new QTableWidgetItem(QString::fromStdString(selectedColonyRef.getIndustry().
-							getBuildings()[constr.getBuildingID()].first.getName())));
-					uiIndustry.currentProjectsTable->setItem(currentRow, 1,
-						new QTableWidgetItem(QString::number(constr.getAmount())));
-					uiIndustry.currentProjectsTable->setItem(currentRow, 2,
-						new QTableWidgetItem(QString::number(constr.getConstructionCost())));
-					uiIndustry.currentProjectsTable->setItem(currentRow, 3,
-						new QTableWidgetItem(constr.getETC().toString()));
-					uiIndustry.currentProjectsTable->setItem(currentRow, 4,
-						new QTableWidgetItem(Construction::StatusToQString(constr.getStatus())));
-				}
+				break;
+			case TabT::Mining:
+				fillMining();
+				ui.contentLayout->addWidget(&mining);
+				mining.show();
+				break;
+			case TabT::Stockpile:
+				ui.contentLayout->addWidget(&stock);
+				stock.show();
+				fillStock();
+				break;
+			case TabT::Economy:
+				break;
+			default:
+				break;
 			}
 		}
+	}
+}
+
+void ColoniesWindow::fillSummary()
+{
+	uiSummary.valuesTable->setRowCount(0);
+	uiSummary.buildingsTable->setRowCount(0);
+
+	auto & actualColony = colonies[selectedColony.value()];
+	auto & colIndustry = actualColony.getIndustry();
+
+	constexpr size_t valRowSize = 2;
+	using name_value = std::array<QString, valRowSize>;
+	auto values = std::array<name_value, 3>({
+		name_value{"Energy Demand", QString::number(colIndustry.getEnergyDemand()) + " MW"},
+		name_value{"Energy Production", QString::number(colIndustry.getEnergyProduction()) + " MW"},
+		name_value{"Construction Capability", QString::number(colIndustry.getConstructionCapability())} });
+
+	auto ranges = { values.size(), colIndustry.getBuildings().size() };
+	auto minmax = std::minmax_element(ranges.begin(), ranges.end());
+
+	std::array<QString, valRowSize> bdt;
+
+	for (size_t i = 0; i < *minmax.second; i++)
+	{
+		if (i < values.size())
+		{
+			fillNewRow<valRowSize>(uiSummary.valuesTable, values[i]);
+		}
+		if (i < colIndustry.getBuildings().size())
+		{
+			bdt = { QString::fromStdString(colIndustry.getBuildings()[i].first.getName()),
+			QString::number(colIndustry.getBuildings()[i].second) };
+			fillNewRow<valRowSize>(uiSummary.buildingsTable, bdt);
+		}
+	}
+}
+
+void ColoniesWindow::fillStock()
+{
+	uiStock.StockTable->setRowCount(0);
+	auto & actualColony = colonies[selectedColony.value()];
+
+	auto & stockpile = actualColony.getStockpile();
+	auto usage = actualColony.getIndustry().getWeeklyUsageOfCommodities();
+	auto prod = actualColony.getIndustry().getWeeklyProductionOfCommodities();
+
+	constexpr size_t arrSize = 4;
+	std::array<QString, arrSize> dt;
+
+	for (size_t i = 0; i < stockpile.size(); i++)
+	{
+		dt = { QString::fromStdString(stockpile[i].first.name) , QString::number(stockpile[i].second),
+			QString::number(prod[i]), QString::number(usage[i]) };
+
+		fillNewRow<arrSize>(uiStock.StockTable, dt);
+	}
+}
+
+void ColoniesWindow::fillIndustry()
+{
+	uiIndustry.currentProjectsTable->setRowCount(0);
+
+	constexpr size_t arrSize = 5;
+	std::array<QString, arrSize> dt;
+	auto & currentColony = colonies[selectedColony.value()];
+
+	for (auto & constr : currentColony.getIndustry().getConstructionQueue())
+	{
+		dt = { QString::fromStdString(currentColony.getIndustry().getBuildings()[constr.getBuildingID()].first.getName()),
+		QString::number(constr.getAmount()), QString::number(constr.getConstructionCost()),
+		constr.getETC().toString(), Construction::StatusToQString(constr.getStatus()) };
+
+		fillNewRow<arrSize>(uiIndustry.currentProjectsTable, dt);
+	}
+}
+
+void ColoniesWindow::fillMining()
+{
+	uiMining.miningTable->setRowCount(0);
+	auto & actualColony = colonies[selectedColony.value()];
+
+	auto resNames = ResourceDeposit::getResourcesNames();
+	auto & res = actualColony.getBody().getResources();
+	const auto & stockRes = actualColony.getStockpile();
+	auto resYield = actualColony.getWeeklyResourcesYield();
+
+	constexpr size_t arrSize = 5;
+	std::array<QString, arrSize> dt;
+
+	for (size_t i = 0; i < res.get().size(); i++)
+	{
+		dt = { QString::fromStdString(resNames[i]), Calc::representValue<uint64_t>(res.accessDeposit(i).first),
+		QString::number(res.accessDeposit(i).second), QString::number(stockRes[i].second), QString::number(resYield[i]) };
+
+		fillNewRow<arrSize>(uiMining.miningTable, dt);
 	}
 }
