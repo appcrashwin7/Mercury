@@ -160,13 +160,13 @@ void Colony::addNewConstruction(size_t buildingID, int64_t amount)
 	{
 		cost += res.second;
 	}
-	uint64_t etc = ((cost * amount) / colonyIndustry.getConstructionCapability());
 
 	if (!constructionQueue.empty())
 	{
 		constructionQueue.front().setStatus(ConstructionStatus::Queue);
 	}
-	constructionQueue.emplace_front((Construction(buildingID, amount, etc, cost)));
+	constructionQueue.emplace_front((Construction(buildingID, amount, 0, cost)));
+	recalcConstructionETC(0);
 }
 
 void Colony::setConstructionAmount(int64_t amount, size_t index)
@@ -179,6 +179,17 @@ void Colony::setConstructionAmount(int64_t amount, size_t index)
 	auto elem = constructionQueue.begin();
 	std::advance(elem, index);
 	elem->setAmount(amount);
+	recalcConstructionETC(index);
+}
+
+void Colony::recalcConstructionETC(size_t index)
+{
+	auto elem = constructionQueue.begin();
+	std::advance(elem, index);
+
+	uint64_t etc = ((elem->getConstructionCost() *
+		elem->getAmount()) / colonyIndustry.getConstructionCapability());
+	elem->setEtc(etc);
 }
 
 void Colony::sortConstruction()

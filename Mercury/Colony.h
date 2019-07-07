@@ -42,6 +42,7 @@ public:
 	void setConstructionAmount(int64_t amount, size_t index = 0);
 
 private:
+	void recalcConstructionETC(size_t index);
 	void sortConstruction();
 	void constructStockpile(const QuantityT & units);
 	void defaultStockpile();
