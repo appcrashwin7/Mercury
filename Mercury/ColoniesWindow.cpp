@@ -81,8 +81,8 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 			});
 			auto ID = std::distance(colonies[selectedColony.value()].getIndustry().getBuildings().begin(),
 				building);
-			colonies[selectedColony.value()].getIndustry().
-				addNewConstruction(Construction(static_cast<size_t>(ID), amount, QDate()));
+			colonies[selectedColony.value()].
+				addNewConstruction(static_cast<size_t>(ID), amount);
 		}
 		fillIndustry();
 	});
@@ -92,19 +92,19 @@ ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
 		uiIndustry.amountLineEdit->setText("");
 		size_t constructionIndex = static_cast<size_t>(uiIndustry.currentProjectsTable->currentRow());
 
-		colonies[selectedColony.value()].getIndustry().setConstructionAmount(newAmount, constructionIndex);
+		colonies[selectedColony.value()].setConstructionAmount(newAmount, constructionIndex);
 		fillIndustry();
 	});
 	QObject::connect(uiIndustry.cancelButton, &QPushButton::clicked, [&]()
 	{
 		size_t constructionIndex = static_cast<size_t>(uiIndustry.currentProjectsTable->currentRow());
-		colonies[selectedColony.value()].getIndustry().cancelConstruction(constructionIndex);
+		colonies[selectedColony.value()].cancelConstruction(constructionIndex);
 		fillIndustry();
 	});
 	QObject::connect(uiIndustry.pauseButton, &QPushButton::clicked, [&]()
 	{
 		size_t constructionIndex = static_cast<size_t>(uiIndustry.currentProjectsTable->currentRow());
-		colonies[selectedColony.value()].getIndustry().pauseConstruction(constructionIndex);
+		colonies[selectedColony.value()].pauseConstruction(constructionIndex);
 		fillIndustry();
 	});
 }
@@ -254,11 +254,11 @@ void ColoniesWindow::fillIndustry()
 	std::array<QString, arrSize> dt;
 	auto & currentColony = colonies[selectedColony.value()];
 
-	for (auto & constr : currentColony.getIndustry().getConstructionQueue())
+	for (auto & constr : currentColony.getConstructionQueue())
 	{
 		dt = { QString::fromStdString(currentColony.getIndustry().getBuildings()[constr.getBuildingID()].first.getName()),
 		QString::number(constr.getAmount()), QString::number(constr.getConstructionCost()),
-		constr.getETC().toString(), Construction::StatusToQString(constr.getStatus()) };
+		QString::number(constr.getETC()), Construction::StatusToQString(constr.getStatus()) };
 
 		fillNewRow<arrSize>(uiIndustry.currentProjectsTable, dt);
 	}
