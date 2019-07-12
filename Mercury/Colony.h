@@ -46,4 +46,7 @@ private:
 	void sortConstruction();
 	void constructStockpile(const QuantityT & units);
 	void defaultStockpile();
+
+	void simulateIndustry(Energy & energyUsed, uint64_t & constructionCap);
+	void simulateConstruction(Energy used, uint64_t constructionCap);
 };
