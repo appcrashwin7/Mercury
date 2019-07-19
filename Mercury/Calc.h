@@ -10,7 +10,7 @@
 
 static constexpr float GRAVITY_CONSTANT = 6.67e-11f;
 static constexpr double STEFAN_BOLTZMANN_CONST = 5.670373e-8;
-static const double PI = std::atan(1) * 4.0;
+static constexpr double PI = 3.14159;
 static constexpr double RATIO_43 = 4.0 / 3.0;
 
 
@@ -68,6 +68,43 @@ public:
 		auto mjrGm = std::sqrt(majorPow) / std::sqrt(gm);
 		auto ret = mjrGm * 2.0 * PI;
 		return TimeInt(ret * units::si::second);
+	}
+
+	inline static Angle getEccentricAnomaly(float e, Angle meanAnomaly)
+	{
+		constexpr double maxErr = 1.0e-13;
+		auto target = meanAnomaly;
+		auto err = target - ((e * std::sin(target.value()) * units::si::radians) - meanAnomaly);
+
+		uint32_t i = 0;
+		while (std::abs((err / units::si::radians)) < maxErr && i < 10)
+		{
+			auto prev = target;
+			target = prev - (err / (1.0 - (e * std::cos(prev / units::si::radian))));
+			err = target - ((e * std::sin(target.value()) * units::si::radians) - meanAnomaly);
+			++i;
+		}
+		return target;
+	}
+
+	inline static Angle getTrueAnomaly(float e, Angle eAnomaly)
+	{
+		auto ecc = (std::sqrt((1.0 + e) / (1.0 - e)));
+		return  Angle(units::si::radians * (2.0 * std::atan(ecc * std::tan(eAnomaly.value() / 2.0))));
+	}
+
+	inline static Length getEllipseR(Length semiMajorAxis, float e, Angle eAnomaly)
+	{
+		return (semiMajorAxis * (e * std::cos(eAnomaly.value())));
+	}
+
+	//x,y
+	inline static std::pair<Length, Length> getPlanarCenteredCoordsOfBody(Length c, Length r, Angle trueAnomaly)
+	{
+		return std::make_pair(
+			Length(c + (r * std::cos(trueAnomaly.value()))),
+			Length(r * std::sin(trueAnomaly.value()))
+		);
 	}
 
 	template<typename T, typename = typename std::enable_if<std::is_floating_point<T>::value, T>::type>
