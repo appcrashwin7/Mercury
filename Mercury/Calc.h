@@ -28,39 +28,39 @@ public:
 	~Calc() = default;
 
 	//density is in kg/m^3
-	static Length getRadius(Mass mass, double density)
+	inline static Length getRadius(Mass mass, double density)
 	{
 		auto massDensRel = (mass.value() / (density * PI * RATIO_43));
 		return Length(std::pow(massDensRel, 1.0 / 3.0) * units::si::meter);
 	}
 
-	static Velocity getEscapeVelocity(Mass mass, Length radius)
+	inline static Velocity getEscapeVelocity(Mass mass, Length radius)
 	{
 		double v = 2.0 * GRAVITY_CONSTANT * mass.value();
 		v /= radius.value();
 		return static_cast<Velocity>(std::round(sqrt(v)) * units::si::meters_per_second);
 	}
 
-	static Acceleration getGravity(Mass mass, Length radius)
+	inline static Acceleration getGravity(Mass mass, Length radius)
 	{
 		double up = mass.value() * GRAVITY_CONSTANT;
 		auto down = radius * radius;
 		return static_cast<Acceleration>(std::round(up / down.value()) * units::si::meters_per_second_squared);
 	}
 
-	static Length getSemiMajorAxis(Length apoapsis, Length periapsis)
+	inline static Length getSemiMajorAxis(Length apoapsis, Length periapsis)
 	{
 		return Length((apoapsis + periapsis) / 2.0);
 	}
 
-	static float getEccentric(Length apoapsis, Length periapsis)
+	inline static float getEccentric(Length apoapsis, Length periapsis)
 	{
 		Length up(apoapsis - periapsis);
 		Length down(apoapsis + periapsis);
 		return (up.value() / down.value());
 	}
 
-	static TimeInt getOrbitalPeriod(Mass parentBodyMass, Length semiMajorAxis)
+	inline static TimeInt getOrbitalPeriod(Mass parentBodyMass, Length semiMajorAxis)
 	{
 		auto majorPow = std::pow(semiMajorAxis.value(), 3);
 		auto gm = GRAVITY_CONSTANT * parentBodyMass.value();
