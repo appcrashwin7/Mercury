@@ -6,6 +6,7 @@
 
 #include "ui_GameWindow.h"
 #include "ColoniesWindow.h"
+#include "SystemRender.h"
 
 enum class TimeChange
 {

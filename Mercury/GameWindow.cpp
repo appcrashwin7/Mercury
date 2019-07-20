@@ -3,7 +3,11 @@
 GameWindow::GameWindow(std::vector<Colony> & cls, QWidget * main = nullptr)
 	:QWidget(main), colsWindow(cls)
 {
+	SystemRender * sysR = new SystemRender();
+
 	ui.setupUi(this);
+	ui.systemViewCont->addWidget(sysR);
+	this->update();
 
 	QPushButton * clsButton = this->findChild<QPushButton*>("colonyButton");
 
