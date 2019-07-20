@@ -24,7 +24,6 @@ find_package(Boost 1.70.0 REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/Mercury)
-include_directories(${PROJECT_SOURCE_DIR}/Mercury/GeneratedFiles)
 
 
 file(GLOB all_SRCS
