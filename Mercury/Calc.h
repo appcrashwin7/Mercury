@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cassert>
 #include <qstring.h>
+#include <qpoint.h>
 
 #include "Units.h"
 
@@ -70,40 +71,18 @@ public:
 		return TimeInt(ret * units::si::second);
 	}
 
-	inline static Angle getEccentricAnomaly(float e, Angle meanAnomaly)
+	inline static QPoint getCoordsOfBody(double a, double b, double meanAnomaly)
 	{
-		constexpr double maxErr = 1.0e-13;
-		auto target = meanAnomaly;
-		auto err = target - ((e * std::sin(target.value()) * units::si::radians) - meanAnomaly);
-
-		uint32_t i = 0;
-		while (std::abs((err / units::si::radians)) < maxErr && i < 10)
-		{
-			auto prev = target;
-			target = prev - (err / (1.0 - (e * std::cos(prev / units::si::radian))));
-			err = target - ((e * std::sin(target.value()) * units::si::radians) - meanAnomaly);
-			++i;
-		}
-		return target;
+		return QPoint(
+			static_cast<int>(a * std::cos(meanAnomaly)),
+			static_cast<int>(b * std::sin(meanAnomaly))
+		);
 	}
-
-	inline static Angle getTrueAnomaly(float e, Angle eAnomaly)
+	inline static QPoint getCoordsOfBody(double r, double meanAnomaly)
 	{
-		auto ecc = (std::sqrt((1.0 + e) / (1.0 - e)));
-		return  Angle(units::si::radians * (2.0 * std::atan(ecc * std::tan(eAnomaly.value() / 2.0))));
-	}
-
-	inline static Length getEllipseR(Length semiMajorAxis, float e, Angle eAnomaly)
-	{
-		return (semiMajorAxis * (e * std::cos(eAnomaly.value())));
-	}
-
-	//x,y
-	inline static std::pair<Length, Length> getPlanarCenteredCoordsOfBody(Length c, Length r, Angle trueAnomaly)
-	{
-		return std::make_pair(
-			Length(c + (r * std::cos(trueAnomaly.value()))),
-			Length(r * std::sin(trueAnomaly.value()))
+		return QPoint(
+			static_cast<int>(r * std::cos(meanAnomaly)),
+			static_cast<int>(r * std::sin(meanAnomaly))
 		);
 	}
 

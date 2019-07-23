@@ -73,6 +73,7 @@ void Engine::changeTime(TimeChange change)
 
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
 	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));
+	window.update();
 }
 
 void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
@@ -142,6 +143,9 @@ void Engine::init()
 	{
 		systemObjectTree->addTopLevelItem(new QTreeWidgetItem(QStringList(body.get()->getName())));
 	}
+
+	window.putTime(&gameTime);
+	window.setSystemToRender(&(gameUniverse.getLastSystem()));
 }
 
 std::vector<Colony> Engine::constructColonies(std::vector<ColonyData> data)

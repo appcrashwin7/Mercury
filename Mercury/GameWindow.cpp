@@ -29,3 +29,15 @@ void GameWindow::closeEvent(QCloseEvent * event)
 		event->accept();
 	}
 }
+
+void GameWindow::putTime(const QDateTime * tm)
+{
+	auto sysRenderWidget = this->findChildren<QWidget*>(SystemRender::getWidgetName());
+	dynamic_cast<SystemRender*>(sysRenderWidget.first())->setTime(tm);
+}
+
+void GameWindow::setSystemToRender(const PlanetarySystem * system)
+{
+	auto sysRenderWidget = this->findChildren<QWidget*>(SystemRender::getWidgetName());
+	dynamic_cast<SystemRender*>(sysRenderWidget.first())->setNewSystem(system);
+}

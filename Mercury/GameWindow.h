@@ -32,6 +32,9 @@ public:
 	~GameWindow() = default;
 	void closeEvent(QCloseEvent * event);
 
+	void putTime(const QDateTime * tm);
+	void setSystemToRender(const PlanetarySystem * system);
+
 public slots:
 	
 

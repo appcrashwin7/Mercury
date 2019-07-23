@@ -61,7 +61,7 @@ public:
 	}
 	Angle getMeanAnomaly(const QDateTime & currentTime) const
 	{
-		TimeInt t = static_cast<int64_t>(currentTime.toTime_t()) * units::si::second;
+		TimeInt t = currentTime.toTime_t() * units::si::seconds;
 		return Angle((getMeanMotion().value() * (t - periapsisPassage).value()) * units::si::radian);
 	}
 };
