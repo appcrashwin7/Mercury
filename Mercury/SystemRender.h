@@ -13,10 +13,14 @@ class SystemRender : public QWidget
 	const PlanetarySystem * systemToDraw = nullptr;
 	const QDateTime * currentTime = nullptr;
 
-	static constexpr double Scale = 1.0e10;
 
-	static constexpr int minorDrawSize = 5;
-	static constexpr int majorDrawSize = 10;
+	static constexpr int MaxScaleInc = 12;
+	static constexpr std::array<double, MaxScaleInc> Scales = {
+		1.0e9, 5.0e9, 1.0e10, 5.0e10, 1.0e11, 5.0e11,
+		1.0e12, 5.0e12, 1.0e13, 5.0e13, 1.0e14, 5.0e14
+	};
+	static constexpr int bodyDrawSize = 5;
+	int currentScale = 0;
 
 public:
 	static QString getWidgetName()
@@ -45,6 +49,7 @@ public:
 		Q_UNUSED(event);
 		QPainter painter(this);
 		painter.fillRect(QRect(QPoint(0, 0), QSize(9999, 9999)), Qt::GlobalColor::darkBlue);
+		auto scale = Scales[currentScale];
 
 		if (systemToDraw != nullptr && currentTime != nullptr)
 		{
@@ -55,14 +60,21 @@ public:
 			points.emplace_back(std::make_pair(center, 0));
 
 
+			auto drawBody = [&](const QPoint & pos, CelestialBody * body)
+			{
+				painter.setBrush(Qt::BrushStyle::SolidPattern);
+				painter.drawEllipse(pos, bodyDrawSize, bodyDrawSize);
+				painter.drawText(pos + QPoint(10, 0), body->getName());
+			};
+
+
 			for (size_t i = 0; i < systemToDraw->Bodies.size(); i++)
 			{
 				auto currentBody = systemToDraw->Bodies[i].get();
 
 				if (i == 0)
 				{
-					painter.setBrush(Qt::BrushStyle::SolidPattern);
-					painter.drawEllipse(points.back().first, majorDrawSize, majorDrawSize);
+					drawBody(points.back().first, currentBody);
 				}
 				else
 				{
@@ -80,24 +92,48 @@ public:
 					if (coordsRes != points.end())
 					{
 						auto c = currentBody->orbit.majorAxis.value() * currentBody->orbit.eccentricity;
-						auto ellipseCenter = coordsRes->first.operator-=(QPoint(c / Scale, 0));
-						auto rx = ellipseCenter.x() + ((currentBody->orbit.majorAxis.value() / 2.0) / Scale);
-						auto ry = ellipseCenter.y() + ((currentBody->orbit.minorAxis.value() / 2.0) / Scale);
+						auto ellipseCenter = coordsRes->first.operator-=(QPoint(c / scale, 0));
+						auto rx = ((currentBody->orbit.majorAxis.value() / 2.0) / scale);
+						auto ry = ((currentBody->orbit.minorAxis.value() / 2.0) / scale);
 
 						painter.setBrush(Qt::BrushStyle::NoBrush);
 						painter.drawEllipse(ellipseCenter, static_cast<int>(rx), static_cast<int>(ry));
 
-						painter.setBrush(Qt::BrushStyle::SolidPattern);
-
 						auto coords = Calc::getCoordsOfBody(rx, ry,
 							currentBody->orbit.getMeanAnomaly(*currentTime).value()) + ellipseCenter;
-						painter.drawEllipse(coords, minorDrawSize, minorDrawSize);
 						points.emplace_back(std::make_pair(coords, i));
+						drawBody(coords, currentBody);
 					}
-					break;
 				}
 				
 			}
 		}
+	}
+	void wheelEvent(QWheelEvent * event)
+	{
+		auto change = event->angleDelta() / 8;
+		if (!change.isNull())
+		{
+			if (change.y() > 0)
+			{
+				--currentScale;
+			}
+			else if(change.y() < 0)
+			{
+				++currentScale;
+			}
+		}
+		
+		if (currentScale < 0)
+		{
+			currentScale = 0;
+		}
+		if (currentScale > (MaxScaleInc - 1))
+		{
+			currentScale = (MaxScaleInc - 1);
+		}
+
+		event->accept();
+		this->update();
 	}
 };
