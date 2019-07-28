@@ -17,7 +17,7 @@ Universe::Universe()
 	getLastSystem().Bodies.emplace_back(factory.createBody(PhysicalProperties(units::si::meter * 6.3e6, units::si::kilogram * 5.9e24),
 		Orbit(units::si::meter * 1.52e11, units::si::meter * 1.47e11, sunMass, 0), "Earth"));
 	getLastSystem().Bodies.emplace_back(factory.createBody(PhysicalProperties(units::si::meter * 1.7e6, units::si::kilogram * 7.3e22),
-		Orbit(units::si::meter * 4.0e8, units::si::meter * 3.6e8, units::si::kilogram * 7.3e22, getLastSystem().Bodies.size() - 1), "Luna"));
+		Orbit(units::si::meter * 4.0e8, units::si::meter * 3.6e8, units::si::kilogram * 5.9e24, getLastSystem().Bodies.size() - 1), "Luna"));
 	getLastSystem().Bodies.emplace_back(factory.createBody(PhysicalProperties(units::kilometer * 3396.2, units::si::kilogram * 6.41e23),
 		Orbit(249.2e6 * units::kilometer, 206.6e6 * units::kilometer, sunMass, 0), "Mars"));
 

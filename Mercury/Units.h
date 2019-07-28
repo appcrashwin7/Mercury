@@ -24,3 +24,4 @@ using Energy = units::quantity<units::si::power, int64_t>;
 using Temperature = units::quantity<units::si::temperature, int32_t>;
 using EnergyD = units::quantity<units::si::power, double>;
 using TimeInt = units::quantity<units::si::time, int64_t>;
+using Angle = units::quantity<units::si::plane_angle, double>;
