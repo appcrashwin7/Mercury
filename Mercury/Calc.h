@@ -78,13 +78,6 @@ public:
 			static_cast<int>(b * std::sin(meanAnomaly))
 		);
 	}
-	inline static QPoint getCoordsOfBody(double r, double meanAnomaly)
-	{
-		return QPoint(
-			static_cast<int>(r * std::cos(meanAnomaly)),
-			static_cast<int>(r * std::sin(meanAnomaly))
-		);
-	}
 
 	template<typename T, typename = typename std::enable_if<std::is_floating_point<T>::value, T>::type>
 	static T roundToDecimalPlace(T value, uint64_t place)

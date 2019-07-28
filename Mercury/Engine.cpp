@@ -135,8 +135,11 @@ void Engine::init()
 	QComboBox * systemSelect = this->window.findChild<QComboBox*>("systemSelect");
 	systemSelect->addItem(this->gameUniverse.getSystem(0).getName(), QVariant(0));
 	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
+	QWidget * systemRender = this->window.findChild<QWidget*>(SystemRender::getWidgetName());
 
 	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
+	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, dynamic_cast<SystemRender*>(systemRender),
+		&SystemRender::changeFirstBody);
 
 	systemObjectTree->setHeaderLabel(this->gameUniverse.getSystem(0).getName());
 	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)

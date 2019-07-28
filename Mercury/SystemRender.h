@@ -10,17 +10,15 @@ class SystemRender : public QWidget
 {
 	Q_OBJECT;
 
+	static constexpr int bodyDrawSize = 5;
+	static constexpr double baseScale = 1.0e3;
+	static constexpr double scaleInc = 1.0e2;
+
 	const PlanetarySystem * systemToDraw = nullptr;
 	const QDateTime * currentTime = nullptr;
 
-
-	static constexpr int MaxScaleInc = 12;
-	static constexpr std::array<double, MaxScaleInc> Scales = {
-		1.0e9, 5.0e9, 1.0e10, 5.0e10, 1.0e11, 5.0e11,
-		1.0e12, 5.0e12, 1.0e13, 5.0e13, 1.0e14, 5.0e14
-	};
-	static constexpr int bodyDrawSize = 5;
-	int currentScale = 0;
+	int scaleMult = 0;
+	size_t firstBody = 0;
 
 public:
 	static QString getWidgetName()
@@ -34,6 +32,7 @@ public:
 		this->setObjectName(SystemRender::getWidgetName());
 	}
 	~SystemRender() = default;
+
 
 	void setNewSystem(const PlanetarySystem * newSystem)
 	{
@@ -49,16 +48,18 @@ public:
 		Q_UNUSED(event);
 		QPainter painter(this);
 		painter.fillRect(QRect(QPoint(0, 0), QSize(9999, 9999)), Qt::GlobalColor::darkBlue);
-		auto scale = Scales[currentScale];
+		auto scale = baseScale;
+		if (scaleMult > 0)
+		{
+			scale *= (scaleMult * scaleInc);
+		}
 
 		if (systemToDraw != nullptr && currentTime != nullptr)
 		{
-			QPoint center(this->geometry().width() / 2, this->geometry().height() / 2);
 			painter.setPen(QColor(0, 255, 0));
-
 			std::vector<std::pair<QPoint, size_t>> points;
-			points.emplace_back(std::make_pair(center, 0));
-
+			
+			painter.drawText(QPoint(0, 15), QString::number(scale));
 
 			auto drawBody = [&](const QPoint & pos, CelestialBody * body)
 			{
@@ -67,13 +68,14 @@ public:
 				painter.drawText(pos + QPoint(10, 0), body->getName());
 			};
 
-
-			for (size_t i = 0; i < systemToDraw->Bodies.size(); i++)
+			for (size_t i = firstBody; i < systemToDraw->Bodies.size(); i++)
 			{
 				auto currentBody = systemToDraw->Bodies[i].get();
 
-				if (i == 0)
+				if (i == firstBody)
 				{
+					QPoint center(this->geometry().width() / 2, this->geometry().height() / 2);
+					points.emplace_back(std::make_pair(center, firstBody));
 					drawBody(points.back().first, currentBody);
 				}
 				else
@@ -91,16 +93,24 @@ public:
 
 					if (coordsRes != points.end())
 					{
-						auto c = currentBody->orbit.majorAxis.value() * currentBody->orbit.eccentricity;
-						auto ellipseCenter = coordsRes->first.operator-=(QPoint(c / scale, 0));
-						auto rx = ((currentBody->orbit.majorAxis.value() / 2.0) / scale);
-						auto ry = ((currentBody->orbit.minorAxis.value() / 2.0) / scale);
+						auto ellipseCenter = coordsRes->first;
+						auto c = 0.0;
+						auto coords = QPoint();
 
 						painter.setBrush(Qt::BrushStyle::NoBrush);
-						painter.drawEllipse(ellipseCenter, static_cast<int>(rx), static_cast<int>(ry));
+						auto mAn = currentBody->orbit.getMeanAnomaly(*currentTime).value();
 
-						auto coords = Calc::getCoordsOfBody(rx, ry,
-							currentBody->orbit.getMeanAnomaly(*currentTime).value()) + ellipseCenter;
+						if (!currentBody->orbit.isCircular)
+						{
+							c = currentBody->orbit.majorAxis.value() * currentBody->orbit.eccentricity;
+							ellipseCenter = ellipseCenter - QPoint(c / scale, 0);
+						}
+
+						auto rx = ((currentBody->orbit.majorAxis.value() / 2.0) / scale);
+						auto ry = ((currentBody->orbit.minorAxis.value() / 2.0) / scale);
+						painter.drawEllipse(ellipseCenter, static_cast<int>(rx), static_cast<int>(ry));
+						coords = Calc::getCoordsOfBody(rx, ry, mAn) + ellipseCenter;
+
 						points.emplace_back(std::make_pair(coords, i));
 						drawBody(coords, currentBody);
 					}
@@ -116,24 +126,55 @@ public:
 		{
 			if (change.y() > 0)
 			{
-				--currentScale;
+				--scaleMult;
 			}
 			else if(change.y() < 0)
 			{
-				++currentScale;
+				++scaleMult;
 			}
 		}
 		
-		if (currentScale < 0)
+		if (scaleMult < 0)
 		{
-			currentScale = 0;
-		}
-		if (currentScale > (MaxScaleInc - 1))
-		{
-			currentScale = (MaxScaleInc - 1);
+			scaleMult = 0;
 		}
 
 		event->accept();
 		this->update();
+	}
+
+
+public slots:
+	void changeFirstBody(QTreeWidgetItem * item, int column)
+	{
+		if (item != nullptr)
+		{
+			if (!(systemToDraw == nullptr || currentTime == nullptr))
+			{
+				auto newBody = 0;
+				auto res = std::find_if(systemToDraw->Bodies.begin(), systemToDraw->Bodies.end(), 
+					[&newBody, item, column](const CelestialBodyPtr & current)
+				{
+					if (current->getName() == item->text(column))
+					{
+						return true;
+					}
+					++newBody;
+					return false;
+				});
+
+				if (res != systemToDraw->Bodies.end())
+				{
+					firstBody = newBody;
+					if (firstBody == static_cast<size_t>(-1) ||
+						firstBody >= systemToDraw->Bodies.size())
+					{
+						firstBody = 0;
+					}
+					this->update();
+					scaleMult = 0;
+				}
+			}
+		}
 	}
 };

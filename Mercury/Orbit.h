@@ -43,7 +43,8 @@ public:
 	}
 	Orbit(Length radius, const std::optional<Mass> & parentBodyMass, std::optional<size_t> parentID, TimeInt periapsisPassage = 0)
 		:apoapsis(radius), periapsis(radius), isDefault(false),
-		parent(std::move(parentID)), isCircular(true), periapsisPassage(periapsisPassage)
+		parent(std::move(parentID)), isCircular(true), periapsisPassage(periapsisPassage),
+		majorAxis(radius), minorAxis(radius)
 	{
 		setOrbitalPeriod(*this, parentBodyMass);
 	}
