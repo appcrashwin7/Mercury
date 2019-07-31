@@ -1,0 +1,161 @@
+[
+    {
+        "name":"Infrastructure",
+        "cost":[
+            {"i":"Steel, 2"}
+        ],
+        "infrastructureSupport":"10"
+    },
+    {
+        "name":"Mine",
+        "cost":[
+            {"i":"Steel, 1"},
+            {"i":"Industrial Parts, 5"}
+        ],
+        "energyNet":"1",
+        "miningOutput":"10"
+    },
+    {
+        "name":"Housing",
+        "cost":[
+            {"i":"Steel, 10"}
+        ],
+        "populationSupport":"1000"
+    },
+    {
+        "name":"Power Plant",
+        "input":[
+            {"i":"Carbon, 20"}
+        ],
+        "output":[
+            {"i":"Waste, 5"}
+        ],
+        "cost":[
+            {"i":"Industrial Parts, 10"},
+            {"i":"Steel, 20"},
+            {"i":"Electronics, 5"}
+        ],
+        "energyNet":"-100"
+    },
+    {
+        "name":"Steel Forge",
+        "cost":[
+            {"i":"Industrial Parts, 40"},
+            {"i":"Steel, 10"}
+        ],
+        "input":[
+            {"i":"Iron, 9"},
+            {"i":"Carbon, 1"}
+        ],
+        "output":[
+            {"i":"Steel, 10"}
+        ],
+        "energyNet":"10"
+    },
+    {
+        "name":"Stainless steel Forge",
+        "cost":[
+            {"i":"Industrial Parts, 50"},
+            {"i":"Steel, 10"}
+        ],
+        "input":[
+            {"i":"Iron, 9"},
+            {"i":"Carbon, 1"}
+        ],
+        "output":[
+            {"i":"Stainless steel, 10"}
+        ],
+        "energyNet":"45"
+    },
+    {
+        "name":"Duraluminium Forge",
+        "cost":[
+            {"i":"Industrial Parts, 40"},
+            {"i":"Steel, 10"}
+        ],
+        "input":[
+            {"i":"Aluminium, 9"},
+            {"i":"Copper, 1"}
+        ],
+        "output":[
+            {"i":"Duraluminium, 10"}
+        ],
+        "energyNet":"50"
+    },
+    {
+        "name":"Industrial Parts Factory",
+        "cost":[
+            {"i":"Industrial Parts, 100"},
+            {"i":"Steel, 50"},
+            {"i":"Lead, 5"}
+        ],
+        "input":[
+            {"i":"Stainless steel, 10"},
+            {"i":"Aluminium, 10"},
+            {"i":"Lead, 10"},
+            {"i":"Steel, 10"}
+        ],
+        "output":[
+            {"i":"Industrial Parts, 50"}
+        ],
+        "energyNet":"50"
+    },
+    {
+        "name":"Rocket Parts Factory",
+        "cost":[
+            {"i":"Steel, 50"},
+            {"i":"Electronics, 5"},
+            {"i":"Industrial Parts, 50"}
+        ],
+        "input":[
+            {"i":"Titanium, 10"},
+            {"i":"Duraluminium, 5"},
+            {"i":"Aluminium, 10"}
+        ],
+        "output":[
+            {"i":"Rocket parts, 50"}
+        ],
+        "energyNet":"100"
+    },
+    {
+        "name":"High-Tech Rocket Parts Factory",
+        "cost":[
+            {"i":"Steel, 10"},
+            {"i":"Electronics, 20"},
+            {"i":"Industrial Parts, 100"}
+        ],
+        "input":[
+            {"i":"Electronics, 1"},
+            {"i":"Duraluminium, 3"},
+            {"i":"Carbon, 1"}
+        ],
+        "output":[
+            {"i":"High-tech rocket parts, 10"}
+        ],
+        "energyNet":"100"
+    },
+    {
+        "name":"Construction Facility",
+        "cost":[
+            {"i":"Steel, 10"},
+            {"i":"Industrial Parts, 50"}
+        ],
+        "energyNet":"5",
+        "constructionCap":"100"
+    },
+    {
+        "name":"Electronics Factory",
+        "cost":[
+            {"i":"Industrial Parts, 20"},
+            {"i":"Steel, 2"}
+        ],
+        "input":[
+            {"i":"Gold, 2"},
+            {"i":"Silicon, 10"}
+        ],
+        "output":[
+            {"i":"Electronics, 20"}
+        ],
+        "energyNet":"10"
+    }
+]

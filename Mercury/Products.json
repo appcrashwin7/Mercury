@@ -1,0 +1,67 @@
+[
+    {
+        "name":"Waste",
+        "mass":"1.5",
+        "type":"Dangerous"
+    },
+    {
+        "name":"Steel",
+        "mass":"8.0",
+        "type":"Material"
+    },
+    {
+        "name":"Stainless steel",
+        "mass":"7.5",
+        "type":"Material"
+    },
+    {
+        "name":"Duraluminium",
+        "mass":"3.0",
+        "type":"Material"
+    },
+    {
+        "name":"Electronics",
+        "mass":"2.0",
+        "type":"Parts"
+    },
+    {
+        "name":"Industrial Parts",
+        "mass":"4.0",
+        "type":"Parts"
+    },
+    {
+        "name":"Rocket Parts",
+        "mass":"3.5",
+        "type":"Parts"
+    },
+    {
+        "name":"High-tech rocket parts",
+        "mass":"3.0",
+        "type":"Parts"
+    },
+    {
+        "name":"Jewelry",
+        "mass":"4.5",
+        "type":"Material"
+    },
+    {
+        "name":"Low enriched uranium",
+        "mass":"18.0",
+        "type":"Radioactive"
+    },
+    {
+        "name":"Kerosene-Lox",
+        "mass":"1.0",
+        "type":"Material"
+    },
+    {
+        "name":"Food",
+        "mass":"1.5",
+        "type":"Organic"
+    },
+    {
+        "name":"Medicine",
+        "mass":"1.5",
+        "type":"Material"
+    }
+]
