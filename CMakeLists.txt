@@ -45,6 +45,17 @@ endif()
 
 target_link_libraries(Mercury Qt5::Widgets Qt5::Core Qt5::Sql ${BOOST_LIBRARIES})
 
+file(GLOB configs
+	"${PROJECT_SOURCE_DIR}/Mercury/*.json"
+)
+
+add_custom_command(
+	TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy
+	${configs}
+	$<TARGET_FILE_DIR:${PROJECT_NAME}>
+)
+
 if(WIN32)
 	include(cmake/DeployQt.cmake)
 	windeployqt(Mercury)
