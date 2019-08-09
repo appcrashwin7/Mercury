@@ -3,6 +3,7 @@
 Mercury::Mercury(QWidget *parent)
 	: QMainWindow(parent)
 {
+    Commodities::load();
 	ui.setupUi(this);
 	QObject::connect(ui.exitButton, &QPushButton::clicked, this, &Mercury::close);
 	QObject::connect(ui.newGameButton, &QPushButton::clicked, this, &Mercury::newGameDialog);

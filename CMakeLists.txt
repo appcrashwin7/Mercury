@@ -34,8 +34,12 @@ file(GLOB all_SRCS
 		"${PROJECT_SOURCE_DIR}/Mercury/*.ui"
         )
 
+set(TESTS_ENABLED OFF CACHE BOOL "Build tests")
+mark_as_advanced(TESTS_ENABLED)
 
-add_subdirectory(tests)
+if("$ENV(TESTS_ENABLED)")
+	add_subdirectory(tests)
+endif()
 
 add_executable(Mercury ${all_SRCS})
 

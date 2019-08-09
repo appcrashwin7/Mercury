@@ -10,6 +10,7 @@
 #include "GameLoader.h"
 #include "ui_Mercury.h"
 #include "StartNewGameWindow.h"
+#include "Commodities.h"
 
 class Mercury : public QMainWindow
 {

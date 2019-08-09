@@ -264,3 +264,4 @@ __pycache__/
 *.msave
 /out/build/x64-Debug/.cmake/api/v1/query/client-MicrosoftVS/query.json
 /out/build/x64-Debug/VSInheritEnvironments.txt
+/out/build/x64-Debug
