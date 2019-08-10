@@ -22,7 +22,7 @@ public:
 	Commodities() = default;
 	~Commodities() = default;
 
-	const std::vector<Product> & get() const
+	static const std::vector<Product> & get()
 	{
 		return Commd;
 	}
@@ -65,21 +65,21 @@ public:
 		}
 	}
 
-	const Product & operator[](const std::string & name)
-	{
-		auto ret = std::find_if(Commd.begin(), Commd.end(), [&](Product& p)->bool
-		{
-			if (p.name == name)
-			{
-				return true;
-			}
-			return false;
-		});
-		if (ret == Commd.end())
-		{
-			std::string error = "Cannot find Product with name: " + name;
-			qFatal(error.c_str());
-		}
-		return ret.operator*();
-	}
+    static const Product& find(const std::string& productName)
+    {
+        auto ret = std::find_if(Commd.begin(), Commd.end(), [&](Product& p)->bool
+            {
+                if (p.name == productName)
+                {
+                    return true;
+                }
+                return false;
+            });
+        if (ret == Commd.end())
+        {
+            std::string error = "Cannot find Product with name: " + productName;
+            qFatal(error.c_str());
+        }
+        return ret.operator*();
+    }
 };

@@ -74,7 +74,7 @@
             {"i":"Steel, 10"}
         ],
         "input":[
-            {"i":"Aluminium, 9"},
+            {"i":"Aluminum, 9"},
             {"i":"Copper, 1"}
         ],
         "output":[
@@ -91,7 +91,7 @@
         ],
         "input":[
             {"i":"Stainless steel, 10"},
-            {"i":"Aluminium, 10"},
+            {"i":"Aluminum, 10"},
             {"i":"Lead, 10"},
             {"i":"Steel, 10"}
         ],
@@ -110,10 +110,10 @@
         "input":[
             {"i":"Titanium, 10"},
             {"i":"Duraluminium, 5"},
-            {"i":"Aluminium, 10"}
+            {"i":"Aluminum, 10"}
         ],
         "output":[
-            {"i":"Rocket parts, 50"}
+            {"i":"Rocket Parts, 50"}
         ],
         "energyNet":"100"
     },

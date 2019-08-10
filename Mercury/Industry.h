@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Calc.h"
-#include "IndustryBuilding.h"
+#include "Architecture.h"
 
 using BuildingQuantityT = std::pair<IndustryBuilding, uint64_t>;
 
@@ -20,7 +20,7 @@ class Industry
 public:
 	Industry()
 	{
-		auto def = IndustryBuilding::getDefaults();
+        auto def = Architecture::get();
 		for (auto & b : def)
 		{
 			buildings.emplace_back(BuildingQuantityT(b, 0));
