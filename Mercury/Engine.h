@@ -1,6 +1,7 @@
 #pragma once
 
 #include <qdatetime>
+#include <iostream>
 
 #include "GameWindow.h"
 #include "Universe.h"

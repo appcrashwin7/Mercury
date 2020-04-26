@@ -15,26 +15,24 @@ public:
     {
         auto extractArray = [&](const QJsonValue& from, const QString& ArrName, StockT& to)
         {
-            if (from[ArrName].isArray())
+            auto aname = ArrName.toStdString();
+
+            if (!(from[ArrName].isUndefined()) && from[ArrName].isArray())
             {
                 const auto& dt = from[ArrName].toArray();
                 for (int i = 0; i < dt.size(); i++)
                 {
-                    auto textVal = dt[i]["i"].toString().toStdString();
-                    auto ind = textVal.find_first_of(',');
-                    auto prodName = textVal.substr(0, ind);
-                    auto am = std::stoi(textVal.substr(++ind, textVal.size()));
-
-                    to.emplace_back(StockUnit(Commodities::find(prodName), am));
+                    auto pair = JsonDataFile::extractPairValues(dt[i], "i");
+                    to.emplace_back(StockUnit(Commodities::find(pair.first), std::stoi(pair.second)));
                 }
             }
         };
 
-        QFile dtFile(Architecture::dataFile);
-        if (dtFile.open(QIODevice::ReadOnly))
+        JsonDataFile dtFile;
+        if (dtFile.load(Architecture::dataFile))
         {
-            QByteArray dtFileBArr = dtFile.readAll();
-            QJsonDocument doc(QJsonDocument::fromJson(dtFileBArr));
+            auto doc = dtFile.get();
+
             if (doc.isArray())
             {
                 auto cost = StockT();
@@ -45,7 +43,7 @@ public:
                 {
                     if (doc[i].isObject())
                     {
-                        if (!(doc[i]["name"].isNull()))
+                        if (!(doc[i]["name"].isUndefined()))
                         {
                             auto name = doc[i]["name"].toString();
                             extractArray(doc[i], "cost", cost);

@@ -67,9 +67,109 @@ void Mercury::loadGameDialog()
 void Mercury::playGame()
 {
 	this->setVisible(false);
-	QLineEdit * gameName = newGameWindow.findChild<QLineEdit*>("newGameName");
-	std::unique_ptr<Engine> ptr(new Engine(nullptr, gameName->text()));
-	game.swap(ptr);
+
+    JsonDataFile dtFile;
+    if (dtFile.load(Mercury::GameStartConfigFile))
+    {
+        Universe universe;
+        auto doc = dtFile.get();
+
+        if (doc.isObject())
+        {
+            universe.addSystem(doc["system"]["name"].toString());
+            const auto& bodies = doc["system"]["bodies"].toArray();
+            CelestialBodyFactory bfact;
+
+            for (int i = 0; i < bodies.size(); i++)
+            {
+                const auto& body = bodies[i];
+
+                PhysicalProperties physProps(
+                    body["radius"].toDouble() * units::si::meters,
+                    body["mass"].toDouble() * units::si::kilogram, 
+                    body["temperature"].toInt() * units::si::kelvins);
+                auto name = body["name"].toString();
+
+                if (!(body["orbit"].isUndefined()))
+                {
+                    const auto& bodyOrbit = body["orbit"];
+                    auto parentID = std::make_optional(bodyOrbit["parent"].toInt());
+                    auto parentBodyMass = universe.getLastSystem().Bodies[parentID.value()]->physics.mass;
+
+                    Orbit orb = (!bodyOrbit["radius"].isUndefined()) ?
+                        Orbit(bodyOrbit["radius"].toDouble() * units::si::meters,
+                            parentBodyMass, parentID) :
+                        Orbit(bodyOrbit["apo"].toDouble() * units::si::meters,
+                            bodyOrbit["per"].toDouble() * units::si::meters,
+                            parentBodyMass, parentID);
+
+                    universe.getLastSystem().Bodies.emplace_back(bfact.createBody(physProps, orb, name));
+                }
+                else
+                {
+                    universe.getLastSystem().Bodies.emplace_back(bfact.createBody(physProps, Orbit(), name));
+                }
+            }
+
+            QDate time(doc["time"]["y"].toInt(), doc["time"]["m"].toInt(), doc["time"]["d"].toInt());
+
+
+            std::vector<ColonyData> colDt;
+            const auto& cols = doc["colonies"].toArray();
+            for (int i = 0; i < cols.size(); i++)
+            {
+                const auto& colony = cols[i];
+
+                auto number = colony["number"].toInt();
+                QuantityT stock(Commodities::get().size(), colony["stock"].toInt());
+                QuantityT buildings(Architecture::get().size(), 0);
+
+                auto findIDofBuilding = [&](const std::string& bName)->size_t
+                {
+                    size_t ret = 0;
+
+                    auto result = std::find_if(Architecture::get().begin(), Architecture::get().end(),
+                        [&ret, &bName](const IndustryBuilding& a) {
+                            ret++;
+                            if (bName == a.getName())
+                            {
+                                return true;
+                            }
+                            return false;
+                        });
+                    if (result != Architecture::get().end())
+                    {
+                        return ret;
+                    }
+                    return -1;
+                };
+
+                const auto& buildDt = colony["buildings"].toArray();
+                for (int b = 0; b < buildDt.size(); b++)
+                {
+                    auto pair = JsonDataFile::extractPairValues(buildDt[b], "i");
+
+                    auto id = findIDofBuilding(pair.first);
+                    if (id != static_cast<size_t>(-1))
+                    {
+                        buildings[id] = std::stoi(pair.second);
+                    }
+                }
+
+                colDt.emplace_back(std::make_tuple(
+                    std::make_pair(universe.getSystems().size() - 1, number),
+                    stock, buildings));
+            }
+
+            QLineEdit* gameName = newGameWindow.findChild<QLineEdit*>("newGameName");
+
+            if (gameName->text().size() > 0)
+            {
+                std::unique_ptr<Engine> ptr(new Engine(nullptr, gameName->text(), std::move(universe), colDt, QDateTime(time)));
+                game.swap(ptr);
+            }
+        }
+    }
 }
 
 void Mercury::closeEvent(QCloseEvent * event)

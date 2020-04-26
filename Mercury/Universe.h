@@ -4,8 +4,9 @@
 
 class Universe
 {
+    std::vector<PlanetarySystem> Systems;
 public:
-	Universe();
+	Universe() = default;
 	Universe(Universe && other) = default;
 	~Universe() = default;
 
@@ -27,7 +28,5 @@ public:
 	PlanetarySystem & getLastSystem()
 	{
 		return Systems.back();
-	}
-private:
-	std::vector<PlanetarySystem> Systems;
+	}	
 };

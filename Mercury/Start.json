@@ -1,0 +1,176 @@
+{
+  "system": {
+    "name": "Sol System",
+    "bodies": [
+      {
+        "name": "Sol",
+        "radius": 6.9e8,
+        "mass": 2.0e30,
+        "temperature": 5800
+      },
+      {
+        "name": "Mercury",
+        "radius": 2.4e6,
+        "mass": 3.3e23,
+        "orbit": {
+          "apo": 6.9e10,
+          "per": 4.9e10,
+          "parent": 0
+        }
+      },
+      {
+        "name": "Venus",
+        "radius": 6.0e6,
+        "mass": 4.8e24,
+        "orbit": {
+          "apo": 1.08e11,
+          "per": 1.0e11,
+          "parent": 0
+        }
+      },
+      {
+        "name": "Earth",
+        "radius": 6.3e6,
+        "mass": 5.9e24,
+        "orbit": {
+          "apo": 1.52e11,
+          "per": 1.47e11,
+          "parent": 0
+        }
+      },
+      {
+        "name": "Luna",
+        "radius": 1.7e6,
+        "mass": 7.3e22,
+        "orbit": {
+          "apo": 4.0e8,
+          "per": 3.6e8,
+          "parent": 3
+        }
+      },
+      {
+        "name": "Mars",
+        "radius": 3.3962e6,
+        "mass": 6.41e23,
+        "orbit": {
+          "apo": 2.492e11,
+          "per": 2.066e11,
+          "parent": 0
+        }
+      },
+      {
+        "name": "Jupiter",
+        "radius": 7.1492e7,
+        "mass": 1.8e27,
+        "orbit": {
+          "apo": 8.166e11,
+          "per": 7.405e11,
+          "parent": 0
+        }
+      },
+      {
+        "name": "Io",
+        "radius": 1.821e6,
+        "mass": 8.9e22,
+        "orbit": {
+          "radius": 4.217e8,
+          "parent": 6
+        }
+      },
+      {
+        "name": "Europa",
+        "radius": 1.56e6,
+        "mass": 4.8e22,
+        "orbit": {
+          "radius": 6.71034e8,
+          "parent": 6
+        }
+      },
+      {
+        "name": "Ganymede",
+        "radius": 2.634e6,
+        "mass": 1.48e23,
+        "orbit": {
+          "radius": 1.070412e9,
+          "parent": 6
+        }
+      },
+      {
+        "name": "Callisto",
+        "radius": 2.41e6,
+        "mass": 1.08e23,
+        "orbit": {
+          "radius": 1.882709e9,
+          "parent": 6
+        }
+      },
+      {
+        "name": "Saturn",
+        "radius": 6.0268e7,
+        "mass": 5.6e26,
+        "orbit": {
+          "apo": 1.5145e12,
+          "per": 1.3525e12,
+          "parent": 0
+        }
+      },
+      {
+        "name": "Titan",
+        "radius": 2.574e6,
+        "mass": 1.34e23,
+        "orbit": {
+          "radius": 1.20706e9,
+          "parent": 11
+        }
+      },
+      {
+        "name": "Uranus",
+        "radius": 2.5559e7,
+        "mass": 8.68e25,
+        "orbit": {
+          "apo": 3.0084e12,
+          "per": 2.7421e12,
+          "parent": 0
+        }
+      },
+      {
+        "name": "Neptune",
+        "radius": 2.4764e7,
+        "mass": 1.024e26,
+        "orbit": {
+          "apo": 4.537e12,
+          "per": 4.459e12,
+          "parent": 0
+        }
+      }
+    ]
+  },
+  "colonies": [
+    {
+      "number": 3,
+      "stock": 10000,
+      "buildings": [
+        {
+          "i": "Mine, 10"
+        },
+        {
+          "i": "Power Plant, 2"
+        },
+        {
+          "i": "Steel Forge, 2"
+        },
+        {
+          "i": "Industrial Parts Factory, 1"
+        },
+        {
+          "i": "Construction Facility, 3"
+        }
+      ]
+    }
+  ],
+  "time": {
+    "d": 10,
+    "m": 10,
+    "y": 2030
+  }
+}

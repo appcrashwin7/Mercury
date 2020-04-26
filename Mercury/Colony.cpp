@@ -111,9 +111,14 @@ void Colony::recalcConstructionETC(size_t index)
 	auto elem = constructionQueue.begin();
 	std::advance(elem, index);
 
-	uint64_t etc = ((elem->getConstructionCost() *
-		elem->getAmount()) / colonyIndustry.getConstructionCapability());
-	elem->setEtc(etc);
+    if (colonyIndustry.getConstructionCapability() > 0)
+    {
+        uint64_t etc = ((elem->getConstructionCost() *
+            elem->getAmount()) / colonyIndustry.getConstructionCapability());
+        elem->setEtc(etc);
+        return;
+    }
+    elem->setEtc(0);
 }
 
 void Colony::sortConstruction()

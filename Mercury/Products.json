@@ -1,67 +1,67 @@
 [
     {
         "name":"Waste",
-        "mass":"1.5",
-        "type":"2"
+        "mass": 1.5,
+        "type": 2
     },
     {
         "name":"Steel",
-        "mass":"8.0",
-        "type":"1"
+        "mass": 8.0,
+        "type": 1
     },
     {
         "name":"Stainless steel",
-        "mass":"7.5",
-        "type":"1"
+        "mass": 7.5,
+        "type": 1
     },
     {
         "name":"Duraluminium",
-        "mass":"3.0",
-        "type":"1"
+        "mass": 3.0,
+        "type": 1
     },
     {
         "name":"Electronics",
-        "mass":"2.0",
-        "type":"4"
+        "mass": 2.0,
+        "type": 4
     },
     {
         "name":"Industrial Parts",
-        "mass":"4.0",
-        "type":"4"
+        "mass": 4.0,
+        "type": 4
     },
     {
         "name":"Rocket Parts",
-        "mass":"3.5",
-        "type":"4"
+        "mass": 3.5,
+        "type": 4
     },
     {
         "name":"High-tech rocket parts",
-        "mass":"3.0",
-        "type":"4"
+        "mass": 3.0,
+        "type": 4
     },
     {
         "name":"Jewelry",
-        "mass":"4.5",
-        "type":"1"
+        "mass": 4.5,
+        "type": 1
     },
     {
         "name":"Low enriched uranium",
-        "mass":"18.0",
-        "type":"7"
+        "mass": 18.0,
+        "type": 7
     },
     {
         "name":"Kerosene-Lox",
-        "mass":"1.0",
-        "type":"1"
+        "mass": 1.0,
+        "type": 1
     },
     {
         "name":"Food",
-        "mass":"1.5",
-        "type":"6"
+        "mass": 1.5,
+        "type": 6
     },
     {
         "name":"Medicine",
-        "mass":"1.5",
-        "type":"1"
+        "mass": 1.5,
+        "type": 1
     }
 ]

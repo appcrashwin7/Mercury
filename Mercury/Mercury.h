@@ -14,7 +14,9 @@
 
 class Mercury : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
+
+    static inline const QString GameStartConfigFile = "Start.json";
 
 public:
 	Mercury(QWidget * parent = nullptr);

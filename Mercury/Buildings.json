@@ -4,7 +4,7 @@
         "cost":[
             {"i":"Steel, 2"}
         ],
-        "infrastructureSupport":"10"
+        "infrastructureSupport": 10
     },
     {
         "name":"Mine",
@@ -12,15 +12,15 @@
             {"i":"Steel, 1"},
             {"i":"Industrial Parts, 5"}
         ],
-        "energyNet":"1",
-        "miningOutput":"10"
+        "energyNet": 1,
+        "miningOutput": 10
     },
     {
         "name":"Housing",
         "cost":[
             {"i":"Steel, 10"}
         ],
-        "populationSupport":"1000"
+        "populationSupport": 1000
     },
     {
         "name":"Power Plant",
@@ -35,7 +35,7 @@
             {"i":"Steel, 20"},
             {"i":"Electronics, 5"}
         ],
-        "energyNet":"-100"
+        "energyNet": -100
     },
     {
         "name":"Steel Forge",
@@ -50,7 +50,7 @@
         "output":[
             {"i":"Steel, 10"}
         ],
-        "energyNet":"10"
+        "energyNet": 10
     },
     {
         "name":"Stainless steel Forge",
@@ -65,7 +65,7 @@
         "output":[
             {"i":"Stainless steel, 10"}
         ],
-        "energyNet":"45"
+        "energyNet": 45
     },
     {
         "name":"Duraluminium Forge",
@@ -80,7 +80,7 @@
         "output":[
             {"i":"Duraluminium, 10"}
         ],
-        "energyNet":"50"
+        "energyNet": 50
     },
     {
         "name":"Industrial Parts Factory",
@@ -98,7 +98,7 @@
         "output":[
             {"i":"Industrial Parts, 50"}
         ],
-        "energyNet":"50"
+        "energyNet": 50
     },
     {
         "name":"Rocket Parts Factory",
@@ -115,7 +115,7 @@
         "output":[
             {"i":"Rocket Parts, 50"}
         ],
-        "energyNet":"100"
+        "energyNet": 100
     },
     {
         "name":"High-Tech Rocket Parts Factory",
@@ -132,7 +132,7 @@
         "output":[
             {"i":"High-tech rocket parts, 10"}
         ],
-        "energyNet":"100"
+        "energyNet": 100
     },
     {
         "name":"Construction Facility",
@@ -140,8 +140,8 @@
             {"i":"Steel, 10"},
             {"i":"Industrial Parts, 50"}
         ],
-        "energyNet":"5",
-        "constructionCap":"100"
+        "energyNet": 5,
+        "constructionCap": 100
     },
     {
         "name":"Electronics Factory",
@@ -156,6 +156,6 @@
         "output":[
             {"i":"Electronics, 20"}
         ],
-        "energyNet":"10"
+        "energyNet": 10
     }
 ]

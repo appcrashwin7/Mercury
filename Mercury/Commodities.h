@@ -1,11 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <qglobal.h>
-#include <qfile.h>
-#include <qjsondocument.h>
-#include <qjsonarray.h>
 
+#include "JsonDataFile.h"
 #include "Product.h"
 #include "ResourceDeposit.h"
 
@@ -38,20 +35,20 @@ public:
 		}
 		auto lastID = Commd.size() - 1;
 
-		QFile dtFile(Commodities::fileData);
-		if (dtFile.open(QIODevice::ReadOnly))
+        JsonDataFile dtFile;
+		if (dtFile.load(Commodities::fileData))
 		{
-			QByteArray dtFileBArr = dtFile.readAll();
-			QJsonDocument doc(QJsonDocument::fromJson(dtFileBArr));
+            auto doc = dtFile.get();
+
 			if (doc.isArray())
 			{
 				for (int i = 0; i < doc.array().size(); i++)
 				{
 					if (doc[i].isObject())
 					{
-						if (!(doc[i]["name"].isNull() &&
-							doc[i]["mass"].isNull() &&
-							doc[i]["type"].isNull()))
+						if (!(doc[i]["name"].isUndefined() &&
+							doc[i]["mass"].isUndefined() &&
+							doc[i]["type"].isUndefined()))
 						{
 							auto name = doc[i]["name"].toString();
 							auto mass = static_cast<float>(doc[i]["mass"].toDouble());
