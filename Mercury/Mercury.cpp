@@ -119,27 +119,19 @@ void Mercury::playGame()
             for (int i = 0; i < cols.size(); i++)
             {
                 const auto& colony = cols[i];
-
                 auto number = colony["number"].toInt();
+
                 QuantityT stock(Commodities::get().size(), colony["stock"].toInt());
                 QuantityT buildings(Architecture::get().size(), 0);
 
                 auto findIDofBuilding = [&](const std::string& bName)->size_t
                 {
-                    size_t ret = 0;
-
-                    auto result = std::find_if(Architecture::get().begin(), Architecture::get().end(),
-                        [&ret, &bName](const IndustryBuilding& a) {
-                            ret++;
-                            if (bName == a.getName())
-                            {
-                                return true;
-                            }
-                            return false;
-                        });
-                    if (result != Architecture::get().end())
+                    for (size_t ret = 0; ret < Architecture::get().size(); ret++)
                     {
-                        return ret;
+                        if (bName == Architecture::get()[ret].getName())
+                        {
+                            return ret;
+                        }
                     }
                     return -1;
                 };

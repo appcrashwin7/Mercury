@@ -9,14 +9,6 @@ class Industry
 {
 	std::vector<BuildingQuantityT> buildings;
 
-	void sortBuildings()
-	{
-		std::sort(buildings.begin(), buildings.end(),
-			[](const BuildingQuantityT & a, const BuildingQuantityT & b)->bool
-		{
-			return a.first.getEnergyConsumption() < b.first.getEnergyConsumption();
-		});
-	}
 public:
 	Industry()
 	{
@@ -25,16 +17,12 @@ public:
 		{
 			buildings.emplace_back(BuildingQuantityT(b, 0));
 		}
-
-		sortBuildings();
 	}
 	Industry(const Industry &) = default;
 	Industry(Industry &&) = default;
 	Industry(std::vector<BuildingQuantityT> buildings)
 		:buildings(std::move(buildings))
-	{
-		sortBuildings();
-	}
+	{}
 	~Industry() = default;
 
 	Industry & operator=(const Industry & other)

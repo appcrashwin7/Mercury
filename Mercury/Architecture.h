@@ -67,6 +67,12 @@ public:
                 }
             }
         }
+
+        std::sort(dt.begin(), dt.end(),
+            [](const IndustryBuilding& a, const IndustryBuilding& b)->bool
+            {
+                return a.getEnergyConsumption() < b.getEnergyConsumption();
+            });
     }
 
     static const std::vector<IndustryBuilding> & get()
