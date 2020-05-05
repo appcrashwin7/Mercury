@@ -256,7 +256,7 @@ void Colony::simulateIndustry(Energy & energyUsed, uint64_t & constructionCap)
 
 void Colony::simulateConstruction(Energy used, uint64_t constructionCap)
 {
-	if (constructionCap == 0u || constructionQueue.empty() ||
+	if (constructionCap == 0u || constructionQueue.empty() == true ||
 		constructionQueue.front().getStatus() != ConstructionStatus::InConstruction)
 		return;
 
@@ -264,6 +264,7 @@ void Colony::simulateConstruction(Energy used, uint64_t constructionCap)
 	{
 		cancelConstruction();
 		simulateConstruction(used, constructionCap);
+		return;
 	}
 
 	auto & currConstr = constructionQueue.front();
@@ -288,8 +289,14 @@ void Colony::simulateConstruction(Energy used, uint64_t constructionCap)
 	{
 		return;
 	}
+
 	auto maxConstructions = std::minmax_element(maxConstructionsBy.begin(),
 		maxConstructionsBy.end(), std::greater<uint64_t>()).second.operator*();
+	auto restConstructions = static_cast<uint64_t>(currConstr.getAmount());
+	if (maxConstructions > restConstructions)
+	{
+		maxConstructions = restConstructions;
+	}
 
 	for (const auto & res : baseCost)
 	{
@@ -299,11 +306,6 @@ void Colony::simulateConstruction(Energy used, uint64_t constructionCap)
 	}
 
 	colonyIndustry.addBuilding(currConstr.getBuildingID(), maxConstructions);
-	auto newConstrAmount = currConstr.getAmount() - maxConstructions;
+	int64_t newConstrAmount = currConstr.getAmount() - maxConstructions;
 	currConstr.setAmount(newConstrAmount);
-
-	if (currConstr.getAmount() <= 0)
-	{
-		cancelConstruction();
-	}
 }
