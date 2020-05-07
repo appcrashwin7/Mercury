@@ -38,7 +38,7 @@ QuantityT Colony::getWeeklyResourcesYield() const
 	QuantityT ret;
 	for (auto res : body.getResources().get())
 	{
-		ret.push_back(baseYield * res.second);
+		ret.push_back(baseYield * static_cast<double>(res.second));
 	}
 	return ret;
 }

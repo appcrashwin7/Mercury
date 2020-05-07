@@ -24,7 +24,7 @@ public:
 		setDensity(*this);
 	}
 	PhysicalProperties(const PhysicalProperties & other) = default;
-	PhysicalProperties(PhysicalProperties &&) = default;
+	PhysicalProperties(PhysicalProperties &&) noexcept = default;
 
 
 	Temperature getSurfaceTemperature() const

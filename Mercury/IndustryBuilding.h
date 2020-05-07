@@ -22,7 +22,7 @@ class IndustryBuilding
 public:
 	IndustryBuilding() = delete;
 	IndustryBuilding(const IndustryBuilding &) = default;
-	IndustryBuilding(IndustryBuilding &&) = default;
+	IndustryBuilding(IndustryBuilding &&) noexcept = default;
 	IndustryBuilding(std::string name, StockT input, StockT output, StockT buildCost, 
 		Energy energyConsumption, int32_t infrastructure = -1, uint32_t popSupport = 0, uint32_t miningOutput = 0, uint32_t constrCapability = 0)
 		:name(std::move(name)), input(std::move(input)), output(std::move(output)),

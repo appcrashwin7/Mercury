@@ -24,7 +24,7 @@ public:
 
 	Product() = delete;
 	Product(const Product & other) = default;
-	Product(Product &&) = default;
+	Product(Product &&) noexcept = default;
 	Product(std::string pname, float mass, ProductType t, size_t id)
 		:name(std::move(pname)), massPerUnit(mass), type(t), id(id)
 	{}

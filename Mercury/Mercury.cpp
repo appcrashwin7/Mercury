@@ -124,7 +124,7 @@ void Mercury::playGame()
                 QuantityT stock(Commodities::get().size(), colony["stock"].toInt());
                 QuantityT buildings(Architecture::get().size(), 0);
 
-                auto findIDofBuilding = [&](const std::string& bName)->size_t
+                auto findIDofBuilding = [&](const std::string& bName)->int64_t
                 {
                     for (size_t ret = 0; ret < Architecture::get().size(); ret++)
                     {
@@ -142,7 +142,7 @@ void Mercury::playGame()
                     auto pair = JsonDataFile::extractPairValues(buildDt[b], "i");
 
                     auto id = findIDofBuilding(pair.first);
-                    if (id != static_cast<size_t>(-1))
+                    if (id != -1)
                     {
                         buildings[id] = std::stoi(pair.second);
                     }

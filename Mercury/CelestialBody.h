@@ -29,7 +29,7 @@ public:
 
 
 	CelestialBody() = delete;
-	CelestialBody(CelestialBody &&) = default;
+	CelestialBody(CelestialBody &&) noexcept = default;
 	CelestialBody(const CelestialBody & other) = default;
 	CelestialBody(PhysicalProperties properties, CelestialBodyType type, Orbit orb = Orbit(), QString name = "")
 		:physics(std::move(properties)),
