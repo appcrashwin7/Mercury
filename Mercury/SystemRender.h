@@ -11,8 +11,8 @@ class SystemRender : public QWidget
 	Q_OBJECT;
 
 	static constexpr int bodyDrawSize = 5;
-	static constexpr double baseScale = 1.0e3;
-	static constexpr double scaleInc = 1.0e2;
+	static constexpr double baseScale = 1.0e6;
+	static constexpr double scaleInc = 2;
 
 	const PlanetarySystem * systemToDraw = nullptr;
 	const QDateTime * currentTime = nullptr;
@@ -51,7 +51,7 @@ public:
 		auto scale = baseScale;
 		if (scaleMult > 0)
 		{
-			scale *= (scaleMult * scaleInc);
+			scale *= (std::pow(scaleMult, scaleInc));
 		}
 
 		if (systemToDraw != nullptr && currentTime != nullptr)
