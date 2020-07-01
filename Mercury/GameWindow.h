@@ -6,6 +6,7 @@
 
 #include "ui_GameWindow.h"
 #include "ColoniesWindow.h"
+#include "SystemView.h"
 #include "SystemRender.h"
 
 enum class TimeChange
@@ -28,7 +29,7 @@ class GameWindow : public QWidget
 
 public:
 	GameWindow() = delete;
-	GameWindow(std::vector<Colony> & cls, QWidget * main);
+	GameWindow(std::vector<Colony> & cls, Universe & u, QWidget * main);
 	~GameWindow() = default;
 	void closeEvent(QCloseEvent * event);
 
@@ -41,4 +42,5 @@ public slots:
 private:
 	Ui::GameWindow ui;
 	ColoniesWindow colsWindow;
+	SystemView systemViewWindow;
 };

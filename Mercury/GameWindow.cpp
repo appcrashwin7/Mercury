@@ -1,7 +1,7 @@
 #include "GameWindow.h"
 
-GameWindow::GameWindow(std::vector<Colony> & cls, QWidget * main = nullptr)
-	:QWidget(main), colsWindow(cls)
+GameWindow::GameWindow(std::vector<Colony> & cls, Universe & u, QWidget * main = nullptr)
+	:QWidget(main), colsWindow(cls), systemViewWindow(&cls, &u)
 {
 	SystemRender * sysR = new SystemRender();
 

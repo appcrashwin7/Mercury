@@ -3,7 +3,7 @@
 Engine::Engine(QWidget * mainWindow, QString gameName)
 	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<RockyBody*>(gameUniverse.getSystem(0).Bodies[3].get())), 
 		QuantityT(RESOURCES_LIST_SIZE, 10000), QuantityT({5, 20, 10, 20, 2, 1, 1, 1, 1, 0, 0}))}),
-	window(Colonies, mainWindow), gameName(gameName)
+	window(Colonies, gameUniverse, mainWindow), gameName(gameName)
 {
 	init();
 }
@@ -11,7 +11,7 @@ Engine::Engine(QWidget * mainWindow, QString gameName)
 Engine::Engine(QWidget * mainWindow, QString gameName, Universe universe, std::vector<ColonyData> dt, QDateTime time)
 	:gameTime(std::move(time)), gameUniverse(std::move(universe)),
 	Colonies(std::move(constructColonies(std::move(dt)))), gameName(std::move(gameName)),
-	window(Colonies, mainWindow)
+	window(Colonies, gameUniverse, mainWindow)
 {
 	init();
 }
