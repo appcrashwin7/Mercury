@@ -13,6 +13,11 @@ GameWindow::GameWindow(std::vector<Colony> & cls, Universe & u, QWidget * main =
 
 	QObject::connect(clsButton, &QPushButton::clicked, &colsWindow, &ColoniesWindow::show);
 	QObject::connect(clsButton, &QPushButton::clicked, &colsWindow, &ColoniesWindow::resetData);
+
+	QPushButton* sysButton = this->findChild<QPushButton*>("systemButton");
+
+	QObject::connect(sysButton, &QPushButton::clicked, &systemViewWindow, &SystemView::show);
+	QObject::connect(sysButton, &QPushButton::clicked, &systemViewWindow, &SystemView::reset);
 }
 
 void GameWindow::closeEvent(QCloseEvent * event)

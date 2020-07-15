@@ -46,11 +46,6 @@
        </column>
        <column>
         <property name="text">
-         <string>Populations</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>Max. Population</string>
         </property>
        </column>
@@ -66,12 +61,12 @@
        </column>
        <column>
         <property name="text">
-         <string>Atmosphere</string>
+         <string>Diameter</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Diameter</string>
+         <string>Atmosphere</string>
         </property>
        </column>
        <column>
@@ -142,7 +137,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget">
+         <widget class="QTableWidget" name="mineralsTable">
           <column>
            <property name="text">
             <string>Name</string>
@@ -161,7 +156,7 @@
     </layout>
    </item>
    <item row="3" column="0">
-    <layout class="QHBoxLayout" name="nuttonsLayout">
+    <layout class="QHBoxLayout" name="buttonsLayout">
      <item>
       <widget class="QPushButton" name="createColonyPB">
        <property name="text">

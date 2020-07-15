@@ -4,6 +4,7 @@
 
 #include "Colony.h"
 #include "Universe.h"
+#include "Utils.h"
 
 #include "ui_SystemView.h"
 
@@ -19,6 +20,12 @@ public:
     SystemView(std::vector<Colony>* cl, Universe* u);
     ~SystemView() = default;
 
+public slots:
+    void reset();
+
+private slots:
+    void fillSystemTable(QListWidgetItem* item);
+
 private:
-    void fillSystemTable();
+    void fillSystemsList();
 };
