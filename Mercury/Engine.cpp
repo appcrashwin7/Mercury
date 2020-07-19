@@ -86,16 +86,16 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 		const CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName);
 
 		std::array<QString, 10> bodyProps = {
-			QString::number(actualBody->physics.mass.value()) + " kg",
-			QString::number(actualBody->physics.radius.value()) + " m",
-			QString::number(actualBody->escapeVelocity.value()) + " m/s",
-			QString::number(actualBody->surfaceGravity.value()) + " m/s^2",
-			QString::number(actualBody->physics.getSurfaceTemperature().value()) + " K",
+			MassToText(actualBody->physics.mass, false, false, true),
+			LengthToText(actualBody->physics.radius, true, false, false),
+			VelocityToText(actualBody->escapeVelocity, false, false),
+			AccelerationToText(actualBody->surfaceGravity, false, false),
+			TemperatureToText(actualBody->physics.getSurfaceTemperature()),
 			(!actualBody->orbit.isDefault) ? gameUniverse.getSystem(0).Bodies[actualBody->orbit.parent.value()].get()->getName() :
 			"",
-			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.apoapsis.value()) + " m" : "",
-			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.periapsis.value()) + " m" : "",
-			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.getOrbitalPeriod() / units::days) : "",
+			(!actualBody->orbit.isDefault) ? LengthToText(actualBody->orbit.apoapsis, false, false, true) : "",
+			(!actualBody->orbit.isDefault) ? LengthToText(actualBody->orbit.periapsis, false, false, true) : "",
+			(!actualBody->orbit.isDefault) ? TimeToText(actualBody->orbit.getOrbitalPeriod(), 2) : "",
 			(!actualBody->orbit.isDefault) ? QString::number(actualBody->orbit.eccentricity) : ""
 		};
 

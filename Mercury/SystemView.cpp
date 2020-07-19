@@ -51,7 +51,11 @@ void SystemView::fillSystemTable(QListWidgetItem* item)
         for (const auto& p : selectedSystem.operator->()->Bodies)
         {
             const auto dtSize = table->columnCount();
-            auto dt = std::vector<QString>{ p.get()->getName() };
+            auto dt = std::vector<QString>{ p.get()->getName(), "",
+            TemperatureToText(p.get()->physics.getSurfaceTemperature()),
+            AccelerationToText(p.get()->surfaceGravity, false, false),
+            LengthToText(p.get()->physics.radius, true, false), "", "" };
+
             fillNewRow(table, dt); 
         }
     }
