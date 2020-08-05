@@ -6,8 +6,10 @@
 #include <array>
 
 static constexpr size_t RESOURCES_LIST_SIZE = 18;
+static constexpr float R_FULL_ACCESS = 1.0f;
+static constexpr float R_NON_ACCESS = 0.0f;
 
-//Amount, accessibly
+//Amount, access
 using Deposit = std::pair<uint64_t, float>;
 
 using ResQuantity = std::pair<uint64_t, uint64_t>;
@@ -91,6 +93,18 @@ public:
 	{
 		return { 0, 1, 10, 13, 14, 15, 16, 17 };
 	}
+	static bool isLightElem(uint id)
+	{
+		auto lightElements = ResourceDeposit::getLightElementsIds();
+
+		auto elem = std::find(lightElements.begin(), lightElements.end(), id);
+		if (elem != lightElements.end())
+		{
+			return true;
+		}
+		return false;
+	}
+
 	static std::array<std::string, RESOURCES_LIST_SIZE> getResourcesNames()
 	{
 		return { "Water", "Frozen water", "Aluminum", "Copper", "Gold", "Iron", "Titanium",
@@ -108,6 +122,10 @@ public:
 		return Res;
 	}
 	const Deposit & operator[](size_t i) const
+	{
+		return Res[i];
+	}
+	Deposit& operator[](size_t i)
 	{
 		return Res[i];
 	}
