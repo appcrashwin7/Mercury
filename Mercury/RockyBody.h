@@ -28,7 +28,6 @@ class RockyBody : public CelestialBody
 			auto acc = (isLightElement ? access.first : access.second);
 
 			resources[i] = std::make_pair(am, acc);
-
 		}
 	}
 
@@ -36,7 +35,7 @@ public:
 	RockyBody() = delete;
 	RockyBody(const RockyBody & other) = default;
 	RockyBody(RockyBody &&) = default;
-	RockyBody(CelestialBody body, ResourceDeposit res = ResourceDeposit())
+	RockyBody(CelestialBody body)
 		:CelestialBody(std::move(body))
 	{
 		generateResources();

@@ -6,12 +6,45 @@ SystemView::SystemView(std::vector<Colony>* cl, Universe* u)
     ui.setupUi(this);
 
     auto systemsList = this->findChild<QListWidget*>("systemsList");
+    auto systemTable = this->findChild<QTableWidget*>("systemTable");
     QObject::connect(systemsList, &QListWidget::itemClicked, this, &SystemView::fillSystemTable);
+    QObject::connect(systemTable, &QTableWidget::itemClicked, this, &SystemView::fillMineralsTable);
 }
 
 void SystemView::reset()
 {
     fillSystemsList();
+}
+
+void SystemView::fillMineralsTable(QTableWidgetItem* item)
+{
+    auto mtable = this->findChild<QTableWidget*>("mineralsTable");
+    mtable->clearContents();
+    mtable->setRowCount(0);
+
+    auto selectedSystemName = this->findChild<QListWidget*>("systemsList")->selectedItems();
+    auto planetID = item->row();
+
+    if (!selectedSystemName.isEmpty() && planetID != -1)
+    {
+        auto systemName = selectedSystemName.first()->text();
+        auto system = this->universe->getSystem(systemName);
+
+        if (system != nullptr)
+        {
+            const auto & deposit = system->Bodies[planetID]->getResources();
+            if (!deposit.isNotGenerated() && !deposit.isEmpty())
+            {
+                for (size_t i = 0; i < RESOURCES_LIST_SIZE; i++)
+                {
+                    std::vector<QString> dt = { QString::fromStdString(deposit.getResourcesNames()[i]),
+                        QString::number(deposit[i].first) };
+                   fillNewRow(mtable, dt);
+                }
+            }
+        }
+    }
+
 }
 
 void SystemView::fillSystemsList()

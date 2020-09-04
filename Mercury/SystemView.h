@@ -25,6 +25,7 @@ public slots:
 
 private slots:
     void fillSystemTable(QListWidgetItem* item);
+    void fillMineralsTable(QTableWidgetItem* item);
 
 private:
     void fillSystemsList();

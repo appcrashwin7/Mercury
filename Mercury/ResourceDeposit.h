@@ -93,7 +93,7 @@ public:
 	{
 		return { 0, 1, 10, 13, 14, 15, 16, 17 };
 	}
-	static bool isLightElem(uint id)
+	static bool isLightElem(size_t id)
 	{
 		auto lightElements = ResourceDeposit::getLightElementsIds();
 
