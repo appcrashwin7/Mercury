@@ -38,7 +38,7 @@ void SystemView::fillMineralsTable(QTableWidgetItem* item)
                 for (size_t i = 0; i < RESOURCES_LIST_SIZE; i++)
                 {
                     std::vector<QString> dt = { QString::fromStdString(deposit.getResourcesNames()[i]),
-                        QString::number(deposit[i].first) };
+                        Calc::representValue(deposit[i].first) };
                    fillNewRow(mtable, dt);
                 }
             }
