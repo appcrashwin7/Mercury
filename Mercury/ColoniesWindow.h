@@ -25,8 +25,8 @@ class ColoniesWindow : public QWidget
 {
 	Q_OBJECT
 
-	TabT selectedTab;
-	TabT previousTab;
+	//first-selected, second-previous
+	std::pair<TabT, TabT> tabs = std::make_pair(TabT::Summary, TabT::Summary);
 	std::optional<size_t> selectedColony;
 	std::vector<Colony> & colonies;
 

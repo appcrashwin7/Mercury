@@ -1,16 +1,19 @@
 #include "ColoniesWindow.h"
 
 ColoniesWindow::ColoniesWindow(std::vector<Colony> & cl)
-	:QWidget(nullptr), colonies(cl), previousTab(TabT::Summary), selectedTab(TabT::Summary)
+	:QWidget(nullptr), colonies(cl)
 {
 	ui.setupUi(this);
 
 	QObject::connect(ui.coloniesTree, &QTreeWidget::itemClicked, this, &ColoniesWindow::setSelectedColony);
-	QObject::connect(ui.summary, &QPushButton::clicked, [=] {this->selectedTab = TabT::Summary; resetData(); });
-	QObject::connect(ui.industry, &QPushButton::clicked, [=] {this->selectedTab = TabT::Industry; resetData(); });
-	QObject::connect(ui.mining, &QPushButton::clicked, [=] {this->selectedTab = TabT::Mining; resetData(); });
-	QObject::connect(ui.stock, &QPushButton::clicked, [=] {this->selectedTab = TabT::Stockpile; resetData(); });
-	QObject::connect(ui.economy, &QPushButton::clicked, [=] {this->selectedTab = TabT::Economy; resetData(); });
+
+	std::array<QPushButton*, static_cast<size_t>(TabT::Economy) + 1> buttons =
+	{ ui.summary, ui.industry, ui.mining, ui.stock, ui.economy };
+
+	for (int i = 0; i < buttons.size(); i++)
+	{
+		QObject::connect(buttons[i], &QPushButton::clicked, [=] {this->tabs.first = static_cast<TabT>(i); resetData(); });
+	}
 
 	uiMining.setupUi(&mining);
 	uiStock.setupUi(&stock);
@@ -124,7 +127,7 @@ void ColoniesWindow::resetData()
 {
 	auto tabManagment = [&]
 	{
-		switch (previousTab)
+		switch (tabs.second)
 		{
 		case TabT::Summary:
 			ui.contentLayout->removeWidget(&summary);
@@ -145,7 +148,7 @@ void ColoniesWindow::resetData()
 		case TabT::Economy:
 			break;
 		}
-		previousTab = selectedTab;
+		tabs.second = tabs.first;
 	};
 
 	if (ui.coloniesTree != nullptr)
@@ -159,7 +162,7 @@ void ColoniesWindow::resetData()
 		{
 			tabManagment();
 
-			switch (selectedTab)
+			switch (tabs.first)
 			{
 			case TabT::Summary:
 				fillSummary();
