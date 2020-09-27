@@ -107,7 +107,7 @@ public:
 						}
 
 						auto rx = ((currentBody->orbit.majorAxis.value() / 2.0) / scale);
-						auto ry = ((currentBody->orbit.minorAxis.value() / 2.0) / scale);
+						auto ry = (((currentBody->orbit.majorAxis.value() * (1.0 - currentBody->orbit.eccentricity)) / 2.0) / scale);
 						painter.drawEllipse(ellipseCenter, static_cast<int>(rx), static_cast<int>(ry));
 						coords = Calc::getCoordsOfBody(rx, ry, mAn) + ellipseCenter;
 

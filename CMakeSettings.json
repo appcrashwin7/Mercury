@@ -4,14 +4,44 @@
       "name": "x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
-      "inheritEnvironments": [
-        "msvc_x64_x64"
-      ],
+      "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "Qt5_DIR",
+          "value": "E:/Qt/5.12.2/msvc2017_64",
+          "type": "PATH"
+        },
+        {
+          "name": "Boost_INCLUDE_DIR",
+          "value": "E:/cpplibs/Boost/boost_1_70_0",
+          "type": "PATH"
+        },
+        {
+          "name": "Qt5Core_DIR",
+          "value": "E:/Qt/5.12.2/msvc2017_64/lib/cmake/Qt5Core",
+          "type": "PATH"
+        },
+        {
+          "name": "Qt5Gui_DIR",
+          "value": "E:/Qt/5.12.2/msvc2017_64/lib/cmake/Qt5Gui",
+          "type": "PATH"
+        },
+        {
+          "name": "Qt5Sql_DIR",
+          "value": "E:/Qt/5.12.2/msvc2017_64/lib/cmake/Qt5Sql",
+          "type": "PATH"
+        },
+        {
+          "name": "Qt5Widgets_DIR",
+          "value": "E:/Qt/5.12.2/msvc2017_64/lib/cmake/Qt5Widgets",
+          "type": "PATH"
+        }
+      ]
     },
     {
       "name": "x64-Release",
@@ -22,7 +52,8 @@
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "variables": []
     }
   ]
 }

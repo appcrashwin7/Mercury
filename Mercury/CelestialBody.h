@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <memory>
 
 #include "Orbit.h"
 #include "PhysicalProperties.h"
