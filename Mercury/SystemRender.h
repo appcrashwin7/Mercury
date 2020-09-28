@@ -91,7 +91,7 @@ public:
 						return false;
 					});
 
-					if (coordsRes != points.end())
+					if (coordsRes != points.end() && currentBody->orbit.majorAxis.value() > (10 * scale))
 					{
 						auto ellipseCenter = coordsRes->first;
 						auto c = 0.0;
