@@ -5,7 +5,7 @@
 
 #include "GameWindow.h"
 #include "Universe.h"
-#include "Colony.h"
+#include "Faction.h"
 #include "GameSaver.h"
 
 class Engine : public QObject
