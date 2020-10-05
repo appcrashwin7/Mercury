@@ -38,4 +38,25 @@ public:
 
 	const PlanetarySystem& getLastSystem() const;
 	PlanetarySystem& getLastSystem();
+
+	void constructPlayerFactionCols(std::vector<ColonyData> data)
+	{
+		for (const auto& i : data)
+		{
+			auto id = std::get<0>(i);
+			playerFaction.getColonies().emplace_back(
+				Colony(*(dynamic_cast<RockyBody*>(getSystem(id.first).Bodies[id.second].get())),
+				std::get<1>(i), std::get<2>(i)));
+		}
+	}
+	void simulate(qint64 days)
+	{
+		for (size_t i = 0; i < static_cast<size_t>(days); i++)
+		{
+			for (auto& col : playerFaction.getColonies())
+			{
+				col.simulate();
+			}
+		}
+	}
 };

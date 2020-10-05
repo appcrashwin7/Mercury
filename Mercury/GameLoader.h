@@ -83,6 +83,17 @@ public:
 
 			universe.getLastSystem().Bodies.emplace_back(factory.createBody(prop, orb, name, res));
 		}
+
+		auto playerCols = loadColonies();
+		for (auto c : playerCols)
+		{
+			auto ID = std::get<0>(c);
+			universe.getPlayerFaction().getColonies().
+				push_back(Colony(*(dynamic_cast<RockyBody*>(universe.getSystem(ID.first).Bodies[ID.second].get())),
+					std::get<1>(c), std::get<2>(c)));
+
+		}
+
 		return universe;
 	}
 

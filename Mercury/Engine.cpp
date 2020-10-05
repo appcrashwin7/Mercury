@@ -1,17 +1,14 @@
 #include "Engine.h"
 
 Engine::Engine(QWidget * mainWindow, QString gameName)
-	:gameTime(QDate(2030, 10, 10)), Colonies({ Colony(*(dynamic_cast<RockyBody*>(gameUniverse.getSystem(0).Bodies[3].get())), 
-		QuantityT(RESOURCES_LIST_SIZE, 10000), QuantityT({5, 20, 10, 20, 2, 1, 1, 1, 1, 0, 0}))}),
-	window(Colonies, gameUniverse, mainWindow), gameName(gameName)
+	:gameTime(QDate(2030, 10, 10)), window(gameUniverse, mainWindow), gameName(gameName)
 {
 	init();
 }
 
-Engine::Engine(QWidget * mainWindow, QString gameName, Universe universe, std::vector<ColonyData> dt, QDateTime time)
+Engine::Engine(QWidget * mainWindow, QString gameName, Universe universe, QDateTime time)
 	:gameTime(std::move(time)), gameUniverse(std::move(universe)),
-	Colonies(std::move(constructColonies(std::move(dt)))), gameName(std::move(gameName)),
-	window(Colonies, gameUniverse, mainWindow)
+	gameName(std::move(gameName)), window(gameUniverse, mainWindow)
 {
 	init();
 }
@@ -20,7 +17,7 @@ Engine::~Engine()
 {
 	auto save = gameName + GAME_SAVE_EXTENSION;
 	GameSaver saver(save);
-	saver.addColonies(&Colonies);
+	//saver.addColonies(&Colonies);
 	saver.addUniverse(&gameUniverse);
 	saver.addGameTime(&gameTime);
 	saver();
@@ -61,15 +58,7 @@ void Engine::changeTime(TimeChange change)
 		this->gameTime = this->gameTime.addMonths(24);
 		break;
 	}
-
-	auto daysPassed = prev.daysTo(gameTime);
-	for (size_t i = 0; i < static_cast<size_t>(daysPassed); i++)
-	{
-		for (auto & col : Colonies)
-		{
-			col.simulate();
-		}
-	}
+	gameUniverse.simulate(prev.daysTo(gameTime));
 
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
 	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));
@@ -149,18 +138,4 @@ void Engine::init()
 
 	window.putTime(&gameTime);
 	window.setSystemToRender(&(gameUniverse.getLastSystem()));
-}
-
-std::vector<Colony> Engine::constructColonies(std::vector<ColonyData> data)
-{
-	std::vector<Colony> ret;
-
-	for (const auto & i : data)
-	{
-		auto id = std::get<0>(i);
-		ret.emplace_back(Colony(*(dynamic_cast<RockyBody*>(gameUniverse.getSystem(id.first).Bodies[id.second].get())),
-			std::get<1>(i), std::get<2>(i)));
-	}
-
-	return ret;
 }

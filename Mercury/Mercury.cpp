@@ -56,7 +56,7 @@ void Mercury::loadGameDialog()
 			GameLoader loader(file);
 
 			std::unique_ptr<Engine> ptr(new Engine(nullptr, QString::fromStdString(fileStr), 
-				loader.loadUniverse(), loader.loadColonies(), loader.loadGameTime()));
+				loader.loadUniverse(), loader.loadGameTime()));
 			game.swap(ptr);
 		}
 	}
@@ -153,11 +153,12 @@ void Mercury::playGame()
                     stock, buildings));
             }
 
+            universe.constructPlayerFactionCols(colDt);
             QLineEdit* gameName = newGameWindow.findChild<QLineEdit*>("newGameName");
 
             if (gameName->text().size() > 0)
             {
-                std::unique_ptr<Engine> ptr(new Engine(nullptr, gameName->text(), std::move(universe), colDt, QDateTime(time)));
+                std::unique_ptr<Engine> ptr(new Engine(nullptr, gameName->text(), std::move(universe), QDateTime(time)));
                 game.swap(ptr);
             }
         }

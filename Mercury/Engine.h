@@ -5,7 +5,6 @@
 
 #include "GameWindow.h"
 #include "Universe.h"
-#include "Faction.h"
 #include "GameSaver.h"
 
 class Engine : public QObject
@@ -14,22 +13,19 @@ class Engine : public QObject
 		
 public:
 	Engine(QWidget * mainWindow, QString gameName);
-	Engine(QWidget * mainWindow, QString gameName, Universe universe, std::vector<ColonyData> dt, QDateTime time);
+	Engine(QWidget * mainWindow, QString gameName, Universe universe, QDateTime time);
 	~Engine();
 
 private:
 	QString gameName;
 	QDateTime gameTime;
 	Universe gameUniverse;
-	std::vector<Colony> Colonies;
 	GameWindow window;
 
 	void changeTime(TimeChange change = TimeChange::hour_1);
 	const CelestialBody * searchBodyByName(const PlanetarySystem & system, const QString & name);
 
 	void init();
-
-	std::vector<Colony> constructColonies(std::vector<ColonyData> data);
 
 public slots:
 	void showBodyInfo(QTreeWidgetItem * item, int column);

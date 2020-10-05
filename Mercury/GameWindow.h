@@ -29,7 +29,7 @@ class GameWindow : public QWidget
 
 public:
 	GameWindow() = delete;
-	GameWindow(std::vector<Colony> & cls, Universe & u, QWidget * main);
+	GameWindow(Universe & u, QWidget * main);
 	~GameWindow() = default;
 	void closeEvent(QCloseEvent * event);
 

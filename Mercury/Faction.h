@@ -17,7 +17,7 @@ public:
     {
         return colonies;
     }
-    std::vector<Colony> getColonies()
+    std::vector<Colony> & getColonies()
     {
         return colonies;
     }
