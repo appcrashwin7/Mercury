@@ -1,10 +1,12 @@
 #pragma once
 
 #include "PlanetarySystem.h"
+#include "Faction.h"
 
 class Universe
 {
     std::vector<PlanetarySystem> systems;
+	Faction playerFaction;
 public:
 	Universe() = default;
 	Universe(Universe && other) = default;
@@ -15,6 +17,15 @@ public:
 	const PlanetarySystem& getSystem(size_t index) const;
 	const PlanetarySystem* getSystem(const QString& name) const;
 
+
+	Faction& getPlayerFaction()
+	{
+		return playerFaction;
+	}
+	const Faction & getPlayerFaction() const
+	{
+		return playerFaction;
+	}
 
 
 	void addSystem(const QString & name);
