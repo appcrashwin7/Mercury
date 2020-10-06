@@ -5,7 +5,6 @@
 class GameSaver : public MercurySave
 {
 	const Universe * universeToSave = nullptr;
-	const std::vector<Colony> * coloniesToSave = nullptr;
 	const QDateTime * gameTime = nullptr;
 public:
 	GameSaver() = delete;
@@ -22,11 +21,6 @@ public:
 		checkIfNullptr(universe);
 		universeToSave = universe;
 	}
-	void addColonies(const std::vector<Colony> * colonies)
-	{
-		checkIfNullptr(colonies);
-		coloniesToSave = colonies;
-	}
 	void addGameTime(const QDateTime * time)
 	{
 		checkIfNullptr(time);
@@ -36,7 +30,6 @@ public:
 	void operator()()
 	{
 		checkIfNullptr(universeToSave);
-		checkIfNullptr(coloniesToSave);
 		checkIfNullptr(gameTime);
 
 		openDB();
@@ -155,17 +148,18 @@ private:
 			"VALUES (?, ?, ?);");
 		std::array<QVariantList, 3> data;
 
-		for (size_t iCol = 0; iCol < coloniesToSave->size(); iCol++)
+		auto& coloniesToSave = universeToSave->getPlayerFaction().getColonies();
+		for (size_t iCol = 0; iCol < coloniesToSave.size(); iCol++)
 		{
 			auto iColStr = QString::number(iCol);
-			auto planetID = findPlanet(&(coloniesToSave->operator[](iCol).getBody()));
+			auto planetID = findPlanet(&(coloniesToSave[iCol].getBody()));
 
 			data[0] << iCol;
 			data[1] << planetID.value().first;
 			data[2] << planetID.value().second;
 			
-			saveStock(coloniesToSave->operator[](iCol).getStockpile(), iColStr);
-			saveIndustry(coloniesToSave->operator[](iCol).getIndustry(), iColStr);
+			saveStock(coloniesToSave[iCol].getStockpile(), iColStr);
+			saveIndustry(coloniesToSave[iCol].getIndustry(), iColStr);
 		}
 		for (size_t i = 0; i < data.size(); i++)
 			insertCols.addBindValue(data[i]);
