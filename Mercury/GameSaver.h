@@ -43,7 +43,7 @@ public:
 private:
 	void createTables()
 	{
-		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEM(ID int NOT NULL, NAME text);", save);
+		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEMS(ID int NOT NULL, NAME text);", save);
 		createSystemsTable.exec();
 
 		QSqlQuery createCelBodiesTable("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(SYSTEM_ID int NOT NULL, " \
@@ -58,11 +58,11 @@ private:
 
 	void saveSystems()
 	{
-		QSqlQuery del("DELETE FROM SYSTEM", save);
+		QSqlQuery del("DELETE FROM SYSTEMS", save);
 		del.exec();
 
 		QSqlQuery insert(save);
-		insert.prepare("INSERT INTO SYSTEM(ID, NAME) VALUES(?, ?)");
+		insert.prepare("INSERT INTO SYSTEMS(ID, NAME) VALUES(?, ?)");
 
 		QVariantList idsList;
 		QVariantList namesList;

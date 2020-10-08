@@ -28,7 +28,7 @@ public:
 	}
 	~MercurySave()
 	{
-		save.close();
+		closeDB();
 	}
 
 protected:
@@ -46,6 +46,9 @@ protected:
 	void closeDB()
 	{
 		save.close();
+		if (fileName.isEmpty())
+			return;
+
 		QFile::rename(getDbFileName(), fileName);
 	}
 

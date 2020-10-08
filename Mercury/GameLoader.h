@@ -39,8 +39,8 @@ public:
 	Universe loadUniverse()
 	{
 		Universe universe;
-		QSqlQuery loadBodies("SELECT SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, " \
-			"ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE FROM CELESTIAL_BODIES", save);
+		QSqlQuery loadBodies("SELECT SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS,"
+			"ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE FROM CELESTIAL_BODIES", save);
 		loadBodies.setForwardOnly(true);
 		loadBodies.exec();
 
@@ -51,7 +51,7 @@ public:
 		}
 
 		CelestialBodyFactory factory;
-		while (loadBodies.nextResult())
+		while (loadBodies.next())
 		{
 			auto systemID = loadBodies.value(0).toUInt();
 			auto bodyID = loadBodies.value(1).toUInt();
