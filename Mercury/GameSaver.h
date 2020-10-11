@@ -58,11 +58,11 @@ private:
 
 	void saveSystems()
 	{
-		QSqlQuery del("DELETE FROM SYSTEMS", save);
+		QSqlQuery del(getSystemsTable().getDeleteQueryStr(), save);
 		del.exec();
 
 		QSqlQuery insert(save);
-		insert.prepare("INSERT INTO SYSTEMS(ID, NAME) VALUES(?, ?)");
+		insert.prepare(getSystemsTable().getInsertQueryStr());
 
 		QVariantList idsList;
 		QVariantList namesList;
@@ -206,14 +206,14 @@ private:
 
 	void saveTime()
 	{
-		QSqlQuery timeTableCreate("CREATE TABLE IF NOT EXISTS GAME_TIME(TIME text NOT NULL);", save);
+		QSqlQuery timeTableCreate(getGameTimeTable().getCreateQueryStr(), save);
 		timeTableCreate.exec();
 
-		QSqlQuery timeDel("DELETE FROM GAME_TIME", save);
+		QSqlQuery timeDel(getGameTimeTable().getDeleteQueryStr(), save);
 		timeDel.exec();
 
 		QSqlQuery timeInsert(save);
-		timeInsert.prepare("INSERT INTO GAME_TIME(TIME) VALUES(?)");
+		timeInsert.prepare(getGameTimeTable().getInsertQueryStr());
 		timeInsert.addBindValue(gameTime->toString(GAME_TIME_FORMAT));
 		timeInsert.exec();
 	}

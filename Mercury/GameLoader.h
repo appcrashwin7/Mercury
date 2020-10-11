@@ -91,7 +91,7 @@ public:
 
 	QDateTime loadGameTime()
 	{
-		QSqlQuery loadTime("SELECT TIME FROM GAME_TIME", save);
+		QSqlQuery loadTime(getGameTimeTable().getSelectQueryStr(), save);
 		loadTime.exec();
 
 		loadTime.next();

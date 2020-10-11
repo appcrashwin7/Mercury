@@ -53,6 +53,8 @@ public:
 
             if (std::get<2>(v))
                 ret += " NOT NULL";
+
+            return ret;
         };
 
         ret += "CREATE TABLE IF NOT EXISTS ";
@@ -96,7 +98,7 @@ public:
 
         if (vars.size() == 1)
         {
-            ret += std::get<0>(vars[0]);
+            ret += std::get<0>(vars[0]) + ')';
             valBind += "?)";
             ret += valBind;
         }

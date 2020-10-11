@@ -24,8 +24,7 @@ public:
 	MercurySave() = default;
 	MercurySave(const QString & fileName)
 		:fileName(fileName)
-	{
-	}
+	{}
 	~MercurySave()
 	{
 		closeDB();
@@ -50,6 +49,19 @@ protected:
 			return;
 
 		QFile::rename(getDbFileName(), fileName);
+	}
+
+public:
+	static SqlTable getGameTimeTable()
+	{
+		return SqlTable("GAME_TIME",
+			{ std::make_tuple("TIME", "text", true) });
+	}
+	static SqlTable getSystemsTable()
+	{
+		return SqlTable("SYSTEMS",
+			{ std::make_tuple("ID", "int", true),
+			std::make_tuple("NAME", "text", false) });
 	}
 
 private:
