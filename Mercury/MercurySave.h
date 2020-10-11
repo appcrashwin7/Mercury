@@ -6,8 +6,8 @@
 #include <qfile>
 #include <qvariant>
 
+#include "SqlTable.h"
 #include "Universe.h"
-#include "Colony.h"
 
 const static QString GAME_SAVE_EXTENSION = ".msave";
 const static QString DB_EXTENSION = ".db";
