@@ -33,7 +33,6 @@ public:
 		checkIfNullptr(gameTime);
 
 		openDB();
-		createTables();
 		saveTime();
 		saveSystems();
 		saveBodies();
@@ -41,18 +40,11 @@ public:
 		closeDB();
 	}
 private:
-	void createTables()
-	{
-		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEMS(ID int NOT NULL, NAME text);", save);
-		createSystemsTable.exec();
-
-		QSqlQuery createColoniesTable("CREATE TABLE IF NOT EXISTS COLONIES("\
-			"ID int NOT NULL, SYSTEM_ID int NOT NULL, BODY_ID int NOT NULL);", save);
-		createColoniesTable.exec();
-	}
-
 	void saveSystems()
 	{
+		QSqlQuery create(getSystemsTable().getCreateQueryStr());
+		create.exec();
+
 		QSqlQuery del(getSystemsTable().getDeleteQueryStr(), save);
 		del.exec();
 
@@ -136,6 +128,10 @@ private:
 			}
 			return ret;
 		};
+
+		QSqlQuery createColoniesTable("CREATE TABLE IF NOT EXISTS COLONIES("\
+			"ID int NOT NULL, SYSTEM_ID int NOT NULL, BODY_ID int NOT NULL);", save);
+		createColoniesTable.exec();
 
 		QSqlQuery deleteColonies("DELETE FROM COLONIES", save);
 		deleteColonies.exec();
