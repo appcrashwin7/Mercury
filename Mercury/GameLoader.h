@@ -39,8 +39,7 @@ public:
 	Universe loadUniverse()
 	{
 		Universe universe;
-		QSqlQuery loadBodies("SELECT SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS,"
-			"ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE FROM CELESTIAL_BODIES", save);
+		QSqlQuery loadBodies(getCelestialBodiesTable().getSelectQueryStr(), save);
 		loadBodies.setForwardOnly(true);
 		loadBodies.exec();
 

@@ -46,11 +46,6 @@ private:
 		QSqlQuery createSystemsTable("CREATE TABLE IF NOT EXISTS SYSTEMS(ID int NOT NULL, NAME text);", save);
 		createSystemsTable.exec();
 
-		QSqlQuery createCelBodiesTable("CREATE TABLE IF NOT EXISTS CELESTIAL_BODIES(SYSTEM_ID int NOT NULL, " \
-			"ID int NOT NULL, NAME text, TYPE int NOT NULL, PARENT_ID int, ORBIT_APOAPSIS real NOT NULL, " \
-			"ORBIT_PERIAPSIS real NOT NULL, RADIUS real NOT NULL, MASS real NOT NULL, TEMPERATURE int NOT NULL);", save);
-		createCelBodiesTable.exec();
-
 		QSqlQuery createColoniesTable("CREATE TABLE IF NOT EXISTS COLONIES("\
 			"ID int NOT NULL, SYSTEM_ID int NOT NULL, BODY_ID int NOT NULL);", save);
 		createColoniesTable.exec();
@@ -79,12 +74,14 @@ private:
 	}
 	void saveBodies()
 	{
-		QSqlQuery del("DELETE FROM CELESTIAL_BODIES", save);
+		QSqlQuery createQuery(getCelestialBodiesTable().getCreateQueryStr());
+		createQuery.exec();
+
+		QSqlQuery del(getCelestialBodiesTable().getDeleteQueryStr(), save);
 		del.exec();
 
 		QSqlQuery insertBody(save);
-		insertBody.prepare("INSERT INTO CELESTIAL_BODIES(SYSTEM_ID, ID, NAME, TYPE, PARENT_ID, ORBIT_APOAPSIS, ORBIT_PERIAPSIS, RADIUS, MASS, TEMPERATURE)"
-			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		insertBody.prepare(getCelestialBodiesTable().getInsertQueryStr());
 		std::array<QVariantList, 10> dataForInsert;
 
 		for (size_t iSys = 0; iSys < universeToSave->getSystems().size(); iSys++)

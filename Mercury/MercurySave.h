@@ -63,6 +63,21 @@ public:
 			{ std::make_tuple("ID", "int", true),
 			std::make_tuple("NAME", "text", false) });
 	}
+	static SqlTable getCelestialBodiesTable()
+	{
+		return SqlTable("CELESTIAL_BODIES",
+			{ {"SYSTEM_ID", "int", true},
+			{"ID", "int", true},
+			{"NAME", "text", false},
+			{"TYPE", "int", true},
+			{"PARENT_ID", "int", false},
+			{"ORBIT_APOAPSIS", "real", true},
+			{"ORBIT_PERIAPSIS", "real", true},
+			{"RADIUS", "real", true},
+			{"MASS", "real", true},
+			{"TEMPERATURE", "int", true}
+			});
+	}
 
 private:
 	QString getDbFileName() const
