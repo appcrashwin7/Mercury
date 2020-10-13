@@ -78,6 +78,14 @@ public:
 			{"TEMPERATURE", "int", true}
 			});
 	}
+	static SqlTable getColoniesTable()
+	{
+		return SqlTable("COLONIES",
+			{ {"ID", "int", true},
+			{"SYSTEM_ID", "int", true},
+			{"BODY_ID", "int", true}
+			});
+	}
 
 private:
 	QString getDbFileName() const

@@ -129,16 +129,14 @@ private:
 			return ret;
 		};
 
-		QSqlQuery createColoniesTable("CREATE TABLE IF NOT EXISTS COLONIES("\
-			"ID int NOT NULL, SYSTEM_ID int NOT NULL, BODY_ID int NOT NULL);", save);
+		QSqlQuery createColoniesTable(getColoniesTable().getCreateQueryStr() , save);
 		createColoniesTable.exec();
 
-		QSqlQuery deleteColonies("DELETE FROM COLONIES", save);
+		QSqlQuery deleteColonies(getColoniesTable().getDeleteQueryStr(), save);
 		deleteColonies.exec();
 
 		QSqlQuery insertCols(save);
-		insertCols.prepare("INSERT INTO COLONIES(ID, SYSTEM_ID, BODY_ID)"
-			"VALUES (?, ?, ?);");
+		insertCols.prepare(getColoniesTable().getInsertQueryStr());
 		std::array<QVariantList, 3> data;
 
 		auto& coloniesToSave = universeToSave->getPlayerFaction().getColonies();

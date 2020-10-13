@@ -19,7 +19,7 @@ public:
 	std::vector<ColonyData> loadColonies()
 	{
 		std::vector<ColonyData> ret;
-		QSqlQuery load("SELECT ID, SYSTEM_ID, BODY_ID FROM COLONIES", save);
+		QSqlQuery load(getColoniesTable().getSelectQueryStr(), save);
 		load.setForwardOnly(true);
 		load.exec();
 
