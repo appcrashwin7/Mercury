@@ -4,45 +4,26 @@
 #include <vector>
 #include <tuple>
 
+//vec < name of var, type of var, var can't be null>
+using SqlTableVariables = std::vector<std::tuple<QString, QString, bool>>;
+
 class SqlTable
 {
     QString name;
-    std::vector<std::tuple<QString, QString, bool>> vars;
+    QString namePostfix;
+
+    SqlTableVariables vars;
+
+    QString varsNamesChainStr;
+    QString varsValChainStr;
+    QString varsChainStr;
 
     bool isEmpty() const
     {
         return name.isEmpty() || vars.empty();
     }
-public:
-    SqlTable() = default;
-    SqlTable(QString tableName, std::vector<std::tuple<QString, QString, bool>> tableVariables)
-        :name(std::move(tableName)), vars(std::move(tableVariables))
-    {};
-    ~SqlTable() = default;
-
-    QString getName() const
+    void genVarsChain()
     {
-        return name;
-    }
-    void setName(QString newName)
-    {
-        name = std::move(newName);
-    }
-
-    //Return vec<name of var, type of var, var can't be null>
-    std::vector<std::tuple<QString, QString, bool>>& getTableVariables()
-    {
-        return vars;
-    }
-
-    QString getCreateQueryStr() const
-    {
-        QString ret;
-        if (isEmpty())
-        {
-            return ret;
-        }
-
         auto concatVar = [](const std::tuple<QString, QString, bool>& v)->QString
         {
             QString ret;
@@ -57,89 +38,134 @@ public:
             return ret;
         };
 
-        ret += "CREATE TABLE IF NOT EXISTS ";
-        ret += name;
-        ret += '(';
+        varsChainStr += '(';
 
         if (vars.size() == 1)
         {
-            ret += concatVar(vars[0]) + ')';
+            varsChainStr += concatVar(vars[0]) + ')';
         }
         else
         {
             auto end = vars.end() - 1;
             for (auto t = vars.begin(); t != end; t++)
             {
-                ret += concatVar(*t) + ',';
+                varsChainStr += concatVar(*t) + ',';
             }
 
-            ret += concatVar(vars.back()) + ")";
+            varsChainStr += concatVar(vars.back()) + ")";
         }
-
-        return ret;
     }
-    QString getDeleteQueryStr() const
+    void genVarsNamesChain()
     {
-        QString ret;
-        if (isEmpty())
-            return ret;
-
-        return QString("DELETE FROM ") + name;
-    }
-    QString getInsertQueryStr() const
-    {
-        QString ret;
-        if (isEmpty())
-            return ret;
-
-        ret += "INSERT INTO ";
-        ret += name + '(';
         QString valBind = " VALUES (";
 
         if (vars.size() == 1)
         {
-            ret += std::get<0>(vars[0]) + ')';
+            varsNamesChainStr += std::get<0>(vars[0]);
             valBind += "?)";
-            ret += valBind;
         }
         else
         {
             auto end = vars.end() - 1;
             for (auto t = vars.begin(); t != end; t++)
             {
-                ret += std::get<0>(*t) + ',';
+                varsNamesChainStr += std::get<0>(*t) + ',';
                 valBind += "?,";
             }
 
-            ret += std::get<0>(*end) + ')';
-            ret += valBind + "?)";
+            varsNamesChainStr += std::get<0>(*end);
         }
-        return ret;
+        varsValChainStr += valBind + "?)";
+    }
+public:
+    SqlTable() = default;
+    SqlTable(QString tableName, SqlTableVariables tableVariables)
+        :name(std::move(tableName)), vars(std::move(tableVariables))
+    {
+        genVarsChain();
+        genVarsNamesChain();
+    };
+    ~SqlTable() = default;
+
+    QString getName() const
+    {
+        return name;
+    }
+    void setName(QString newName)
+    {
+        name = std::move(newName);
+    }
+
+    QString getNamePostfix() const
+    {
+        return namePostfix;
+    }
+    void setNamePostfix(QString newPostfix)
+    {
+        namePostfix = std::move(newPostfix);
+    }
+    void setNamePostfix(const std::vector<size_t>& ids)
+    {
+        QString nepf;
+
+        if (ids.empty())
+        {
+            namePostfix = "";
+            return;
+        }
+
+        for (auto i : ids)
+        {
+            nepf += "_";
+            nepf += QString::number(i);
+        }
+        namePostfix = nepf;
+    }
+
+    const SqlTableVariables& getTableVariables() const
+    {
+        return vars;
+    }
+    void setTableVariables(SqlTableVariables newVars)
+    {
+        vars = std::move(newVars);
+        if (!vars.empty())
+        {
+            genVarsChain();
+            genVarsNamesChain();
+        }
+    }
+
+    QString getCreateQueryStr() const
+    {
+        if (isEmpty())
+           return "";
+
+        return "CREATE TABLE IF NOT EXISTS " + name +
+            namePostfix + varsChainStr;
+    }
+    QString getDeleteQueryStr() const
+    {
+        if (isEmpty())
+            return "";
+
+        return "DELETE FROM " + name + namePostfix;
+    }
+    QString getInsertQueryStr() const
+    {
+        if (isEmpty())
+            return "";
+
+        return "INSERT INTO " + name +
+            namePostfix + "(" + varsNamesChainStr + ")" +
+            varsValChainStr;
     }
     QString getSelectQueryStr() const
     {
-        QString ret;
         if (isEmpty())
-            return ret;
+            return "";
 
-        ret += "SELECT ";
-
-
-        if (vars.size() == 1)
-        {
-            ret += std::get<0>(vars[0]);
-        }
-        else
-        {
-            auto end = vars.end() - 1;
-            for (auto t = vars.begin(); t != end; t++)
-            {
-                ret += std::get<0>(*t) + ", ";
-            }
-            ret += std::get<0>(*end);
-        }
-        ret += " FROM " + name;
-
-        return ret;
+        return "SELECT " + varsNamesChainStr +
+            " FROM " + name + namePostfix;
     }
 };

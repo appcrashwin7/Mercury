@@ -64,7 +64,6 @@ public:
 			auto temperature = loadBodies.value(9).toInt();
 
 
-			CelestialBodyPtr body;
 			std::optional<size_t> parent;
 			std::optional<Mass> parentMass;
 			if (!parentID.isNull())
@@ -115,7 +114,7 @@ private:
 	std::vector<QString> loadSystemsName()
 	{
 		std::vector<QString> ret;
-		QSqlQuery loadNames("SELECT ID, NAME FROM SYSTEMS", save);
+		QSqlQuery loadNames(getSystemsTable().getSelectQueryStr(), save);
 		loadNames.exec();
 
 		while (loadNames.next())
