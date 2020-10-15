@@ -60,7 +60,7 @@ void Engine::changeTime(TimeChange change)
 	gameUniverse.simulate(prev.daysTo(gameTime));
 
 	QLabel * timeShow = this->window.findChild<QLabel*>("date");
-	timeShow->setText(gameTime.toString("d/M/yyyy h:mm AD"));
+	timeShow->setText(gameTime.toString(GAME_TIME_FORMAT));
 	window.update();
 }
 
