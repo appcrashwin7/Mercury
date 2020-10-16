@@ -57,22 +57,20 @@ public:
 			auto name = loadBodies.value(2).toString();
 			auto type = static_cast<CelestialBodyType>(loadBodies.value(3).toUInt());
 			auto parentID = loadBodies.value(4);
-			auto apoapsis = loadBodies.value(5).toDouble();
-			auto periapsis = loadBodies.value(6).toDouble();
+
+			std::optional<Orbit> orb;
+			if (!parentID.isNull())
+			{
+				orb.emplace(Orbit(loadBodies.value(5).toDouble() * units::si::meter,
+					loadBodies.value(6).toDouble() * units::si::meter,
+					universe.getLastSystem().Bodies[parentID.toUInt()].get()->physics.mass,
+					parentID.toUInt()));
+			}
 			auto radius = loadBodies.value(7).toDouble();
 			auto mass = loadBodies.value(8).toDouble();
 			auto temperature = loadBodies.value(9).toInt();
 
-
-			std::optional<size_t> parent;
-			std::optional<Mass> parentMass;
-			if (!parentID.isNull())
-			{
-				parent = parentID.toUInt();
-				parentMass = universe.getLastSystem().Bodies[parent.value()].get()->physics.mass;
-			}
 			PhysicalProperties prop(radius * units::si::meter, mass * units::si::kilogram, temperature * units::si::kelvin);
-			Orbit orb(apoapsis * units::si::meter, periapsis * units::si::meter, parentMass, parent);
 			ResourceDeposit res;
 			if (type == CelestialBodyType::Planet)
 			{

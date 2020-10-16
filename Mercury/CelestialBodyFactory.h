@@ -7,7 +7,7 @@
 class CelestialBodyFactory
 {
 public:
-	CelestialBodyPtr createBody(PhysicalProperties props, Orbit orb, QString name = "", ResourceDeposit deposit = ResourceDeposit())
+	CelestialBodyPtr createBody(PhysicalProperties props, std::optional<Orbit> orb, QString name = "", ResourceDeposit deposit = ResourceDeposit())
 	{
 		if (props.mass > MIN_STAR_MASS)
 		{

@@ -7,13 +7,10 @@
 
 class Orbit 
 {
-	static void setOrbitalPeriod(Orbit & orbit, const std::optional<Mass> & parentMass)
+	static void setOrbitalPeriod(Orbit& orbit, const Mass& parentMass)
 	{
-		if (parentMass.has_value())
-		{
-			auto axis = Calc::getSemiMajorAxis(orbit.apoapsis, orbit.periapsis);
-			orbit.orbitalPeriod = Calc::getOrbitalPeriod(parentMass.value(), axis);
-		}
+		auto axis = Calc::getSemiMajorAxis(orbit.apoapsis, orbit.periapsis);
+		orbit.orbitalPeriod = Calc::getOrbitalPeriod(parentMass, axis);
 	}
 
 	TimeInt orbitalPeriod = 0;
@@ -27,23 +24,22 @@ public:
 	const Length majorAxis = 0;
 	const Length minorAxis = 0;
 
-	const std::optional<size_t> parent;
+	const size_t parent = 0;
 
-	const bool isDefault = true;
 	const bool isCircular = false;
 
-	Orbit() = default;
-	Orbit(Length apo, Length per, const std::optional<Mass> & parentBodyMass, std::optional<size_t> parentID, TimeInt periapsisPassage = 0)
-		:apoapsis(apo), periapsis(per), parent(std::move(parentID)),
-		eccentricity(Calc::getEccentric(apo, per)), isDefault(false),
-		isCircular(false), periapsisPassage(periapsisPassage), majorAxis(per + apo),
+	Orbit() = delete;
+	Orbit(Length apo, Length per, const Mass & parentBodyMass, size_t parentID, TimeInt periapsisPassage = 0)
+		:apoapsis(apo), periapsis(per), parent(parentID),
+		eccentricity(Calc::getEccentric(apo, per)), isCircular(false),
+		periapsisPassage(periapsisPassage), majorAxis(per + apo),
 		minorAxis(apo * std::sqrt(1.0 - (std::pow(eccentricity, 2))))
 	{
 		setOrbitalPeriod(*this, parentBodyMass);
 	}
-	Orbit(Length radius, const std::optional<Mass> & parentBodyMass, std::optional<size_t> parentID, TimeInt periapsisPassage = 0)
-		:apoapsis(radius), periapsis(radius), isDefault(false),
-		parent(std::move(parentID)), isCircular(true), periapsisPassage(periapsisPassage),
+	Orbit(Length radius, const Mass & parentBodyMass, size_t parentID, TimeInt periapsisPassage = 0)
+		:apoapsis(radius), periapsis(radius), parent(parentID), 
+		isCircular(true), periapsisPassage(periapsisPassage),
 		majorAxis(radius), minorAxis(radius)
 	{
 		setOrbitalPeriod(*this, parentBodyMass);

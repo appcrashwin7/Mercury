@@ -74,8 +74,9 @@ class SqlTable
             }
 
             varsNamesChainStr += std::get<0>(*end);
+            valBind += +"?)";
         }
-        varsValChainStr += valBind + "?)";
+        varsValChainStr += valBind;
     }
 public:
     SqlTable() = default;

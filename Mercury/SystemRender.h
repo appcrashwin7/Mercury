@@ -80,7 +80,7 @@ public:
 				}
 				else
 				{
-					auto prevBodyID = currentBody->orbit.parent.value();
+					auto prevBodyID = currentBody->orbit->parent;
 
 					auto coordsRes = std::find_if(points.begin(), points.end(), [prevBodyID](const std::pair<QPoint, size_t> & curr)
 					{
@@ -91,23 +91,23 @@ public:
 						return false;
 					});
 
-					if (coordsRes != points.end() && currentBody->orbit.majorAxis.value() > (10 * scale))
+					if (coordsRes != points.end() && currentBody->orbit->majorAxis.value() > (10 * scale))
 					{
 						auto ellipseCenter = coordsRes->first;
 						auto c = 0.0;
 						auto coords = QPoint();
 
 						painter.setBrush(Qt::BrushStyle::NoBrush);
-						auto mAn = currentBody->orbit.getMeanAnomaly(*currentTime).value();
+						auto mAn = currentBody->orbit->getMeanAnomaly(*currentTime).value();
 
-						if (!currentBody->orbit.isCircular)
+						if (!currentBody->orbit->isCircular)
 						{
-							c = currentBody->orbit.majorAxis.value() * currentBody->orbit.eccentricity;
+							c = currentBody->orbit->majorAxis.value() * currentBody->orbit->eccentricity;
 							ellipseCenter = ellipseCenter - QPoint(c / scale, 0);
 						}
 
-						auto rx = ((currentBody->orbit.majorAxis.value() / 2.0) / scale);
-						auto ry = (((currentBody->orbit.majorAxis.value() * (1.0 - currentBody->orbit.eccentricity)) / 2.0) / scale);
+						auto rx = ((currentBody->orbit->majorAxis.value() / 2.0) / scale);
+						auto ry = (((currentBody->orbit->majorAxis.value() * (1.0 - currentBody->orbit->eccentricity)) / 2.0) / scale);
 						painter.drawEllipse(ellipseCenter, static_cast<int>(rx), static_cast<int>(ry));
 						coords = Calc::getCoordsOfBody(rx, ry, mAn) + ellipseCenter;
 

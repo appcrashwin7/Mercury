@@ -90,25 +90,22 @@ void Mercury::playGame()
                     body["temperature"].toInt() * units::si::kelvins);
                 auto name = body["name"].toString();
 
+
+                std::optional<Orbit> orb;
                 if (!(body["orbit"].isUndefined()))
                 {
                     const auto& bodyOrbit = body["orbit"];
-                    auto parentID = std::make_optional(bodyOrbit["parent"].toInt());
-                    auto parentBodyMass = universe.getLastSystem().Bodies[parentID.value()]->physics.mass;
+                    auto parentID = bodyOrbit["parent"].toInt();
+                    auto parentBodyMass = universe.getLastSystem().Bodies[parentID]->physics.mass;
 
-                    Orbit orb = (!bodyOrbit["radius"].isUndefined()) ?
+                    orb.emplace(!bodyOrbit["radius"].isUndefined() ?
                         Orbit(bodyOrbit["radius"].toDouble() * units::si::meters,
                             parentBodyMass, parentID) :
                         Orbit(bodyOrbit["apo"].toDouble() * units::si::meters,
                             bodyOrbit["per"].toDouble() * units::si::meters,
-                            parentBodyMass, parentID);
-
-                    universe.getLastSystem().Bodies.emplace_back(bfact.createBody(physProps, orb, name));
+                            parentBodyMass, parentID));
                 }
-                else
-                {
-                    universe.getLastSystem().Bodies.emplace_back(bfact.createBody(physProps, Orbit(), name));
-                }
+                universe.getLastSystem().Bodies.emplace_back(bfact.createBody(physProps, orb, name));
             }
 
             QDate time(doc["time"]["y"].toInt(), doc["time"]["m"].toInt(), doc["time"]["d"].toInt());

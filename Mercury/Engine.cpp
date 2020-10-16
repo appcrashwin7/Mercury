@@ -79,12 +79,12 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 			VelocityToText(actualBody->escapeVelocity, false, false),
 			AccelerationToText(actualBody->surfaceGravity, false, false),
 			TemperatureToText(actualBody->physics.getSurfaceTemperature()),
-			(actualBody->orbit.parent) ? gameUniverse.getSystem(0).
-			Bodies[actualBody->orbit.parent.value()].get()->getName() : "",
-			(actualBody->orbit.parent) ? LengthToText(actualBody->orbit.apoapsis, false, false, true) : "",
-			(actualBody->orbit.parent) ? TimeToText(actualBody->orbit.getOrbitalPeriod(), 2) : "",
-			(actualBody->orbit.parent) ? LengthToText(actualBody->orbit.periapsis, false, false, true) : "",
-			(actualBody->orbit.parent) ? QString::number(actualBody->orbit.eccentricity) : ""
+			(actualBody->orbit) ? gameUniverse.getSystem(0).
+			Bodies[actualBody->orbit->parent].get()->getName() : "",
+			(actualBody->orbit) ? LengthToText(actualBody->orbit->apoapsis, false, false, true) : "",
+			(actualBody->orbit) ? LengthToText(actualBody->orbit->periapsis, false, false, true) : "",
+			(actualBody->orbit) ? TimeToText(actualBody->orbit->getOrbitalPeriod(), 2) : "",
+			(actualBody->orbit) ? QString::number(actualBody->orbit->eccentricity) : ""
 		};
 
 		for (int i = 0; i < objectValues->topLevelItemCount(); i++)

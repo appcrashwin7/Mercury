@@ -24,7 +24,7 @@ class CelestialBody
 	QString name;
 public:
 	const CelestialBodyType type;
-	const Orbit orbit;
+	const std::optional<const Orbit> orbit;
 	const PhysicalProperties physics;
 	const Velocity escapeVelocity;
  	const Acceleration surfaceGravity;
@@ -33,7 +33,7 @@ public:
 	CelestialBody() = delete;
 	CelestialBody(CelestialBody &&) noexcept = default;
 	CelestialBody(const CelestialBody & other) = default;
-	CelestialBody(PhysicalProperties properties, CelestialBodyType type, ResourceDeposit res = ResourceDeposit(), Orbit orb = Orbit(), QString name = "")
+	CelestialBody(PhysicalProperties properties, CelestialBodyType type, ResourceDeposit res = ResourceDeposit(), std::optional<const Orbit> orb = {}, QString name = "")
 		:physics(std::move(properties)),
 		escapeVelocity(Calc::getEscapeVelocity(physics.mass, physics.radius)),
 		surfaceGravity(Calc::getGravity(physics.mass, physics.radius)),

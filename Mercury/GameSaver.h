@@ -86,18 +86,9 @@ private:
 				dataForInsert[1] << iBody;
 				dataForInsert[2] << body->getName();
 				dataForInsert[3] << static_cast<uint32_t>(body->type);
-
-				if (body->orbit.parent.has_value())
-				{
-					dataForInsert[4] << body->orbit.parent.value();
-				}
-				else
-				{
-					dataForInsert[4] << QVariant(QVariant::UInt);
-				}
-
-				dataForInsert[5] << body->orbit.apoapsis.value();
-				dataForInsert[6] << body->orbit.periapsis.value();
+				dataForInsert[4] << (body->orbit ? body->orbit->parent : QVariant());
+				dataForInsert[5] << (body->orbit ? body->orbit->apoapsis.value() : QVariant());
+				dataForInsert[6] << (body->orbit ? body->orbit->periapsis.value() : QVariant());
 				dataForInsert[7] << body->physics.radius.value();
 				dataForInsert[8] << body->physics.mass.value();
 				dataForInsert[9] << body->physics.getSurfaceTemperature().value();
