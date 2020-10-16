@@ -66,12 +66,12 @@ public:
 					universe.getLastSystem().Bodies[parentID.toUInt()].get()->physics.mass,
 					parentID.toUInt()));
 			}
-			auto radius = loadBodies.value(7).toDouble();
-			auto mass = loadBodies.value(8).toDouble();
-			auto temperature = loadBodies.value(9).toInt();
 
-			PhysicalProperties prop(radius * units::si::meter, mass * units::si::kilogram, temperature * units::si::kelvin);
+			PhysicalProperties prop(loadBodies.value(7).toDouble() * units::si::meter,
+				loadBodies.value(8).toDouble() * units::si::kilogram,
+				loadBodies.value(9).toInt() * units::si::kelvin);
 			ResourceDeposit res;
+
 			if (type == CelestialBodyType::Planet)
 			{
 				res = loadBodyResources(systemID, bodyID);
