@@ -24,15 +24,17 @@ public:
 		load.exec();
 
 		auto stockTable = getStockTable();
+		auto indTable = getIndustryBldgsTable();
 		while (load.next())
 		{
 			auto colonyID = load.value(0).toUInt();
 			auto systemID = load.value(1).toUInt();
 			auto bodyID = load.value(2).toUInt();
 
-			QString colonyIDStr = QString::number(colonyID);
+			stockTable.setNamePostfix({ static_cast<size_t>(colonyID) });
+			indTable.setNamePostfix(stockTable.getNamePostfix());
 
-			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(stockTable, colonyID), loadIndustryBuildings(colonyIDStr)));
+			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(stockTable), loadIndustryBuildings(indTable)));
 		}
 		return ret;
 	}
@@ -123,11 +125,11 @@ private:
 		return ret;
 	}
 
-	QuantityT loadIndustryBuildings(const QString & colonyIDStr)
+	QuantityT loadIndustryBuildings(const SqlTable & table)
 	{
 		QuantityT ret;
 
-		QSqlQuery load("SELECT AMOUNT FROM INDUSTRY_" + colonyIDStr, save);
+		QSqlQuery load(table.getSelectQueryStr(), save);
 		load.setForwardOnly(true);
 		load.exec();
 
@@ -137,10 +139,9 @@ private:
 		}
 		return ret;
 	}
-	QuantityT loadStock(SqlTable & table, size_t colonyID)
+	QuantityT loadStock(const SqlTable & table)
 	{
 		QuantityT ret;
-		table.setNamePostfix({ colonyID });
 
 		QSqlQuery load(table.getSelectQueryStr(), save);
 		load.setForwardOnly(true);

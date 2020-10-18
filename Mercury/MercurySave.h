@@ -90,6 +90,11 @@ protected:
 		return SqlTable("STOCK",
 			{ {"AMOUNT", "int", true} });
 	}
+	static SqlTable getIndustryBldgsTable()
+	{
+		return SqlTable("INDUSTRY",
+			{ {"AMOUNT", "int", true} });
+	}
 
 private:
 	QString getDbFileName() const

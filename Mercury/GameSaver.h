@@ -132,6 +132,7 @@ private:
 
 		auto& coloniesToSave = universeToSave->getPlayerFaction().getColonies();
 		auto stockTable = getStockTable();
+		auto indTable = getIndustryBldgsTable();
 		for (size_t iCol = 0; iCol < coloniesToSave.size(); iCol++)
 		{
 			auto planetID = findPlanet(&(coloniesToSave[iCol].getBody()));
@@ -140,8 +141,11 @@ private:
 			data[1] << planetID.value().first;
 			data[2] << planetID.value().second;
 			
-			saveStock(coloniesToSave[iCol].getStockpile(), stockTable, iCol);
-			saveIndustry(coloniesToSave[iCol].getIndustry(), QString::number(iCol));
+			stockTable.setNamePostfix({ iCol });
+			indTable.setNamePostfix(stockTable.getNamePostfix());
+
+			saveStock(coloniesToSave[iCol].getStockpile(), stockTable);
+			saveIndustry(coloniesToSave[iCol].getIndustry(), indTable);
 		}
 		for (size_t i = 0; i < data.size(); i++)
 			insertCols.addBindValue(data[i]);
@@ -149,10 +153,8 @@ private:
 		insertCols.execBatch();
 	}
 
-	void saveStock(const StockT & stock, SqlTable& table, size_t colonyStockID)
+	void saveStock(const StockT & stock, const SqlTable& table)
 	{
-		table.setNamePostfix({colonyStockID});
-
 		QSqlQuery createStock(table.getCreateQueryStr(), save);
 		createStock.exec();
 		QSqlQuery clearStock(table.getDeleteQueryStr());
@@ -168,16 +170,15 @@ private:
 		insertStock.addBindValue(amountList);
 		insertStock.execBatch();
 	}
-	void saveIndustry(const Industry & ind, const QString & colonyIDStr)
+	void saveIndustry(const Industry & ind, const SqlTable & table)
 	{
-		QSqlQuery createIndustry("CREATE TABLE IF NOT EXISTS INDUSTRY_"
-			+ colonyIDStr + "(AMOUNT text NOT NULL);", save);
+		QSqlQuery createIndustry(table.getCreateQueryStr(), save);
 		createIndustry.exec();
-		QSqlQuery clearIndustry("DELETE FROM INDUSTRY_" + colonyIDStr, save);
+		QSqlQuery clearIndustry(table.getDeleteQueryStr(), save);
 		clearIndustry.exec();
 
 		QSqlQuery insertIndustry(save);
-		insertIndustry.prepare("INSERT INTO INDUSTRY_" + colonyIDStr + "(AMOUNT)" + "VALUES(?)");
+		insertIndustry.prepare(table.getInsertQueryStr());
 
 		QVariantList amountList;
 		for (auto & buildingAm : ind.getBuildings())
