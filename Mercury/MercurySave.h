@@ -22,85 +22,21 @@ protected:
 
 public:
 	MercurySave() = default;
-	MercurySave(const QString & fileName)
-		:fileName(fileName)
-	{}
-	virtual ~MercurySave()
-	{
-		closeDB();
-	}
+	MercurySave(const QString& fileName);
+	virtual ~MercurySave();
 
 protected:
-	void openDB()
-	{
-		QFile file(fileName);
-		if(file.exists())
-		{
-			file.close();
-			QFile::rename(fileName, getDbFileName());
-		}
-		save.setDatabaseName(getDbFileName());
-		save.open();
-	}
-	void closeDB()
-	{
-		save.close();
-		if (fileName.isEmpty())
-			return;
+	void openDB();
+	void closeDB();
 
-		QFile::rename(getDbFileName(), fileName);
-	}
-
-	static SqlTable getGameTimeTable()
-	{
-		return SqlTable("GAME_TIME",
-			{ {"TIME", "text", true} });
-	}
-	static SqlTable getSystemsTable()
-	{
-		return SqlTable("SYSTEMS",
-			{ {"ID", "int", true},
-			 {"NAME", "text", false} });
-	}
-	static SqlTable getCelestialBodiesTable()
-	{
-		return SqlTable("CELESTIAL_BODIES",
-			{ {"SYSTEM_ID", "int", true},
-			{"ID", "int", true},
-			{"NAME", "text", false},
-			{"TYPE", "int", true},
-			{"PARENT_ID", "int", false},
-			{"ORBIT_APOAPSIS", "real", false},
-			{"ORBIT_PERIAPSIS", "real", false},
-			{"RADIUS", "real", true},
-			{"MASS", "real", true},
-			{"TEMPERATURE", "int", true}
-			});
-	}
-	static SqlTable getColoniesTable()
-	{
-		return SqlTable("COLONIES",
-			{ {"ID", "int", true},
-			{"SYSTEM_ID", "int", true},
-			{"BODY_ID", "int", true}
-			});
-	}
-	static SqlTable getStockTable()
-	{
-		return SqlTable("STOCK",
-			{ {"AMOUNT", "int", true} });
-	}
-	static SqlTable getIndustryBldgsTable()
-	{
-		return SqlTable("INDUSTRY",
-			{ {"AMOUNT", "int", true} });
-	}
+	static SqlTable getGameTimeTable();
+	static SqlTable getSystemsTable();
+	static SqlTable getCelestialBodiesTable();
+	static SqlTable getColoniesTable();
+	static SqlTable getStockTable();
+	static SqlTable getIndustryBldgsTable();
+	static SqlTable getBodyResTable();
 
 private:
-	QString getDbFileName() const
-	{
-		auto dbNameStr = fileName.toStdString();
-		dbNameStr = dbNameStr.substr(0, dbNameStr.find_last_of('.'));
-		return QString::fromStdString(dbNameStr) + DB_EXTENSION;
-	}
+	QString getDbFileName() const;
 };

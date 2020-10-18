@@ -52,11 +52,12 @@ public:
 			universe.addSystem(i);
 		}
 
+		auto bodyResTable = getBodyResTable();
 		CelestialBodyFactory factory;
 		while (loadBodies.next())
 		{
-			auto systemID = loadBodies.value(0).toUInt();
-			auto bodyID = loadBodies.value(1).toUInt();
+			auto systemID = static_cast<size_t>(loadBodies.value(0).toUInt());
+			auto bodyID = static_cast<size_t>(loadBodies.value(1).toUInt());
 			auto name = loadBodies.value(2).toString();
 			auto type = static_cast<CelestialBodyType>(loadBodies.value(3).toUInt());
 			auto parentID = loadBodies.value(4);
@@ -77,7 +78,8 @@ public:
 
 			if (type == CelestialBodyType::Planet)
 			{
-				res = loadBodyResources(systemID, bodyID);
+				bodyResTable.setNamePostfix({ systemID, bodyID });
+				res = loadBodyResources(bodyResTable);
 			}
 
 			universe.getLastSystem().Bodies.emplace_back(factory.createBody(prop, orb, name, res));
@@ -98,9 +100,9 @@ public:
 		return gameTime;
 	}
 private:
-	ResourceDeposit loadBodyResources(size_t iSystem, size_t iBody)
+	ResourceDeposit loadBodyResources(const SqlTable & table)
 	{
-		QSqlQuery loadRes("SELECT AMOUNT, ACCESS FROM RESOURCES_" + QString::number(iSystem) + "_" + QString::number(iBody), save);
+		QSqlQuery loadRes(table.getSelectQueryStr(), save);
 		loadRes.exec();
 		ResourceDeposit res;
 

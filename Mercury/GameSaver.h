@@ -75,6 +75,7 @@ private:
 		QSqlQuery insertBody(save);
 		insertBody.prepare(getCelestialBodiesTable().getInsertQueryStr());
 		std::array<QVariantList, 10> dataForInsert;
+		auto bodyResTable = getBodyResTable();
 
 		for (size_t iSys = 0; iSys < universeToSave->getSystems().size(); iSys++)
 		{
@@ -93,7 +94,11 @@ private:
 				dataForInsert[8] << body->physics.mass.value();
 				dataForInsert[9] << body->physics.getSurfaceTemperature().value();
 				
-				saveBodyResources(iSys, iBody, body);
+				if (body->type == CelestialBodyType::Planet)
+				{
+					bodyResTable.setNamePostfix({ iSys, iBody });
+					saveBodyResources(bodyResTable, dynamic_cast<RockyBody*>(body));
+				}	
 			}
 		}
 
@@ -202,31 +207,21 @@ private:
 		timeInsert.exec();
 	}
 
-	void saveBodyResources(size_t iSystem, size_t iBody, const CelestialBody * body)
+	void saveBodyResources(const SqlTable & table, const RockyBody * body)
 	{
-		const RockyBody * rockyBody = dynamic_cast<const RockyBody*>(body);
-		if (rockyBody == nullptr)
-			return;
-
-		QString iBodyStr = QString::number(iBody);
-		QString iSysStr = QString::number(iSystem);
-
-		QSqlQuery resourceTableCr("CREATE TABLE IF NOT EXISTS RESOURCES_" + iSysStr + "_" 
-			+ iBodyStr + "( AMOUNT TEXT NOT NULL, ACCESS real NOT NULL);", save);
+		QSqlQuery resourceTableCr(table.getCreateQueryStr(), save);
 		resourceTableCr.exec();
 
-		QString resourceTableDel("DELETE FROM RESOURCES_");
-		QSqlQuery resourcesTableDel(resourceTableDel + iSysStr + "_" + iBodyStr, save);
+		QSqlQuery resourcesTableDel(table.getDeleteQueryStr(), save);
 		resourcesTableDel.exec();
 
 		QSqlQuery saveResources(save);
-		saveResources.prepare("INSERT INTO RESOURCES_" + iSysStr + 
-			"_" + iBodyStr + "(AMOUNT, ACCESS) VALUES(?, ?)");
+		saveResources.prepare(table.getInsertQueryStr());
 
 		QVariantList resAmountToSave;
 		QVariantList resAccessToSave;
 
-		auto & Res = rockyBody->getResources();
+		auto & Res = body->getResources();
 		for (auto & iRes : Res.get())
 		{
 			resAmountToSave << QString::number(iRes.first);
