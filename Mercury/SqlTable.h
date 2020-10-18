@@ -105,10 +105,9 @@ public:
     {
         namePostfix = std::move(newPostfix);
     }
-    void setNamePostfix(const std::vector<size_t>& ids)
+    void setNamePostfix(std::vector<size_t> ids)
     {
-        QString nepf;
-
+        namePostfix.clear();
         if (ids.empty())
         {
             namePostfix = "";
@@ -117,10 +116,9 @@ public:
 
         for (auto i : ids)
         {
-            nepf += "_";
-            nepf += QString::number(i);
+            namePostfix += "_";
+            namePostfix += QString::number(i);
         }
-        namePostfix = nepf;
     }
 
     const SqlTableVariables& getTableVariables() const

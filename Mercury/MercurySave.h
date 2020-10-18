@@ -86,6 +86,11 @@ public:
 			{"BODY_ID", "int", true}
 			});
 	}
+	static SqlTable getStockTable()
+	{
+		return SqlTable("STOCK",
+			{ {"AMOUNT", "int", true} });
+	}
 
 private:
 	QString getDbFileName() const

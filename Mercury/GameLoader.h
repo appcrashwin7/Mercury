@@ -23,6 +23,7 @@ public:
 		load.setForwardOnly(true);
 		load.exec();
 
+		auto stockTable = getStockTable();
 		while (load.next())
 		{
 			auto colonyID = load.value(0).toUInt();
@@ -31,7 +32,7 @@ public:
 
 			QString colonyIDStr = QString::number(colonyID);
 
-			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(colonyIDStr), loadIndustryBuildings(colonyIDStr)));
+			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(stockTable, colonyID), loadIndustryBuildings(colonyIDStr)));
 		}
 		return ret;
 	}
@@ -136,11 +137,12 @@ private:
 		}
 		return ret;
 	}
-	QuantityT loadStock(const QString & colonyIDStr)
+	QuantityT loadStock(SqlTable & table, size_t colonyID)
 	{
 		QuantityT ret;
+		table.setNamePostfix({ colonyID });
 
-		QSqlQuery load("SELECT AMOUNT FROM STOCK_" + colonyIDStr, save);
+		QSqlQuery load(table.getSelectQueryStr(), save);
 		load.setForwardOnly(true);
 		load.exec();
 

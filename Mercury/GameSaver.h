@@ -131,17 +131,17 @@ private:
 		std::array<QVariantList, 3> data;
 
 		auto& coloniesToSave = universeToSave->getPlayerFaction().getColonies();
+		auto stockTable = getStockTable();
 		for (size_t iCol = 0; iCol < coloniesToSave.size(); iCol++)
 		{
-			auto iColStr = QString::number(iCol);
 			auto planetID = findPlanet(&(coloniesToSave[iCol].getBody()));
 
 			data[0] << iCol;
 			data[1] << planetID.value().first;
 			data[2] << planetID.value().second;
 			
-			saveStock(coloniesToSave[iCol].getStockpile(), iColStr);
-			saveIndustry(coloniesToSave[iCol].getIndustry(), iColStr);
+			saveStock(coloniesToSave[iCol].getStockpile(), stockTable, iCol);
+			saveIndustry(coloniesToSave[iCol].getIndustry(), QString::number(iCol));
 		}
 		for (size_t i = 0; i < data.size(); i++)
 			insertCols.addBindValue(data[i]);
@@ -149,16 +149,17 @@ private:
 		insertCols.execBatch();
 	}
 
-	void saveStock(const StockT & stock, const QString & colonyIDStr)
+	void saveStock(const StockT & stock, SqlTable& table, size_t colonyStockID)
 	{
-		QSqlQuery createStock("CREATE TABLE IF NOT EXISTS STOCK_" + colonyIDStr +
-			"(AMOUNT text NOT NULL);", save);
+		table.setNamePostfix({colonyStockID});
+
+		QSqlQuery createStock(table.getCreateQueryStr(), save);
 		createStock.exec();
-		QSqlQuery clearStock("DELETE FROM STOCK_" + colonyIDStr);
+		QSqlQuery clearStock(table.getDeleteQueryStr());
 		clearStock.exec();
 
 		QSqlQuery insertStock(save);
-		insertStock.prepare("INSERT INTO STOCK_" + colonyIDStr + "(AMOUNT)" + "VALUES(?)");
+		insertStock.prepare(table.getInsertQueryStr());
 
 		QVariantList amountList;
 		for (const auto & iStock : stock)
