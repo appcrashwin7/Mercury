@@ -25,7 +25,7 @@ public:
 	MercurySave(const QString & fileName)
 		:fileName(fileName)
 	{}
-	~MercurySave()
+	virtual ~MercurySave()
 	{
 		closeDB();
 	}
@@ -51,7 +51,6 @@ protected:
 		QFile::rename(getDbFileName(), fileName);
 	}
 
-public:
 	static SqlTable getGameTimeTable()
 	{
 		return SqlTable("GAME_TIME",
