@@ -26,7 +26,7 @@ public:
 	Construction(size_t buildingID, int64_t amount, uint64_t etc = 0, uint64_t cost = 0,
 		ConstructionStatus status = ConstructionStatus::InConstruction)
 		:buildingID(buildingID), amount(amount),
-		etc(std::move(etc)), status(status),
+		etc(etc), status(status),
 		cost(cost)
 	{}
 	~Construction() = default;

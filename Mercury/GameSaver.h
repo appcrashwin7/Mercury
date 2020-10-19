@@ -138,6 +138,7 @@ private:
 		auto& coloniesToSave = universeToSave->getPlayerFaction().getColonies();
 		auto stockTable = getStockTable();
 		auto indTable = getIndustryBldgsTable();
+		auto constrList = getIndustryConstrListTable();
 		for (size_t iCol = 0; iCol < coloniesToSave.size(); iCol++)
 		{
 			auto planetID = findPlanet(&(coloniesToSave[iCol].getBody()));
@@ -148,9 +149,11 @@ private:
 			
 			stockTable.setNamePostfix({ iCol });
 			indTable.setNamePostfix(stockTable.getNamePostfix());
+			constrList.setNamePostfix(indTable.getNamePostfix());
 
 			saveStock(coloniesToSave[iCol].getStockpile(), stockTable);
 			saveIndustry(coloniesToSave[iCol].getIndustry(), indTable);
+			saveConstructionList(coloniesToSave[iCol].getConstructionQueue(), constrList);
 		}
 		for (size_t i = 0; i < data.size(); i++)
 			insertCols.addBindValue(data[i]);
@@ -191,6 +194,27 @@ private:
 
 		insertIndustry.addBindValue(amountList);
 		insertIndustry.execBatch();
+	}
+	void saveConstructionList(const std::list<Construction>& list, const SqlTable& table)
+	{
+		QSqlQuery create(table.getCreateQueryStr(), save);
+		create.exec();
+		QSqlQuery clear(table.getDeleteQueryStr(), save);
+		clear.exec();
+
+		QSqlQuery insert(table.getInsertQueryStr(), save);
+		std::vector<QVariantList> dt(table.getTableVariables().size(), QVariantList());
+		for (auto& l : list)
+		{
+			dt[0] << l.getBuildingID();
+			dt[1] << l.getConstructionCost();
+			dt[2] << l.getAmount();
+			dt[3] << static_cast<int>(l.getStatus());
+		}
+		for (const auto& t : dt)
+			insert.addBindValue(t);
+
+		insert.execBatch();
 	}
 
 	void saveTime()

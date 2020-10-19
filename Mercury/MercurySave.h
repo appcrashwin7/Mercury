@@ -36,6 +36,7 @@ protected:
 	static SqlTable getStockTable();
 	static SqlTable getIndustryBldgsTable();
 	static SqlTable getBodyResTable();
+	static SqlTable getIndustryConstrListTable();
 
 private:
 	QString getDbFileName() const;

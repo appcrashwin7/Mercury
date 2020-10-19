@@ -46,7 +46,7 @@ public:
 			auto id = std::get<0>(i);
 			playerFaction.getColonies().emplace_back(
 				Colony(*(dynamic_cast<RockyBody*>(getSystem(id.first).Bodies[id.second].get())),
-				std::get<1>(i), std::get<2>(i)));
+				std::get<1>(i), std::get<2>(i), std::get<3>(i)));
 		}
 	}
 	void simulate(qint64 days)

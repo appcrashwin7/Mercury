@@ -79,6 +79,14 @@ SqlTable MercurySave::getBodyResTable()
 		{ {"AMOUNT", "text", true},
 		{"ACCESS", "real", true} });
 }
+SqlTable MercurySave::getIndustryConstrListTable()
+{
+	return SqlTable("CONSTRUCTION",
+		{ {"BLDG", "text", true},
+		{"COST", "text", true},
+		{"AMOUNT", "int", true},
+		{"STATUS", "int", true} });
+}
 
 QString MercurySave::getDbFileName() const
 {

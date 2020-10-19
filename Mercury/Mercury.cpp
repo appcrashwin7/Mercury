@@ -147,7 +147,7 @@ void Mercury::playGame()
 
                 colDt.emplace_back(std::make_tuple(
                     std::make_pair(universe.getSystems().size() - 1, number),
-                    stock, buildings));
+                    stock, buildings, std::list<Construction>{}));
             }
 
             universe.constructPlayerFactionCols(colDt);

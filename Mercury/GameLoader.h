@@ -25,6 +25,7 @@ public:
 
 		auto stockTable = getStockTable();
 		auto indTable = getIndustryBldgsTable();
+		auto constrListTable = getIndustryConstrListTable();
 		while (load.next())
 		{
 			auto colonyID = load.value(0).toUInt();
@@ -33,8 +34,10 @@ public:
 
 			stockTable.setNamePostfix({ static_cast<size_t>(colonyID) });
 			indTable.setNamePostfix(stockTable.getNamePostfix());
+			constrListTable.setNamePostfix(stockTable.getNamePostfix());
 
-			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(stockTable), loadIndustryBuildings(indTable)));
+			ret.emplace_back(std::make_tuple(std::make_pair(systemID, bodyID), loadStock(stockTable),
+				loadIndustryBuildings(indTable), loadConstrList(constrListTable)));
 		}
 		return ret;
 	}
@@ -152,6 +155,21 @@ private:
 		while (load.next())
 		{
 			ret.push_back(load.value(0).toUInt());
+		}
+		return ret;
+	}
+	std::list<Construction> loadConstrList(const SqlTable& table)
+	{
+		auto ret = std::list<Construction>();
+
+		QSqlQuery load(table.getSelectQueryStr(), save);
+		load.exec();
+
+		while (load.next())
+		{
+			ret.emplace_back(Construction(static_cast<size_t>(load.value(0).toUInt()),
+				load.value(2).toInt(), 0, load.value(1).toUInt(),
+				static_cast<ConstructionStatus>(load.value(3).toInt())));
 		}
 		return ret;
 	}

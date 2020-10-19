@@ -1,7 +1,8 @@
 #include "Colony.h"
 
-Colony::Colony(RockyBody & on, const QuantityT & commQuantity, const QuantityT & buildings)
-	:body(on)
+Colony::Colony(RockyBody& on, const QuantityT& commQuantity,
+	const QuantityT& buildings, std::list<Construction> constrList)
+	:body(on), constructionQueue(std::move(constrList))
 {
 	constructStockpile(commQuantity);
 	colonyIndustry += (buildings);

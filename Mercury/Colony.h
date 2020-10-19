@@ -7,7 +7,7 @@
 #include "Construction.h"
 
 //pair(systemID, bodyID), colony stock, buildings number
-using ColonyData = std::tuple<std::pair<size_t, size_t>, QuantityT, QuantityT>;
+using ColonyData = std::tuple<std::pair<size_t, size_t>, QuantityT, QuantityT, std::list<Construction>>;
 
 class Colony
 {
@@ -20,7 +20,8 @@ public:
 	Colony() = delete;
 	Colony(const Colony &) = default;
 	Colony(Colony &&) = default;
-	Colony(RockyBody & on, const QuantityT & commQuantity = QuantityT(), const QuantityT & buildings = QuantityT());
+	Colony(RockyBody & on, const QuantityT & commQuantity = QuantityT(),
+		const QuantityT& buildings = QuantityT(), std::list<Construction> constrList = {});
 	~Colony() = default;
 
 	const RockyBody & getBody() const;
