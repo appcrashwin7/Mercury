@@ -9,7 +9,7 @@ class Faction
 public:
     Faction() = default;
     Faction(std::vector<Colony> colonies)
-        :colonies(colonies)
+        :colonies(std::move(colonies))
     {};
     ~Faction() = default;
 
