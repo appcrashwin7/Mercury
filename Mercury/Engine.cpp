@@ -68,10 +68,12 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 {
 	if (item != nullptr)
 	{
-		QString bodyName = item->text(column);
+		auto widget = item->treeWidget();
+		widget->setCurrentItem(item);
+		auto id = widget->currentIndex().row();
 
 		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
-		const CelestialBody * actualBody = searchBodyByName(gameUniverse.getSystem(0), bodyName);
+		const CelestialBody* actualBody = gameUniverse.getSystem(0).Bodies[id].get();
 
 		std::array<QString, 10> bodyProps = {
 			MassToText(actualBody->physics.mass, false, false, true),
@@ -92,19 +94,6 @@ void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
 			objectValues->topLevelItem(i)->setText(1, bodyProps[i]);
 		}
 	}
-}
-
-const CelestialBody * Engine::searchBodyByName(const PlanetarySystem & system, const QString & name)
-{
-	auto result = std::find_if(system.Bodies.begin(), system.Bodies.end(), [name](const CelestialBodyPtr & body)->bool 
-	{
-		if (body.get()->getName() == name)
-		{
-			return true;
-		}
-		return false;
-	});
-	return result.operator*().get();
 }
 
 void Engine::init()
