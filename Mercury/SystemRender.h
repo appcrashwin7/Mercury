@@ -143,38 +143,13 @@ public:
 		this->update();
 	}
 
-
-public slots:
-	void changeFirstBody(QTreeWidgetItem * item, int column)
+	void setFirstBody(size_t newVal)
 	{
-		if (item != nullptr)
-		{
-			if (!(systemToDraw == nullptr || currentTime == nullptr))
-			{
-				auto newBody = 0;
-				auto res = std::find_if(systemToDraw->Bodies.begin(), systemToDraw->Bodies.end(), 
-					[&newBody, item, column](const CelestialBodyPtr & current)
-				{
-					if (current->getName() == item->text(column))
-					{
-						return true;
-					}
-					++newBody;
-					return false;
-				});
-
-				if (res != systemToDraw->Bodies.end())
-				{
-					firstBody = newBody;
-					if (firstBody == static_cast<size_t>(-1) ||
-						firstBody >= systemToDraw->Bodies.size())
-					{
-						firstBody = 0;
-					}
-					this->update();
-					scaleMult = 0;
-				}
-			}
-		}
+		firstBody = newVal;
+		this->update();
+	}
+	size_t getFirstBody() const
+	{
+		return firstBody;
 	}
 };

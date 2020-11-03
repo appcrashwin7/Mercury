@@ -64,35 +64,28 @@ void Engine::changeTime(TimeChange change)
 	window.update();
 }
 
-void Engine::showBodyInfo(QTreeWidgetItem * item, int column)
+void Engine::showBodyInfo(size_t bodyID)
 {
-	if (item != nullptr)
+	QTreeWidget* objectValues = this->window.findChild<QTreeWidget*>("objectValues");
+	const CelestialBody* actualBody = gameUniverse.getSystem(0).Bodies[bodyID].get();
+
+	std::array<QString, 10> bodyProps = {
+		MassToText(actualBody->physics.mass, false, false, true),
+		LengthToText(actualBody->physics.radius, true, false, false),
+		VelocityToText(actualBody->escapeVelocity, false, false),
+		AccelerationToText(actualBody->surfaceGravity, false, false),
+		TemperatureToText(actualBody->physics.getSurfaceTemperature()),
+		(actualBody->orbit) ? gameUniverse.getSystem(0).
+		Bodies[actualBody->orbit->parent].get()->getName() : "",
+		(actualBody->orbit) ? LengthToText(actualBody->orbit->apoapsis, false, false, true) : "",
+		(actualBody->orbit) ? LengthToText(actualBody->orbit->periapsis, false, false, true) : "",
+		(actualBody->orbit) ? TimeToText(actualBody->orbit->getOrbitalPeriod(), 2) : "",
+		(actualBody->orbit) ? QString::number(actualBody->orbit->eccentricity) : ""
+	};
+
+	for (int i = 0; i < objectValues->topLevelItemCount(); i++)
 	{
-		auto widget = item->treeWidget();
-		widget->setCurrentItem(item);
-		auto id = widget->currentIndex().row();
-
-		QTreeWidget * objectValues = this->window.findChild<QTreeWidget*>("objectValues");
-		const CelestialBody* actualBody = gameUniverse.getSystem(0).Bodies[id].get();
-
-		std::array<QString, 10> bodyProps = {
-			MassToText(actualBody->physics.mass, false, false, true),
-			LengthToText(actualBody->physics.radius, true, false, false),
-			VelocityToText(actualBody->escapeVelocity, false, false),
-			AccelerationToText(actualBody->surfaceGravity, false, false),
-			TemperatureToText(actualBody->physics.getSurfaceTemperature()),
-			(actualBody->orbit) ? gameUniverse.getSystem(0).
-			Bodies[actualBody->orbit->parent].get()->getName() : "",
-			(actualBody->orbit) ? LengthToText(actualBody->orbit->apoapsis, false, false, true) : "",
-			(actualBody->orbit) ? LengthToText(actualBody->orbit->periapsis, false, false, true) : "",
-			(actualBody->orbit) ? TimeToText(actualBody->orbit->getOrbitalPeriod(), 2) : "",
-			(actualBody->orbit) ? QString::number(actualBody->orbit->eccentricity) : ""
-		};
-
-		for (int i = 0; i < objectValues->topLevelItemCount(); i++)
-		{
-			objectValues->topLevelItem(i)->setText(1, bodyProps[i]);
-		}
+		objectValues->topLevelItem(i)->setText(1, bodyProps[i]);
 	}
 }
 
@@ -114,9 +107,26 @@ void Engine::init()
 	QTreeWidget * systemObjectTree = this->window.findChild<QTreeWidget*>("systemObjTree");
 	QWidget * systemRender = this->window.findChild<QWidget*>(SystemRender::getWidgetName());
 
-	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, this, &Engine::showBodyInfo);
-	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, dynamic_cast<SystemRender*>(systemRender),
-		&SystemRender::changeFirstBody);
+	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, [&, systemRender](QTreeWidgetItem* item, int column)
+		{
+			if (item != nullptr)
+			{
+				auto widget = item->treeWidget();
+				widget->setCurrentItem(item);
+				auto id = widget->currentIndex().row();
+
+				if (id > -1)
+				{
+					auto uID = static_cast<size_t>(id);
+
+					this->showBodyInfo(uID);
+					if (systemRender != nullptr)
+					{
+						dynamic_cast<SystemRender*>(systemRender)->setFirstBody(uID);
+					}
+				}
+			}
+		});
 
 	systemObjectTree->setHeaderLabel(this->gameUniverse.getSystem(0).getName());
 	for (const auto & body : this->gameUniverse.getSystem(0).Bodies)

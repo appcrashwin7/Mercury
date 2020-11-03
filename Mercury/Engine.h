@@ -26,6 +26,5 @@ private:
 
 	void init();
 
-public slots:
-	void showBodyInfo(QTreeWidgetItem * item, int column);
+	void showBodyInfo(size_t bodyID);
 };
