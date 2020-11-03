@@ -24,6 +24,7 @@ enum class valueRepresentation
 
 class Calc
 {
+	static constexpr size_t eccentricAnomalySteps = 20;
 public:
 	Calc() = default;
 	~Calc() = default;
@@ -109,5 +110,23 @@ public:
 			break;
 		}
 		return ret;
+	}
+
+	inline static Angle getTrueAnomaly(Angle meanAnomaly, double e)
+	{
+		auto eccentricAnomaly = meanAnomaly;
+		for (size_t i = 0; i < eccentricAnomalySteps; i++)
+		{
+			eccentricAnomaly = meanAnomaly + (e * sin(eccentricAnomaly.value()) * units::si::radians);
+		}
+
+		double ec = sqrt((1 + e) / (1 - e));
+		return 2.0 * atan(ec * tan(eccentricAnomaly.value() / 2.0)) * units::si::radians;
+	}
+
+	inline static double getR(double semiMajorAxis, Angle trueAnomaly, double e)
+	{
+		return (semiMajorAxis / (1 - std::pow(e, 2)))
+			/ (1.0 + (e * std::cos(trueAnomaly.value())));
 	}
 };
