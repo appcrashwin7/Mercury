@@ -108,7 +108,8 @@ void Engine::init()
 	QWidget * systemRender = this->window.findChild<QWidget*>(SystemRender::getWidgetName());
 
 	QObject::connect(systemObjectTree, &QTreeWidget::itemClicked, [&, systemRender](QTreeWidgetItem* item, int column)
-		{
+		{	
+			Q_UNUSED(column);
 			if (item != nullptr)
 			{
 				auto widget = item->treeWidget();
